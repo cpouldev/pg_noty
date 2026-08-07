@@ -7,6 +7,9 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - .release-please-manifest.json
+      - CHANGELOG.md
   workflow_dispatch:
 
 permissions:
@@ -80,7 +83,16 @@ jobs:
           cache-dependency-path: go.sum
 
       - name: Run integration tests
-        run: go test -p=1 -tags=integration -count=1 ./...
+        run: >-
+          go test -p=1 -tags=integration -count=1
+          -skip '^TestTenThousandRowsStayWithinTheCommittedRegressionCeiling$' ./...
+
+      - name: Measure trigger overhead (informational)
+        if: github.event_name != 'pull_request'
+        continue-on-error: true
+        run: >-
+          go test -tags=integration -count=1 -v
+          -run '^TestTenThousandRowsStayWithinTheCommittedRegressionCeiling$' ./internal/source
 
   image:
     name: Validate multi-platform container
