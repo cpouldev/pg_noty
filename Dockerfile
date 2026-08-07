@@ -14,5 +14,7 @@ RUN apt-get update -qq \
 
 FROM gcr.io/distroless/static-debian12:nonroot
 COPY --from=build /out/pg_noty /pg_noty
+COPY --from=build /src/LICENSE /usr/share/licenses/pg_noty/LICENSE
+COPY --from=build /src/NOTICE /usr/share/licenses/pg_noty/NOTICE
 USER nonroot:nonroot
 ENTRYPOINT ["/pg_noty", "run", "-f", "/etc/pg_noty/listeners.yaml"]

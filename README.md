@@ -671,3 +671,10 @@ does not create anything. Run `pg_noty bootstrap` and `pg_noty apply`, or set `a
 
 Building from source, the test tiers and each package's design references are in
 [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
+## License
+
+`pg_noty` is licensed under the [MIT License](LICENSE). See [NOTICE](NOTICE) for the licenses and
+attributions of software included in the release binary.
