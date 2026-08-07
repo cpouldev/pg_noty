@@ -1,5 +1,11 @@
 # pg_noty
 
+[![Go version](https://img.shields.io/github/go-mod/go-version/cpouldev/pg_noty?logo=go)](https://go.dev/)
+[![Build and tests](https://img.shields.io/github/actions/workflow/status/cpouldev/pg_noty/ci.yml?branch=main&label=build%20%26%20tests&logo=githubactions)](https://github.com/cpouldev/pg_noty/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/cpouldev/pg_noty?sort=semver)](https://github.com/cpouldev/pg_noty/releases)
+[![Docker pulls](https://img.shields.io/docker/pulls/cpoul/pg_noty?logo=docker)](https://hub.docker.com/r/cpoul/pg_noty)
+[![License: MIT](https://img.shields.io/github/license/cpouldev/pg_noty)](LICENSE)
+
 Turn PostgreSQL row changes into signed webhooks, without writing a single line of application code.
 
 You point `pg_noty` at a table, install the triggers with one command, and it watches the queue and
