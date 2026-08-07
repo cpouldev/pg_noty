@@ -1,0 +1,5 @@
+decode_interpolated_value_of_the_wrong_type.yaml:15:16
+   13 |   url: postgres://noty:[redacted]@db.internal:5432/noty
+   14 | worker:
+>  15 |   concurrency: ${WORKER_CONCURRENCY:-abc}
+                       ^ expected an integer

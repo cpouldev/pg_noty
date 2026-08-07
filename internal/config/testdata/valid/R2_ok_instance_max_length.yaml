@@ -1,0 +1,5 @@
+version: 1
+instance: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+database:
+  url: postgres://noty@db.internal/noty
+listeners: []

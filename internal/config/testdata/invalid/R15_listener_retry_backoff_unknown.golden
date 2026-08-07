@@ -1,0 +1,5 @@
+R15_listener_retry_backoff_unknown.yaml:9:16
+   7 |     operations: [insert]
+   8 |     retry:
+>  9 |       backoff: fibonacci
+                      ^ must be one of exponential, linear or fixed

@@ -1,0 +1,5 @@
+R33_payload_exclude_duplicate.yaml:12:11
+   10 |       exclude:
+   11 |         - duplicate_column
+>  12 |         - duplicate_column
+                  ^ entry duplicates the one first written on line 11

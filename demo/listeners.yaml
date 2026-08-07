@@ -1,0 +1,31 @@
+version: 1
+# The demo lets pg_noty create its own schema and install the trigger on start, so that
+# `docker compose up` is the whole setup. In production prefer the default of false and run
+# `pg_noty bootstrap` and `pg_noty apply` as reviewed steps, under a role that holds DDL
+# rights the long-running worker does not need.
+auto_reconcile: true
+database:
+  url: ${DATABASE_URL}
+  schema: noty
+worker:
+  # The demo stack lives on a container network in carrier-grade NAT space, which the SSRF
+  # guard blocks by default. Naming the exact prefix is the supported way to reach it.
+  allowed_destination_cidrs: ["100.64.0.0/10"]
+  concurrency: 4
+  batch_size: 16
+  poll_interval: 1s
+  lease_timeout: 30s
+  drain_timeout: 10s
+listeners:
+  - name: orders
+    enabled: true
+    table: public.orders
+    operations:
+      insert: {}
+    payload:
+      mode: full
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      signing:
+        secrets:
+          - ${WEBHOOK_SECRET}

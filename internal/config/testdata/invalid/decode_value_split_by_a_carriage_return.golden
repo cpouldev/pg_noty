@@ -1,0 +1,5 @@
+decode_value_split_by_a_carriage_return.yaml:5:12
+   3 |   url: postgres://noty:[redacted]@db.internal:5432/noty
+   4 | defaults:
+>  5 |   timeout: notaduration
+                  ^ must use a Go duration with units ns, us/µs, ms, s, m or h

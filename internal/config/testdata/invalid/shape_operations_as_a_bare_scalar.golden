@@ -1,0 +1,6 @@
+shape_operations_as_a_bare_scalar.yaml:8:17
+   6 |   - name: order_paid
+   7 |     table: public.orders
+>  8 |     operations: insert
+                       ^ "operations" must be a mapping or a list
+                         write operations: [insert, update], or use the map form operations: {update: {...}}

@@ -1,0 +1,6 @@
+R40_retention_precreate_days.yaml:5:14
+   3 |   url: postgres://noty@db.internal/noty
+   4 | retention:
+>  5 |   precreate: 7d
+                    ^ must use a Go duration with units ns, us/µs, ms, s, m or h
+                      use "168h" instead

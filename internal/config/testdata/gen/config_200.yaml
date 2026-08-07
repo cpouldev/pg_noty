@@ -1,0 +1,5028 @@
+# Generated deterministically by testdata/gen/generate.go; do not edit.
+version: 1
+instance: performance
+database:
+  url: ${DATABASE_URL}
+  schema: noty
+  listen_url: ${DATABASE_LISTEN_URL}
+worker:
+  concurrency: 16
+  batch_size: 100
+  poll_interval: 10s
+  lease_timeout: 5m
+  drain_timeout: 30s
+retention:
+  keep: 168h
+  partition_interval: 24h
+  precreate: 168h
+defaults:
+  timeout: 5s
+  retry:
+    max_attempts: 5
+    backoff: exponential
+    initial_interval: 10s
+    max_interval: 1h
+    jitter: true
+  headers:
+    User-Agent: pgnoty/performance
+listeners:
+  - name: listener_000
+    enabled: true
+    table: public.events_000
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_001
+    enabled: true
+    table: public.events_001
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_002
+    enabled: true
+    table: public.events_002
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_003
+    enabled: true
+    table: public.events_003
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_004
+    enabled: true
+    table: public.events_004
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_005
+    enabled: true
+    table: public.events_005
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_006
+    enabled: true
+    table: public.events_006
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_007
+    enabled: true
+    table: public.events_007
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_008
+    enabled: true
+    table: public.events_008
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_009
+    enabled: true
+    table: public.events_009
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_010
+    enabled: true
+    table: public.events_010
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_011
+    enabled: true
+    table: public.events_011
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_012
+    enabled: true
+    table: public.events_012
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_013
+    enabled: true
+    table: public.events_013
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_014
+    enabled: true
+    table: public.events_014
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_015
+    enabled: true
+    table: public.events_015
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_016
+    enabled: true
+    table: public.events_016
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_017
+    enabled: true
+    table: public.events_017
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_018
+    enabled: true
+    table: public.events_018
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_019
+    enabled: true
+    table: public.events_019
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_020
+    enabled: true
+    table: public.events_020
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_021
+    enabled: true
+    table: public.events_021
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_022
+    enabled: true
+    table: public.events_022
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_023
+    enabled: true
+    table: public.events_023
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_024
+    enabled: true
+    table: public.events_024
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_025
+    enabled: true
+    table: public.events_025
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_026
+    enabled: true
+    table: public.events_026
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_027
+    enabled: true
+    table: public.events_027
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_028
+    enabled: true
+    table: public.events_028
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_029
+    enabled: true
+    table: public.events_029
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_030
+    enabled: true
+    table: public.events_030
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_031
+    enabled: true
+    table: public.events_031
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_032
+    enabled: true
+    table: public.events_032
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_033
+    enabled: true
+    table: public.events_033
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_034
+    enabled: true
+    table: public.events_034
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_035
+    enabled: true
+    table: public.events_035
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_036
+    enabled: true
+    table: public.events_036
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_037
+    enabled: true
+    table: public.events_037
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_038
+    enabled: true
+    table: public.events_038
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_039
+    enabled: true
+    table: public.events_039
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_040
+    enabled: true
+    table: public.events_040
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_041
+    enabled: true
+    table: public.events_041
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_042
+    enabled: true
+    table: public.events_042
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_043
+    enabled: true
+    table: public.events_043
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_044
+    enabled: true
+    table: public.events_044
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_045
+    enabled: true
+    table: public.events_045
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_046
+    enabled: true
+    table: public.events_046
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_047
+    enabled: true
+    table: public.events_047
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_048
+    enabled: true
+    table: public.events_048
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_049
+    enabled: true
+    table: public.events_049
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_050
+    enabled: true
+    table: public.events_050
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_051
+    enabled: true
+    table: public.events_051
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_052
+    enabled: true
+    table: public.events_052
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_053
+    enabled: true
+    table: public.events_053
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_054
+    enabled: true
+    table: public.events_054
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_055
+    enabled: true
+    table: public.events_055
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_056
+    enabled: true
+    table: public.events_056
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_057
+    enabled: true
+    table: public.events_057
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_058
+    enabled: true
+    table: public.events_058
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_059
+    enabled: true
+    table: public.events_059
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_060
+    enabled: true
+    table: public.events_060
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_061
+    enabled: true
+    table: public.events_061
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_062
+    enabled: true
+    table: public.events_062
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_063
+    enabled: true
+    table: public.events_063
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_064
+    enabled: true
+    table: public.events_064
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_065
+    enabled: true
+    table: public.events_065
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_066
+    enabled: true
+    table: public.events_066
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_067
+    enabled: true
+    table: public.events_067
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_068
+    enabled: true
+    table: public.events_068
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_069
+    enabled: true
+    table: public.events_069
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_070
+    enabled: true
+    table: public.events_070
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_071
+    enabled: true
+    table: public.events_071
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_072
+    enabled: true
+    table: public.events_072
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_073
+    enabled: true
+    table: public.events_073
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_074
+    enabled: true
+    table: public.events_074
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_075
+    enabled: true
+    table: public.events_075
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_076
+    enabled: true
+    table: public.events_076
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_077
+    enabled: true
+    table: public.events_077
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_078
+    enabled: true
+    table: public.events_078
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_079
+    enabled: true
+    table: public.events_079
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_080
+    enabled: true
+    table: public.events_080
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_081
+    enabled: true
+    table: public.events_081
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_082
+    enabled: true
+    table: public.events_082
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_083
+    enabled: true
+    table: public.events_083
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_084
+    enabled: true
+    table: public.events_084
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_085
+    enabled: true
+    table: public.events_085
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_086
+    enabled: true
+    table: public.events_086
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_087
+    enabled: true
+    table: public.events_087
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_088
+    enabled: true
+    table: public.events_088
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_089
+    enabled: true
+    table: public.events_089
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_090
+    enabled: true
+    table: public.events_090
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_091
+    enabled: true
+    table: public.events_091
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_092
+    enabled: true
+    table: public.events_092
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_093
+    enabled: true
+    table: public.events_093
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_094
+    enabled: true
+    table: public.events_094
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_095
+    enabled: true
+    table: public.events_095
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_096
+    enabled: true
+    table: public.events_096
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_097
+    enabled: true
+    table: public.events_097
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_098
+    enabled: true
+    table: public.events_098
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_099
+    enabled: true
+    table: public.events_099
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_100
+    enabled: true
+    table: public.events_100
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_101
+    enabled: true
+    table: public.events_101
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_102
+    enabled: true
+    table: public.events_102
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_103
+    enabled: true
+    table: public.events_103
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_104
+    enabled: true
+    table: public.events_104
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_105
+    enabled: true
+    table: public.events_105
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_106
+    enabled: true
+    table: public.events_106
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_107
+    enabled: true
+    table: public.events_107
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_108
+    enabled: true
+    table: public.events_108
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_109
+    enabled: true
+    table: public.events_109
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_110
+    enabled: true
+    table: public.events_110
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_111
+    enabled: true
+    table: public.events_111
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_112
+    enabled: true
+    table: public.events_112
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_113
+    enabled: true
+    table: public.events_113
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_114
+    enabled: true
+    table: public.events_114
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_115
+    enabled: true
+    table: public.events_115
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_116
+    enabled: true
+    table: public.events_116
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_117
+    enabled: true
+    table: public.events_117
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_118
+    enabled: true
+    table: public.events_118
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_119
+    enabled: true
+    table: public.events_119
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_120
+    enabled: true
+    table: public.events_120
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_121
+    enabled: true
+    table: public.events_121
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_122
+    enabled: true
+    table: public.events_122
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_123
+    enabled: true
+    table: public.events_123
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_124
+    enabled: true
+    table: public.events_124
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_125
+    enabled: true
+    table: public.events_125
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_126
+    enabled: true
+    table: public.events_126
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_127
+    enabled: true
+    table: public.events_127
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_128
+    enabled: true
+    table: public.events_128
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_129
+    enabled: true
+    table: public.events_129
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_130
+    enabled: true
+    table: public.events_130
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_131
+    enabled: true
+    table: public.events_131
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_132
+    enabled: true
+    table: public.events_132
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_133
+    enabled: true
+    table: public.events_133
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_134
+    enabled: true
+    table: public.events_134
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_135
+    enabled: true
+    table: public.events_135
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_136
+    enabled: true
+    table: public.events_136
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_137
+    enabled: true
+    table: public.events_137
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_138
+    enabled: true
+    table: public.events_138
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_139
+    enabled: true
+    table: public.events_139
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_140
+    enabled: true
+    table: public.events_140
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_141
+    enabled: true
+    table: public.events_141
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_142
+    enabled: true
+    table: public.events_142
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_143
+    enabled: true
+    table: public.events_143
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_144
+    enabled: true
+    table: public.events_144
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_145
+    enabled: true
+    table: public.events_145
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_146
+    enabled: true
+    table: public.events_146
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_147
+    enabled: true
+    table: public.events_147
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_148
+    enabled: true
+    table: public.events_148
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_149
+    enabled: true
+    table: public.events_149
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_150
+    enabled: true
+    table: public.events_150
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_151
+    enabled: true
+    table: public.events_151
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_152
+    enabled: true
+    table: public.events_152
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_153
+    enabled: true
+    table: public.events_153
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_154
+    enabled: true
+    table: public.events_154
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_155
+    enabled: true
+    table: public.events_155
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_156
+    enabled: true
+    table: public.events_156
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_157
+    enabled: true
+    table: public.events_157
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_158
+    enabled: true
+    table: public.events_158
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_159
+    enabled: true
+    table: public.events_159
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_160
+    enabled: true
+    table: public.events_160
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_161
+    enabled: true
+    table: public.events_161
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_162
+    enabled: true
+    table: public.events_162
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_163
+    enabled: true
+    table: public.events_163
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_164
+    enabled: true
+    table: public.events_164
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_165
+    enabled: true
+    table: public.events_165
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_166
+    enabled: true
+    table: public.events_166
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_167
+    enabled: true
+    table: public.events_167
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_168
+    enabled: true
+    table: public.events_168
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_169
+    enabled: true
+    table: public.events_169
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_170
+    enabled: true
+    table: public.events_170
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_171
+    enabled: true
+    table: public.events_171
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_172
+    enabled: true
+    table: public.events_172
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_173
+    enabled: true
+    table: public.events_173
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_174
+    enabled: true
+    table: public.events_174
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_175
+    enabled: true
+    table: public.events_175
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_176
+    enabled: true
+    table: public.events_176
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_177
+    enabled: true
+    table: public.events_177
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_178
+    enabled: true
+    table: public.events_178
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_179
+    enabled: true
+    table: public.events_179
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_180
+    enabled: true
+    table: public.events_180
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_181
+    enabled: true
+    table: public.events_181
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_182
+    enabled: true
+    table: public.events_182
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_183
+    enabled: true
+    table: public.events_183
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_184
+    enabled: true
+    table: public.events_184
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_185
+    enabled: true
+    table: public.events_185
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_186
+    enabled: true
+    table: public.events_186
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_187
+    enabled: true
+    table: public.events_187
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_188
+    enabled: true
+    table: public.events_188
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_189
+    enabled: true
+    table: public.events_189
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_190
+    enabled: true
+    table: public.events_190
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_191
+    enabled: true
+    table: public.events_191
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_192
+    enabled: true
+    table: public.events_192
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_193
+    enabled: true
+    table: public.events_193
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_194
+    enabled: true
+    table: public.events_194
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_195
+    enabled: true
+    table: public.events_195
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_196
+    enabled: true
+    table: public.events_196
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_197
+    enabled: true
+    table: public.events_197
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_198
+    enabled: true
+    table: public.events_198
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10
+  - name: listener_199
+    enabled: true
+    table: public.events_199
+    timeout: 10s
+    concurrency: 4
+    operations:
+      insert: {}
+      update:
+        columns: [status, total]
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      delete: {}
+    payload:
+      mode: columns
+      columns: [id, total, customer_id]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Tenant: acme
+      signing:
+        secrets: ["${SIGNING_SECRET}"]
+    retry:
+      max_attempts: 10

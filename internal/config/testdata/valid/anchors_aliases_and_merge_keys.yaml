@@ -1,0 +1,54 @@
+# AC #32's accepting fixture. One anchored destination is aliased by two later listeners, one
+# anchored retry block is merged by two of them, and the direct max_attempts is written above
+# the merge key in one listener and below it in the other -- so precedence is exercised in both
+# orderings by a document rather than only by a unit test.
+#
+# The anchored destination carries both interpolation cases, and carries them where two aliases
+# reach them: ${ORDER_WEBHOOK_URL} is substituted once at the anchor and read three times, and
+# $${NOT_A_REFERENCE} is unescaped once. Stage D running before stage E is what makes that true;
+# were the order reversed the escape would lose a dollar per alias.
+#
+# The merged anchor carries a reference too, so one anchor exercises interpolation, precedence and
+# sharing together: ${RETRY_INITIAL_INTERVAL} is substituted once at &shared_retry and has to
+# arrive in both listeners that merge it -- the one writing its direct key above the merge and the
+# one writing it below. The escape stays on the destination because every key retry declares is a
+# count, an enum, a duration or a boolean, and $${ in one of them would make this fixture invalid
+# at Step 8, which is the step that has to keep it loading clean.
+version: 1
+
+database:
+  url: ${DATABASE_URL}
+  schema: noty
+
+defaults:
+  retry: &shared_retry
+    max_attempts: 5
+    backoff: exponential
+    initial_interval: ${RETRY_INITIAL_INTERVAL}
+    max_interval: 1h
+    jitter: true
+
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert, update]
+    destination: &order_destination
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers:
+        X-Escaped: $${NOT_A_REFERENCE}
+    retry:
+      max_attempts: 10
+      <<: *shared_retry
+  - name: order_refunded
+    table: public.orders
+    operations:
+      update: {}
+    destination: *order_destination
+    retry:
+      <<: *shared_retry
+      max_attempts: 20
+  - name: order_shipped
+    table: public.orders
+    operations: [delete]
+    destination: *order_destination

@@ -1,0 +1,5 @@
+R7_worker_batch_size_zero.yaml:5:15
+   3 |   url: postgres://noty@db.internal/noty
+   4 | worker:
+>  5 |   batch_size: 0
+                     ^ must be in the range 1 to 10000

@@ -1,0 +1,6 @@
+R41_did_you_mean_columns.yaml:14:5
+   12 |   payload:
+   13 |     mode: columns
+>  14 |     colums: [id, total]
+            ^ unknown field "colums"
+              did you mean "columns"?

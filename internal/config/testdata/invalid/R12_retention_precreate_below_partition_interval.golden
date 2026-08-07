@@ -1,0 +1,5 @@
+R12_retention_precreate_below_partition_interval.yaml:7:14
+   5 |   keep: 48h
+   6 |   partition_interval: 24h
+>  7 |   precreate: 23h
+                    ^ retention.precreate must be at least retention.partition_interval; increase retention.precreate or lower retention.partition_interval

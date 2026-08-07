@@ -1,0 +1,5 @@
+R22_listeners_absent.yaml:3:1
+   1 | # R22: the listeners key is required. An explicitly empty list is valid and means something
+   2 | # else entirely, which R22_ok_listeners_empty_list.yaml holds.
+>  3 | version: 1
+       ^ missing required key "listeners"

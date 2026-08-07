@@ -1,0 +1,14 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: repeated_name
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://one.example.test/hook
+  - name: repeated_name
+    table: public.orders_archive
+    operations: [delete]
+    destination:
+      url: https://two.example.test/hook

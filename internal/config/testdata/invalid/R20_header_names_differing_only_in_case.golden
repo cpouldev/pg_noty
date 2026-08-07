@@ -1,0 +1,6 @@
+R20_header_names_differing_only_in_case.yaml:9:5
+   7 |   headers:
+   8 |     X-Trace-Id: a
+>  9 |     x-trace-id: b
+           ^ header "x-trace-id" differs only in case from the one on line 8
+             HTTP field names are case-insensitive, so the two would be one header on the wire

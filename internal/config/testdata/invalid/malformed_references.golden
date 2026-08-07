@@ -1,0 +1,20 @@
+malformed_references.yaml:3:8
+   1 | version: 1
+   2 | database:
+>  3 |   url: ${1DATABASE_URL}
+              ^ malformed environment reference: a variable name must match [A-Za-z_][A-Za-z0-9_]*
+                write $${ to mean a literal ${
+
+malformed_references.yaml:4:11
+   2 | database:
+   3 |   url: ${1DATABASE_URL}
+>  4 |   schema: ${}
+                 ^ malformed environment reference: a variable name is required
+                   write $${ to mean a literal ${
+
+malformed_references.yaml:5:11
+   3 |   url: ${1DATABASE_URL}
+   4 |   schema: ${}
+>  5 | instance: ${UNTERMINATED
+                 ^ malformed environment reference: no closing brace
+                   write $${ to mean a literal ${

@@ -1,0 +1,13 @@
+# AC #9's second example: no declared payload key is within distance 2 of `frobnicate`,
+# so the diagnostic states only that the key is unknown.
+version: 1
+database:
+  url: postgres://noty:PGNOTY-SENTINEL-4-HEADpwPGNOTY-SENTINEL-4-TAIL@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid
+    payload:
+      frobnicate: 1

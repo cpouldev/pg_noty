@@ -1,0 +1,11 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    retry:
+      max_interval: 0s
+    destination:
+      url: https://example.test/hook

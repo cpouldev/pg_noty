@@ -1,0 +1,5 @@
+R8_worker_poll_interval_zero.yaml:5:18
+   3 |   url: postgres://noty@db.internal/noty
+   4 | worker:
+>  5 |   poll_interval: 0s
+                        ^ must be greater than zero

@@ -1,0 +1,5 @@
+R14_retry_max_attempts_zero.yaml:6:19
+   4 | defaults:
+   5 |   retry:
+>  6 |     max_attempts: 0
+                         ^ must be at least 1

@@ -1,0 +1,5 @@
+R27_operations_empty.yaml:9:17
+   7 |   - name: order_paid
+   8 |     table: public.orders
+>  9 |     operations: {}
+                       ^ "operations" must hold at least one entry

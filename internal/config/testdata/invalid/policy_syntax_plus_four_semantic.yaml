@@ -1,0 +1,9 @@
+version: 2
+database:
+  url: postgres://noty@db.internal/noty
+  schmea: noty
+worker:
+  batch_size: 0
+retention:
+  precreate: 7d
+listeners: [one, two

@@ -1,0 +1,4 @@
+tab_indentation.yaml:2:2
+   1 | database:
+>  2 |  schema: noty
+        ^ found character '	' that cannot start any token

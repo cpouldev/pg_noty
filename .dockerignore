@@ -1,0 +1,11 @@
+.git
+.idea
+.serena
+.specs
+.claude
+internal/config/testdata
+**/*_test.go
+Dockerfile
+docker-compose.yml
+README.md
+demo

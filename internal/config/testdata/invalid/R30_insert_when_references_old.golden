@@ -1,0 +1,5 @@
+R30_insert_when_references_old.yaml:9:15
+   7 |     operations:
+   8 |       insert:
+>  9 |         when: "OLD.status = 'paid'"
+                     ^ INSERT trigger's WHEN condition cannot reference OLD values

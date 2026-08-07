@@ -1,0 +1,23 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+defaults:
+  retry:
+    initial_interval: 2s
+    max_interval: 1s
+listeners:
+  - name: first
+    table: public.first
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/first
+  - name: second
+    table: public.second
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/second
+  - name: third
+    table: public.third
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/third

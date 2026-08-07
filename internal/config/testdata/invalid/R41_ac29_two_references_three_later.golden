@@ -1,0 +1,13 @@
+R41_ac29_two_references_three_later.yaml:3:8
+   1 | version: 1
+   2 | database:
+>  3 |   url: ${DATABASE_URL}
+              ^ environment variable "DATABASE_URL" is not set
+                set DATABASE_URL, or write ${DATABASE_URL:-default} to supply a fallback
+
+R41_ac29_two_references_three_later.yaml:9:14
+   7 |     table: public.orders
+   8 |     operations: [insert]
+>  9 |     timeout: ${LISTENER_TIMEOUT}
+                    ^ environment variable "LISTENER_TIMEOUT" is not set
+                      set LISTENER_TIMEOUT, or write ${LISTENER_TIMEOUT:-default} to supply a fallback

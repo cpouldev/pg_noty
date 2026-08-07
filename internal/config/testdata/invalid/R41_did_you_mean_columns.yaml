@@ -1,0 +1,14 @@
+# AC #9's first example, laid out so its rendered block is the Diagnostic rendering
+# convention's own: `colums` on line 14 at rune 5, under two context lines.
+version: 1
+database:
+  url: postgres://noty:PGNOTY-SENTINEL-3-HEADpwPGNOTY-SENTINEL-3-TAIL@db.internal:5432/noty
+listeners:
+- name: order_paid
+  table: public.orders
+  operations: [insert]
+  destination:
+    url: https://hooks.example.test/order-paid
+  payload:
+    mode: columns
+    colums: [id, total]

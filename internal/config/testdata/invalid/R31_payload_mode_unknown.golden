@@ -1,0 +1,5 @@
+R31_payload_mode_unknown.yaml:9:13
+   7 |     operations: [insert]
+   8 |     payload:
+>  9 |       mode: sideways
+                   ^ must be one of full, columns or keys_only

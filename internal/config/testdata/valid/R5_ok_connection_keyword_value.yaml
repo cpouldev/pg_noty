@@ -1,0 +1,5 @@
+version: 1
+database:
+  url: host=db.internal dbname=noty
+  listen_url: host=replica.internal dbname=noty
+listeners: []

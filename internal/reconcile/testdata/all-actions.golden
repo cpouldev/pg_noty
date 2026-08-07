@@ -1,0 +1,13 @@
+listener alpha:
+  operation insert:
+    + create
+listener beta:
+  operation delete:
+    - drop
+  operation update:
+    -/+ replace
+listener delta:
+  operation delete:
+    - disable
+  operation update:
+    ~ rename

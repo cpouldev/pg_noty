@@ -1,0 +1,14 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+defaults:
+  headers:
+    X-Default: default
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid
+      headers:
+        User-Agent: pg_noty

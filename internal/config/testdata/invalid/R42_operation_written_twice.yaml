@@ -1,0 +1,13 @@
+# AC #16's duplicated-operation case. The parser detects it while parsing, so the run ends at
+# stage B with the one diagnostic R42 owns.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations:
+      insert: {}
+      insert: {}
+    destination:
+      url: https://hooks.example.test/order-paid

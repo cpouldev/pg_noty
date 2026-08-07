@@ -1,0 +1,20 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+worker:
+  lease_timeout: 2h
+  drain_timeout: 2h
+defaults:
+  timeout: 1h30m
+listeners:
+  - name: overriding_timeout
+    table: public.orders
+    operations: [insert]
+    timeout: 500ms
+    destination:
+      url: https://example.test/override
+  - name: inheriting_timeout
+    table: public.orders_archive
+    operations: [insert]
+    destination:
+      url: https://example.test/inherit

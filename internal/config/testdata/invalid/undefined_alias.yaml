@@ -1,0 +1,6 @@
+version: 1
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination: *order_destination

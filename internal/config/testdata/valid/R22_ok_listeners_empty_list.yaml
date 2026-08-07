@@ -1,0 +1,7 @@
+# R22 and AC #31, accepting: an explicitly empty list is the declarative way to say this
+# instance manages nothing. It is not the same document as one with no listeners key, which
+# reconciliation treats as the difference between a valid no-op and dropping every trigger.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners: []

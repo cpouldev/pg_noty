@@ -1,0 +1,4 @@
+# R3's presence half, and AC #30's explicit sub-case: an absent database block is reported as
+# the one required key inside it, not as a complaint about the block as well.
+version: 1
+listeners: []

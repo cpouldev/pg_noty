@@ -1,0 +1,16 @@
+# The shape check, accepting: a YAML node property is a claim about a value rather than a value of
+# its own, so a document that writes one is the same document to this stage. A tag survives stage E
+# -- an anchor does not -- so `!!map` here is what the structural pass has to read past.
+version: !!int 1
+database: !!map
+  url: &shared postgres://noty:pw@db.internal:5432/noty
+  listen_url: *shared
+!!str defaults:
+  headers: !!map
+    X-Tenant: acme
+listeners: !!seq
+  - name: order_paid
+    table: public.orders
+    operations: !!seq [insert]
+    destination: !!map
+      url: https://hooks.example.test/order-paid

@@ -1,0 +1,11 @@
+# R36's presence half. The caret sits on the listener rather than on the destination, because
+# a listener is one of the two mappings the contract anchors a missing key on.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      method: POST

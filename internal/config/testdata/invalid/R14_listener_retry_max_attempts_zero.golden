@@ -1,0 +1,5 @@
+R14_listener_retry_max_attempts_zero.yaml:9:21
+   7 |     operations: [insert]
+   8 |     retry:
+>  9 |       max_attempts: 0
+                           ^ must be at least 1

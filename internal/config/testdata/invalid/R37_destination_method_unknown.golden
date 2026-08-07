@@ -1,0 +1,5 @@
+R37_destination_method_unknown.yaml:10:15
+    8 |     destination:
+    9 |       url: https://example.test/hook
+>  10 |       method: DELETE
+                      ^ must be one of POST, PUT or PATCH

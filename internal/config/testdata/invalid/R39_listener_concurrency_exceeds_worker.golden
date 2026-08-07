@@ -1,0 +1,5 @@
+R39_listener_concurrency_exceeds_worker.yaml:10:18
+    8 |     table: public.orders
+    9 |     operations: [insert]
+>  10 |     concurrency: 5
+                         ^ listeners[].concurrency must be no greater than worker.concurrency; lower the listener concurrency or raise worker.concurrency

@@ -1,0 +1,5 @@
+R23_listener_name_bad_charset.yaml:5:11
+   3 |   url: postgres://noty@db.internal/noty
+   4 | listeners:
+>  5 |   - name: Order
+                 ^ must match ^[a-z][a-z0-9_]{0,40}$: illegal character

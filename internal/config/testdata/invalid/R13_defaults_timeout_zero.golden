@@ -1,0 +1,5 @@
+R13_defaults_timeout_zero.yaml:5:12
+   3 |   url: postgres://noty@db.internal/noty
+   4 | defaults:
+>  5 |   timeout: 0s
+                  ^ must be greater than zero

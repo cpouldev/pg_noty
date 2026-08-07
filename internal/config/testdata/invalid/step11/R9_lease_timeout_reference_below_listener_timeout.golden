@@ -1,0 +1,5 @@
+R9_lease_timeout_reference_below_listener_timeout.yaml:5:18
+   3 |   url: postgres://noty@db.internal/noty
+   4 | worker:
+>  5 |   lease_timeout: ${LEASE}
+                        ^ worker.lease_timeout must be greater than the largest effective listeners[].timeout; increase the lease or lower the timeout because a lease no longer than a request timeout causes duplicate deliveries

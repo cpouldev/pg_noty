@@ -1,0 +1,10 @@
+# R20: two HTTP field names that differ only in case are one header, and would otherwise be
+# sent twice under one name with one of the two values discarded.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+defaults:
+  headers:
+    X-Trace-Id: a
+    x-trace-id: b
+listeners: []

@@ -1,0 +1,16 @@
+# AC #4's fixture: X-Adversarial resolves to a value carrying a colon, a comment marker, a
+# quote, a newline and the text of a reference. Every one of those would change this
+# document's shape -- and move the positions every diagnostic depends on -- if interpolation
+# were applied to the file's text instead of to its parsed nodes. It loads clean, which is
+# the whole claim: none of those characters is ever read as YAML.
+version: 1
+database:
+  url: ${DATABASE_URL}
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      headers:
+        X-Adversarial: ${ADVERSARIAL_VALUE}

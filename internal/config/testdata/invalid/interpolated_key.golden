@@ -1,0 +1,6 @@
+interpolated_key.yaml:6:9
+   4 |     destination:
+   5 |       headers:
+>  6 |         ${HEADER_NAME}: application/json
+               ^ interpolation is not applied to mapping keys
+                 write the key out in full, and put the ${...} reference in its value

@@ -1,0 +1,19 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+defaults:
+  retry:
+    jitter: true
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    retry:
+      jitter: false
+    destination:
+      url: https://example.test/override
+  - name: inherited_jitter
+    table: public.orders_archive
+    operations: [insert]
+    destination:
+      url: https://example.test/inherit

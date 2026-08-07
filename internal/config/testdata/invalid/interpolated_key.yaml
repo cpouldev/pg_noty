@@ -1,0 +1,6 @@
+version: 1
+listeners:
+  - name: order_paid
+    destination:
+      headers:
+        ${HEADER_NAME}: application/json

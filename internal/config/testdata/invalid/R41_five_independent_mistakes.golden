@@ -1,0 +1,30 @@
+R41_five_independent_mistakes.yaml:4:3
+   2 | database:
+   3 |   url: postgres://noty@db.internal/noty
+>  4 |   schmea: public
+         ^ unknown field "schmea"
+           did you mean "schema"?
+
+R41_five_independent_mistakes.yaml:7:19
+   5 | defaults:
+   6 |   retry:
+>  7 |     max_attempts: 0
+                         ^ must be at least 1
+
+R41_five_independent_mistakes.yaml:8:14
+   6 |   retry:
+   7 |     max_attempts: 0
+>  8 |     backoff: fibonacci
+                    ^ must be one of exponential, linear or fixed
+
+R41_five_independent_mistakes.yaml:16:16
+   14 |       mode: full
+   15 |       columns: [id]
+>  16 |       exclude: [internal_note]
+                       ^ payload.columns and payload.exclude are mutually exclusive
+
+R41_five_independent_mistakes.yaml:18:12
+   16 |       exclude: [internal_note]
+   17 |     destination:
+>  18 |       url: ftp://host/x
+                   ^ must be a non-empty http or https URL with a host: scheme is neither http nor https

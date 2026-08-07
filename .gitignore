@@ -1,0 +1,10 @@
+
+.specs/scratchpad/*.md
+.specs/analysis/*.md
+.specs/reports/*.md
+
+# Editor and tool state
+.idea/
+.serena/
+.claude
+resume.txt

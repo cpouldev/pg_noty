@@ -1,0 +1,5 @@
+R42_operation_written_twice.yaml:11:7
+    9 |     operations:
+   10 |       insert: {}
+>  11 |       insert: {}
+              ^ mapping key "insert" already defined at [10:7]

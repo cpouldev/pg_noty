@@ -1,0 +1,6 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+retention:
+  partition_interval: -1s
+listeners: []

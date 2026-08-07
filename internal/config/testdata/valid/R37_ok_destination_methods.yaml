@@ -1,0 +1,22 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: post_method
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://example.test/post
+      method: POST
+  - name: put_method
+    table: public.orders_archive
+    operations: [insert]
+    destination:
+      url: https://example.test/put
+      method: PUT
+  - name: patch_method
+    table: public.order_patch
+    operations: [insert]
+    destination:
+      url: https://example.test/patch
+      method: PATCH

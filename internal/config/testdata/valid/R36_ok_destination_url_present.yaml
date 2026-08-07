@@ -1,0 +1,10 @@
+# R36's presence half, accepting.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid

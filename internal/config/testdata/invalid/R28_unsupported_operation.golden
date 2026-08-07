@@ -1,0 +1,6 @@
+R28_unsupported_operation.yaml:10:7
+    8 |     table: public.orders
+    9 |     operations:
+>  10 |       truncate: {}
+              ^ unknown field "truncate"
+                only insert, update and delete are supported

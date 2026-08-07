@@ -1,0 +1,5 @@
+R29_columns_empty_under_update.yaml:11:18
+    9 |     operations:
+   10 |       update:
+>  11 |         columns: []
+                         ^ "columns" must hold at least one entry

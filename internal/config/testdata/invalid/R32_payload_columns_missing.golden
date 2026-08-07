@@ -1,0 +1,5 @@
+R32_payload_columns_missing.yaml:9:13
+   7 |     operations: [insert]
+   8 |     payload:
+>  9 |       mode: columns
+                   ^ payload.columns is required when payload.mode is columns

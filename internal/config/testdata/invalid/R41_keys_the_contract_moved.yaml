@@ -1,0 +1,21 @@
+# AC #10: the four keys the corrected contract moved or removed, each named by where it
+# went rather than by its nearest surviving neighbour.
+#
+# `signing.secret` holds no sentinel deliberately. It is an *undeclared* key, and the
+# path-aware redaction skips undeclared keys because nothing is declared about them -- so a
+# secret written here would reach the rendered snippet, which is the limit Step 2's Note 9
+# records and TestASensitiveKeyUnderAMisspelledParentIsNotRedacted holds.
+version: 1
+database:
+  url: postgres://noty:PGNOTY-SENTINEL-5-HEADpwPGNOTY-SENTINEL-5-TAIL@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    when: "NEW.status = 'paid'"
+    columns: [status]
+    destination:
+      type: http
+      url: https://hooks.example.test/order-paid
+      signing:
+        secret: not-a-real-secret

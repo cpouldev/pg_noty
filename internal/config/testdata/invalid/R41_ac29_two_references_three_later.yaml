@@ -1,0 +1,12 @@
+version: 1
+database:
+  url: ${DATABASE_URL}
+  schmea: noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    timeout: ${LISTENER_TIMEOUT}
+    destination:
+      url: ftp://example.invalid/hook
+      method: DELETE

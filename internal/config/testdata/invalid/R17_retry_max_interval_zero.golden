@@ -1,0 +1,5 @@
+R17_retry_max_interval_zero.yaml:6:19
+   4 | defaults:
+   5 |   retry:
+>  6 |     max_interval: 0s
+                         ^ must be greater than zero

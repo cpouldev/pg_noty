@@ -1,0 +1,6 @@
+# pg_noty configuration. This header is load-bearing: a comment before the content is
+# the shape of a real configuration file, and stage C must not read it as an empty one.
+version: 1
+database:
+  url: ${DATABASE_URL}
+listeners: []

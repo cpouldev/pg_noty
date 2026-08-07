@@ -1,0 +1,13 @@
+# R29's legality half: a column filter narrows an update, and an insert writes every column
+# at once.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations:
+      insert:
+        columns: [status]
+    destination:
+      url: https://hooks.example.test/order-paid

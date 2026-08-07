@@ -1,0 +1,5 @@
+R39_listener_concurrency_zero.yaml:10:18
+    8 |     table: public.orders
+    9 |     operations: [insert]
+>  10 |     concurrency: 0
+                         ^ must be in the range 1 to 1024

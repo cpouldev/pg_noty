@@ -1,0 +1,5 @@
+R29_columns_under_insert.yaml:11:9
+    9 |     operations:
+   10 |       insert:
+>  11 |         columns: [status]
+                ^ "columns" is legal only under "update"

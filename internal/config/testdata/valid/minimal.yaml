@@ -1,0 +1,10 @@
+# The seven required keys and nothing else, so every optional key takes its built-in default.
+version: 1
+database:
+  url: ${DATABASE_URL}
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: ${ORDER_WEBHOOK_URL}

@@ -1,0 +1,5 @@
+R36_destination_url_unparseable.yaml:9:12
+   7 |     operations: [insert]
+   8 |     destination:
+>  9 |       url: "http://[::1"
+                  ^ must be a non-empty http or https URL with a host: does not parse: missing ']' in host

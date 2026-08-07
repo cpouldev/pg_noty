@@ -1,0 +1,5 @@
+policy_syntax_plus_four_semantic.yaml:9:12
+   7 | retention:
+   8 |   precreate: 7d
+>  9 | listeners: [one, two
+                  ^ sequence end token ']' not found

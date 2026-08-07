@@ -1,0 +1,5 @@
+R6_worker_concurrency_5000.yaml:5:16
+   3 |   url: postgres://noty@db.internal/noty
+   4 | worker:
+>  5 |   concurrency: 5000
+                      ^ must be in the range 1 to 1024

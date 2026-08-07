@@ -1,0 +1,4 @@
+R2_instance_bad_charset.yaml:2:11
+   1 | version: 1
+>  2 | instance: Noty
+                 ^ must match ^[a-z][a-z0-9_]{0,40}$: illegal character

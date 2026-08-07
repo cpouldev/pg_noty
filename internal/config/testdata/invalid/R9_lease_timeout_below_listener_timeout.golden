@@ -1,0 +1,5 @@
+R9_lease_timeout_below_listener_timeout.yaml:10:14
+    8 |     table: public.orders
+    9 |     operations: [insert]
+>  10 |     timeout: 6m
+                     ^ worker.lease_timeout must be greater than the largest effective listeners[].timeout; increase the lease or lower the timeout because a lease no longer than a request timeout causes duplicate deliveries

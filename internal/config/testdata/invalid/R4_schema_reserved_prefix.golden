@@ -1,0 +1,6 @@
+R4_schema_reserved_prefix.yaml:4:11
+   2 | database:
+   3 |   url: postgres://noty@db.internal/noty
+>  4 |   schema: pg_noty
+                 ^ the prefix "pg_" is reserved for system schemas
+                   use "noty" instead

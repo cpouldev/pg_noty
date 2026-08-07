@@ -1,0 +1,5 @@
+R36_destination_url_absent.yaml:7:5
+   5 |   url: postgres://noty:[redacted]@db.internal:5432/noty
+   6 | listeners:
+>  7 |   - name: order_paid
+           ^ missing required key "destination.url"

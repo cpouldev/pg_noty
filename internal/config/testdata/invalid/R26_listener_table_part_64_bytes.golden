@@ -1,0 +1,5 @@
+R26_listener_table_part_64_bytes.yaml:6:12
+   4 | listeners:
+   5 |   - name: order_paid
+>  6 |     table: public.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                  ^ table part must be a PostgreSQL identifier of at most 63 bytes: over the byte limit

@@ -1,0 +1,5 @@
+R24_listener_name_duplicate.yaml:10:11
+    8 |     destination:
+    9 |       url: https://one.example.test/hook
+>  10 |   - name: repeated_name
+                  ^ must be unique; the first listener with this name is on line 5

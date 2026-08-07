@@ -1,0 +1,5 @@
+R36_destination_url_ftp.yaml:9:12
+   7 |     operations: [insert]
+   8 |     destination:
+>  9 |       url: ftp://host/x
+                  ^ must be a non-empty http or https URL with a host: scheme is neither http nor https

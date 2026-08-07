@@ -1,0 +1,13 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+worker:
+  lease_timeout: ${LEASE}
+  drain_timeout: 10s
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    timeout: 6s
+    destination:
+      url: https://hooks.example.test/order-paid

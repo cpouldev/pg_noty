@@ -1,0 +1,26 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: full_payload
+    table: public.orders
+    operations: [insert]
+    payload:
+      mode: full
+    destination:
+      url: https://example.test/full
+  - name: columns_payload
+    table: public.orders_archive
+    operations: [insert]
+    payload:
+      mode: columns
+      columns: [id, total]
+    destination:
+      url: https://example.test/columns
+  - name: keys_only_payload
+    table: public.order_keys
+    operations: [insert]
+    payload:
+      mode: keys_only
+    destination:
+      url: https://example.test/keys
