@@ -14,6 +14,7 @@ import (
 
 	"github.com/cpouldev/pg_noty/internal/config"
 	"github.com/cpouldev/pg_noty/internal/schema"
+	"github.com/cpouldev/pg_noty/internal/testpostgres"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 )
@@ -80,7 +81,7 @@ func cliDatabaseAwaitingBootstrap(t *testing.T, listeners bool) (*pgxpool.Pool, 
 	if cliContainer == nil {
 		t.Fatal("CLI harness container is unavailable")
 	}
-	if err := cliContainer.Restore(t.Context()); err != nil {
+	if err := testpostgres.RestoreSnapshot(t.Context(), cliContainer); err != nil {
 		t.Fatalf("restore CLI database: %v", err)
 	}
 	dsn, err := cliContainer.ConnectionString(t.Context(), "sslmode=disable")

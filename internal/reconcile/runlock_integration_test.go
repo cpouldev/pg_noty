@@ -151,9 +151,7 @@ func assertAcquiredRunLockIsReleased(t *testing.T) {
 	}
 	assertRunLockFree(t, observer, key)
 	observer.Release()
-	if got := pool.Stat().AcquiredConns(); got != before {
-		t.Fatalf("acquired pool connections after release = %d, want before-path count %d", got, before)
-	}
+	assertAcquiredConnsEventually(t, pool, before)
 }
 func assertRunLockIsReleasedAfterError(t *testing.T) {
 	pool := freshDatabase(t)
@@ -170,9 +168,7 @@ func assertRunLockIsReleasedAfterError(t *testing.T) {
 	observer := takeRunLockConnection(t, pool)
 	assertRunLockFree(t, observer, key)
 	observer.Release()
-	if got := pool.Stat().AcquiredConns(); got != before {
-		t.Fatalf("acquired pool connections after injected error = %d, want before-path count %d", got, before)
-	}
+	assertAcquiredConnsEventually(t, pool, before)
 }
 func assertExpiredRunLockLeavesNothingPinned(t *testing.T) {
 	pool := freshDatabase(t)
@@ -185,15 +181,11 @@ func assertExpiredRunLockLeavesNothingPinned(t *testing.T) {
 	if err != nil || held != nil || refusal == nil || !strings.Contains(refusal.Message(), runLockTestInstance) || !strings.Contains(refusal.Message(), holderID) {
 		t.Fatalf("expiry = (%v, %v, %v), want instance %q and holder %q", held, refusal, err, runLockTestInstance, holderID)
 	}
-	if got := pool.Stat().AcquiredConns(); got != before {
-		t.Fatalf("expired wait left %d acquired connections, want holder-only count %d", got, before)
-	}
+	assertAcquiredConnsEventually(t, pool, before)
 	observer := takeRunLockConnection(t, pool)
 	unlockRunLockKey(t, holder, key)
 	assertRunLockFree(t, observer, key)
 	holder.Release()
 	observer.Release()
-	if got := pool.Stat().AcquiredConns(); got != initial {
-		t.Fatalf("acquired pool connections after expiry = %d, want before-path count %d", got, initial)
-	}
+	assertAcquiredConnsEventually(t, pool, initial)
 }

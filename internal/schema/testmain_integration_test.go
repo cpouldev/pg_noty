@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/cpouldev/pg_noty/internal/config"
+	"github.com/cpouldev/pg_noty/internal/testpostgres"
 	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/jackc/pgx/v5/stdlib" // registers the harnessSQLDriver name for snapshot/restore
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
@@ -181,7 +182,7 @@ func restoreToSnapshot(t *testing.T) time.Duration {
 	containerUses.Add(1)
 
 	began := time.Now()
-	if err := sharedContainer.Restore(t.Context()); err != nil {
+	if err := testpostgres.RestoreSnapshot(t.Context(), sharedContainer); err != nil {
 		t.Fatalf("restore %s to its snapshot: %v", harnessDatabase, err)
 	}
 	return time.Since(began)

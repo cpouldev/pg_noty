@@ -67,12 +67,7 @@ func TestTheRunLockIsFreeAfterEveryOneOfTheSevenExitPaths(t *testing.T) {
 							"gives it back before Apply returns", path.letter, settled,
 					)
 				}
-				if got := pool.Stat().AcquiredConns(); got != before {
-					t.Fatalf(
-						"path (%s) left %d acquired pool connections, want the %d it began with; a "+
-							"connection still pinned is the leak internal/schema measured", path.letter, got, before,
-					)
-				}
+				assertAcquiredConnsEventually(t, pool, before)
 			},
 		)
 	}

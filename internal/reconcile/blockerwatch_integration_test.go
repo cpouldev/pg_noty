@@ -17,6 +17,34 @@ func TestRunLockPoolAcquireExpiresAtTheSuppliedBound(t *testing.T) {
 	assertPostAcquireAttemptExpiry(t)
 }
 
+func TestTakeRunLockConnectionReleasesAtTheOwningTestCleanup(t *testing.T) {
+	skipIfShort(t)
+	pool := freshDatabase(t)
+	var connection *pgxpool.Conn
+	t.Run("owner", func(t *testing.T) {
+		connection = takeRunLockConnection(t, pool)
+	})
+	acquired := pool.Stat().AcquiredConns()
+	connection.Release()
+	if acquired != 0 {
+		t.Fatalf("owning test cleanup left %d acquired connections, want none", acquired)
+	}
+}
+
+func TestAcquiredConnectionAssertionWaitsForAnAsynchronousRelease(t *testing.T) {
+	skipIfShort(t)
+	pool := freshDatabase(t)
+	connection := takeRunLockConnection(t, pool)
+	released := make(chan struct{})
+	go func() {
+		time.Sleep(25 * time.Millisecond)
+		connection.Release()
+		close(released)
+	}()
+	assertAcquiredConnsEventually(t, pool, 0)
+	<-released
+}
+
 func TestBlockerWatchIdentifiesABackendWhileItsStatementIsBlocked(t *testing.T) {
 	skipIfShort(t)
 	pool := freshDatabase(t)
@@ -91,7 +119,22 @@ func takeRunLockConnection(t *testing.T, pool *pgxpool.Pool) *pgxpool.Conn {
 	if err != nil {
 		t.Fatal(err)
 	}
+	t.Cleanup(on.Release)
 	return on
+}
+func assertAcquiredConnsEventually(t *testing.T, pool *pgxpool.Pool, want int32) {
+	t.Helper()
+	deadline := time.Now().Add(time.Second)
+	for {
+		got := pool.Stat().AcquiredConns()
+		if got == want {
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Fatalf("acquired pool connections remained at %d for one second, want %d", got, want)
+		}
+		time.Sleep(time.Millisecond)
+	}
 }
 func lockRunLockKey(t *testing.T, on *pgxpool.Conn, key int64) {
 	t.Helper()

@@ -13,6 +13,7 @@ import (
 
 	"github.com/cpouldev/pg_noty/internal/config"
 	"github.com/cpouldev/pg_noty/internal/schema"
+	"github.com/cpouldev/pg_noty/internal/testpostgres"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -50,7 +51,7 @@ func restoreToSnapshot(t *testing.T) {
 	t.Helper()
 	skipIfShort(t)
 	containerUses.Add(1)
-	if err := sharedContainer.Restore(t.Context()); err != nil {
+	if err := testpostgres.RestoreSnapshot(t.Context(), sharedContainer); err != nil {
 		t.Fatalf("restore snapshot: %v", err)
 	}
 }
