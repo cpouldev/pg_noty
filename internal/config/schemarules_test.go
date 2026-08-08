@@ -91,11 +91,14 @@ func TestOnlyTheTwoListsTheContractRequiresToHoldSomethingSaySo(t *testing.T) {
 	}
 }
 
-// TestTheOnlyKeyLegalBeneathOneSiblingIsTheColumnFilter scopes R29's legality half to the one key
-// the contract states it for. The three operations share one filter shape, so `columns` is
-// declared at all three and legal at one; a second key acquiring that qualifier would need its own
-// rule rather than R29 by default.
-func TestTheOnlyKeyLegalBeneathOneSiblingIsTheColumnFilter(t *testing.T) {
+// TestEveryKeyScopedToUpdateNamesItsOwnRule keeps the shared operation shape from either admitting
+// an update-only key beneath insert/delete or silently assigning a new key to the column rule.
+func TestEveryKeyScopedToUpdateNamesItsOwnRule(t *testing.T) {
+	want := map[string]RuleID{
+		"columns":     R29,
+		"is_distinct": R43,
+	}
+	seen := map[string]bool{}
 	for path, spec := range declaredKeys(t) {
 		if spec.legalUnder == "" {
 			if spec.legality != noRule {
@@ -104,9 +107,18 @@ func TestTheOnlyKeyLegalBeneathOneSiblingIsTheColumnFilter(t *testing.T) {
 			}
 			continue
 		}
-		if leafOf(path) != "columns" || spec.legalUnder != updateOperation || spec.legality != R29 {
-			t.Errorf("%s is legal only under %q by rule %q; the contract states that of operations.update.columns alone",
+		leaf := leafOf(path)
+		rule, declared := want[leaf]
+		if !declared || spec.legalUnder != updateOperation || spec.legality != rule {
+			t.Errorf("%s is legal only under %q by rule %q; want an update-only key with its declared rule",
 				path, spec.legalUnder, spec.legality)
+			continue
+		}
+		seen[leaf] = true
+	}
+	for leaf := range want {
+		if !seen[leaf] {
+			t.Errorf("no update-scoped declaration exists for %q", leaf)
 		}
 	}
 }

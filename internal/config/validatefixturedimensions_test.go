@@ -62,6 +62,22 @@ func TestValidBooleanFixturesCoverBothValuesAndEveryWrittenExtent(t *testing.T) 
 		gotEnabled = append(gotEnabled, listener.Enabled.value)
 	}
 	assertBoolSet(t, "R25 booleans", gotEnabled, []bool{false, true})
+
+	isDistinct := validStageHFixture(t, "R43_ok_is_distinct_boolean")
+	var gotIsDistinct []bool
+	for i, listener := range isDistinct.Listeners.Values {
+		if len(listener.Operations.values) != 1 ||
+			listener.Operations.values[0].Name.value != updateOperation {
+			t.Errorf("R43 listener %d does not carry exactly one update operation", i)
+			continue
+		}
+		value := listener.Operations.values[0].Filter.IsDistinct
+		if !value.Set {
+			t.Errorf("R43 listener %d leaves is_distinct absent", i)
+		}
+		gotIsDistinct = append(gotIsDistinct, value.value)
+	}
+	assertBoolSet(t, "R43 booleans", gotIsDistinct, []bool{false, true})
 }
 
 func TestRetryFixturesCoverDefaultsAndListenerExtents(t *testing.T) {

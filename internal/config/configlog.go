@@ -80,6 +80,7 @@ func logOperations(operations Operations) slog.Attr {
 		attrs = append(attrs, indexedLogValue(index, slog.GroupValue(
 			slog.String("kind", operation.Kind),
 			slog.Any("columns", operation.Columns),
+			slog.Bool("is_distinct", operation.IsDistinct),
 			slog.String("when", schemaLogString(levelOperation, "when", operation.When)),
 		)))
 	}

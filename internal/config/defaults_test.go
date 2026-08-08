@@ -6,8 +6,8 @@ import (
 )
 
 func TestBuiltInDefaultsEnumerateEveryContractValueIndividually(t *testing.T) {
-	if got := len(builtInDefaults); got != 22 {
-		t.Fatalf("builtInDefaults has %d entries, want 22", got)
+	if got := len(builtInDefaults); got != 23 {
+		t.Fatalf("builtInDefaults has %d entries, want 23", got)
 	}
 
 	got := resolvedBuiltInDefaults()
@@ -34,6 +34,7 @@ func TestBuiltInDefaultsEnumerateEveryContractValueIndividually(t *testing.T) {
 		{"retry.max_interval", got.listener.retry.MaxInterval, time.Hour},
 		{"retry.jitter", got.listener.retry.Jitter, true},
 		{"enabled", got.listener.enabled, true},
+		{"operations.update.is_distinct", got.listener.operationDistinct, false},
 		{"payload.mode", got.listener.payload.Mode, "full"},
 		{"payload.include_old", got.listener.payload.IncludeOld, false},
 		{"payload.max_bytes", got.listener.payload.MaxBytes, 262144},

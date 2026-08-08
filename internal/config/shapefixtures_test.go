@@ -121,6 +121,12 @@ var stageFCorpus = map[string][]stageFDiagnostic{
 	"R29_columns_under_delete": {
 		{rule: R29, line: 10, col: 9, msg: `"columns" is legal only under "update"`},
 	},
+	"R43_is_distinct_under_insert": {
+		{rule: R43, line: 11, col: 9, msg: `"is_distinct" is legal only under "update"`},
+	},
+	"R43_is_distinct_under_delete": {
+		{rule: R43, line: 10, col: 9, msg: `"is_distinct" is legal only under "update"`},
+	},
 	// `        columns: []` -- eight spaces, seven characters of `columns`, a colon and a space,
 	// so the empty list's `[` is at rune 18.
 	"R29_columns_empty_under_update": {

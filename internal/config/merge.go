@@ -64,7 +64,7 @@ func resolveListener(raw rawListener, inheritedHeaders rawHeaders, defaults list
 		Enabled: mergedBool(raw.Enabled, defaults.enabled),
 		Trigger: TriggerSpec{
 			Table:         mergedString(raw.Table, ""),
-			Operations:    resolveOperations(raw.Operations),
+			Operations:    resolveOperations(raw.Operations, defaults.operationDistinct),
 			Payload:       resolvePayload(raw.Payload.Value, defaults.payload),
 			tablePosition: raw.Table.where(),
 		},
@@ -101,15 +101,17 @@ func mergeRetry(inherited Retry, raw rawRetry) Retry {
 	return inherited
 }
 
-func resolveOperations(raw rawOperations) Operations {
+func resolveOperations(raw rawOperations, defaultIsDistinct bool) Operations {
 	resolved := make(Operations, 0, len(raw.values))
 	for _, operation := range raw.values {
 		resolved = append(resolved, Operation{
-			Kind:            mergedString(operation.Name, ""),
-			Columns:         mergedStrings(operation.Filter.Columns, nil),
-			When:            mergedString(operation.Filter.When, ""),
-			columnsPosition: operation.Filter.Columns.where(),
-			whenPosition:    operation.Filter.When.where(),
+			Kind:               mergedString(operation.Name, ""),
+			Columns:            mergedStrings(operation.Filter.Columns, nil),
+			IsDistinct:         mergedBool(operation.Filter.IsDistinct, defaultIsDistinct),
+			When:               mergedString(operation.Filter.When, ""),
+			columnsPosition:    operation.Filter.Columns.where(),
+			isDistinctPosition: operation.Filter.IsDistinct.where(),
+			whenPosition:       operation.Filter.When.where(),
 		})
 	}
 	slices.SortStableFunc(resolved, func(a, b Operation) int {

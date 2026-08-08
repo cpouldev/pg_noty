@@ -15,7 +15,7 @@ var payloadGridModes = []struct {
 }{
 	{"full", config.Payload{Mode: "full"}},
 	{"full_exclude", config.Payload{Mode: "full", Exclude: []string{"secret"}}},
-	{"columns", config.Payload{Mode: "columns", Columns: []string{"status"}}},
+	{"columns", config.Payload{Mode: "columns", Columns: []string{"id", "status"}}},
 	{"keys_only", config.Payload{Mode: "keys_only"}},
 }
 
@@ -32,7 +32,7 @@ func TestPayloadGridCrossesEveryOperationModeAndFlag(t *testing.T) {
 				if err != nil || got.new == "" || got.old == "" {
 					t.Fatalf("grid cell %s/%s/%t = %#v, err=%v", operation, mode.name, includeOld, got, err)
 				}
-				assertOperationPayloadCell(t, operation, got)
+				assertOperationPayloadCell(t, operation, payload, got)
 			}
 		}
 	}
@@ -41,21 +41,22 @@ func TestPayloadGridCrossesEveryOperationModeAndFlag(t *testing.T) {
 	}
 }
 
-func assertOperationPayloadCell(t *testing.T, operation string, got payloadExpressions) {
+func assertOperationPayloadCell(t *testing.T, operation string, payload config.Payload, got payloadExpressions) {
 	t.Helper()
-	switch operation {
-	case "insert":
-		if got.old != "NULL::jsonb" {
-			t.Errorf("insert old = %q, want NULL::jsonb", got.old)
+	wantOld := "NULL::jsonb"
+	if operation == "delete" || operation == "update" && payload.IncludeOld {
+		wantOld = "to_jsonb(OLD)"
+		if payload.Mode == "columns" {
+			// The configured order is id then status, so the old object must contain exactly
+			// those two keys in that order and no whole-row conversion.
+			wantOld = `jsonb_build_object('id', OLD."id", 'status', OLD."status")`
 		}
-	case "update":
-		if got.old != "NULL::jsonb" && got.old != "to_jsonb(OLD)" {
-			t.Errorf("update old = %q", got.old)
-		}
-	case "delete":
-		if got.old != "to_jsonb(OLD)" || got.new != "NULL::jsonb" {
-			t.Errorf("delete pair = %#v", got)
-		}
+	}
+	if got.old != wantOld {
+		t.Errorf("%s/%s/include_old=%t old = %q, want %q", operation, payload.Mode, payload.IncludeOld, got.old, wantOld)
+	}
+	if operation == "delete" && got.new != "NULL::jsonb" {
+		t.Errorf("delete new = %q, want NULL::jsonb", got.new)
 	}
 }
 

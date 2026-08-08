@@ -10,7 +10,7 @@ package config
 // identical, where either survivor renders the same text anyway (see prefersOver).
 type RuleID string
 
-// The 42 static rules of the configuration contract. Their full statements live in
+// The 43 static rules of the configuration contract. Their full statements live in
 // the task specification's rule table; the names here exist to tag diagnostics and
 // fixtures so coverage is countable rather than asserted.
 const (
@@ -56,6 +56,7 @@ const (
 	R40 RuleID = "R40" // durations parse with Go units only
 	R41 RuleID = "R41" // no unknown keys at any nesting level
 	R42 RuleID = "R42" // no duplicate mapping keys
+	R43 RuleID = "R43" // operations.update.is_distinct is a boolean and update-only
 )
 
 // The two non-fatal warnings of the configuration contract.

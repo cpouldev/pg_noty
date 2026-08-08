@@ -140,9 +140,10 @@ func TestResolvedDeliveryAndOperationTypesMatchTheDataModelContract(t *testing.T
 			name:  "Operation",
 			value: Operation{},
 			wantFields: map[string]string{
-				"Kind":    "string",
-				"Columns": "[]string",
-				"When":    "string",
+				"Kind":       "string",
+				"Columns":    "[]string",
+				"IsDistinct": "bool",
+				"When":       "string",
 			},
 		},
 	})

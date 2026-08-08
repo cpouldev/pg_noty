@@ -137,30 +137,37 @@ type Operation struct {
 	// mapping names those spellings as constants, because it is the first code that
 	// compares against them.
 	Kind string
-	// Columns narrows an update to changes of these columns. It is meaningful only
-	// for an update.
+	// Columns names watched update columns. Without IsDistinct it generates UPDATE OF,
+	// which tests the original SET list; with IsDistinct it selects values to compare.
+	// It is meaningful only for an update.
 	Columns []string
+	// IsDistinct suppresses update events unless the configured Columns, or the
+	// complete row when Columns is empty, differ between OLD and NEW. Omitting false
+	// from JSON preserves stored listener specifications written before this field existed.
+	IsDistinct bool `json:",omitempty"`
 	// When is a raw SQL condition that becomes the trigger's WHEN clause.
 	//
 	// TRUST BOUNDARY: this text is passed to the database as SQL. Anyone who can
 	// edit the configuration file can therefore execute arbitrary SQL inside the
 	// transaction that writes to the target table. Environment interpolation is
 	// permitted here, which extends that boundary to whoever sets the variable.
-	When            string
-	columnsPosition Positioned
-	whenPosition    Positioned
+	When               string
+	columnsPosition    Positioned
+	isDistinctPosition Positioned
+	whenPosition       Positioned
 }
 
 // Payload describes what an event carries.
 type Payload struct {
 	// Mode is full, columns or keys_only.
 	Mode string
-	// Columns is the whitelist that mode columns requires.
+	// Columns is the whitelist that mode columns applies to each emitted row object.
 	Columns []string
 	// Exclude is the blacklist that mode full accepts, and exists so that a full
 	// payload of a table holding secrets does not ship them to a third party.
 	Exclude []string
-	// IncludeOld adds the pre-change row to the payload.
+	// IncludeOld adds the pre-change row to update payloads. Delete payloads use
+	// the pre-change row regardless because no post-change row exists.
 	IncludeOld bool
 	// MaxBytes is a hard cap. An event above it fails rather than being truncated.
 	MaxBytes int

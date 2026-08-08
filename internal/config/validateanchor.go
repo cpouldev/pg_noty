@@ -75,6 +75,7 @@ var stageHAnchorClass = map[RuleID]map[semanticAnchorUse]anchorClass{
 	R38: {listElementUse: elementAnchor},
 	R39: {scalarValueUse: valueAnchor, effectiveValueUse: valueAnchor},
 	R40: {scalarValueUse: valueAnchor},
+	R43: {scalarValueUse: valueAnchor},
 }
 
 // reportSemantic is the scalar-rule entry point retained for stage G conversions and Step 8.

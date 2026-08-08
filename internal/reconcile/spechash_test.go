@@ -65,6 +65,32 @@ func TestTriggerAffectingChangeChangesTheStoredSpecHash(t *testing.T) {
 	}
 }
 
+func TestIsDistinctChangesOnlyTheUpdateOperationSpecification(t *testing.T) {
+	before := listenerForSpec("unchanged-secret", "NEW.status = 'ready'").Trigger
+	after := before
+	after.Operations = append(config.Operations(nil), before.Operations...)
+	after.Operations[1].IsDistinct = true
+
+	beforeSpec, err := deriveListenerSpec(before)
+	if err != nil {
+		t.Fatal(err)
+	}
+	afterSpec, err := deriveListenerSpec(after)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if beforeSpec.Hash == afterSpec.Hash {
+		t.Fatalf("stored hash = %q before and after enabling is_distinct", beforeSpec.Hash)
+	}
+	changed, err := changedTriggerOperations(before, after)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if changed["insert"] || !changed["update"] {
+		t.Fatalf("changed operations = %v, want only update", changed)
+	}
+}
+
 func TestStoredListenerSpecHashesTheSameBytesItReturns(t *testing.T) {
 	stored, err := deriveListenerSpec(listenerForSpec("secret", "NEW.status = 'ready'").Trigger)
 	if err != nil {

@@ -109,6 +109,7 @@ type rawSigning struct {
 // Its name is not a field: it is the key the author wrote, carried by rawOperations as a positioned
 // text of its own so that a diagnostic about an operation anchors on that key (Step 5's Note 15).
 type rawOperation struct {
-	Columns StrList `yaml:"columns"`
-	When    Str     `yaml:"when"`
+	Columns    StrList `yaml:"columns"`
+	IsDistinct Bool    `yaml:"is_distinct"`
+	When       Str     `yaml:"when"`
 }

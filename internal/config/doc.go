@@ -4,7 +4,7 @@
 //
 // # Reference conventions
 //
-// The Default column contains all 22 enumerated built-in defaults exactly once.
+// The Default column contains all 23 enumerated built-in defaults exactly once.
 // "Required" means omission is an error. "None" means the key is optional and
 // has no enumerated built-in default; nested defaults and requirements still
 // apply when an optional mapping is omitted. Defaults are applied field by
@@ -53,11 +53,12 @@
 //	`listeners[].name`                                       string                       required                        R23, R24: name pattern from R2 and unique across listeners
 //	`listeners[].enabled`                                    boolean                      built-in: `true`                R25; disabled listeners still receive full static validation
 //	`listeners[].table`                                      string                       required                        R26: `schema.table`; each part is an unquoted identifier of at most 63 bytes
-//	`listeners[].operations`                                 mapping or sequence          required                        R27-R29: at least one unique `insert`, `update`, or `delete`; sequence form is filter-free sugar
+//	`listeners[].operations`                                 mapping or sequence          required                        R27-R30, R43: at least one unique `insert`, `update`, or `delete`; sequence form is filter-free sugar
 //	`listeners[].operations.insert`                          mapping                      none                            R28: optional operation; R41, R42
 //	`listeners[].operations.update`                          mapping                      none                            R28: optional operation; R41, R42
 //	`listeners[].operations.delete`                          mapping                      none                            R28: optional operation; R41, R42
 //	`listeners[].operations.<op>.columns`                    sequence of strings          none                            R29: only under `update`; non-empty, unique valid identifiers
+//	`listeners[].operations.update.is_distinct`              boolean                      built-in: `false`               R43: compare watched column values, or the whole row when `columns` is omitted, before emitting an update event
 //	`listeners[].operations.<op>.when`                       string                       none                            R30: no `OLD` for `insert`, no `NEW` for `delete`
 //	`listeners[].payload`                                    mapping                      none                            nested defaults apply; R41, R42
 //	`listeners[].payload.mode`                               string                       built-in: `full`                R31: `full`, `columns`, or `keys_only`

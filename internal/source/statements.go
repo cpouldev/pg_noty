@@ -49,7 +49,11 @@ func statementsFor(request Request, operation config.Operation, functionName str
 	if err != nil {
 		return triggerStatements{}, err
 	}
-	createTrigger := "CREATE TRIGGER " + trigger + " AFTER " + strings.ToUpper(operation.Kind) + columns + " ON " + target + " FOR EACH ROW" + whenClause(operation) + " EXECUTE FUNCTION " + function + "();"
+	when, err := whenClause(operation)
+	if err != nil {
+		return triggerStatements{}, err
+	}
+	createTrigger := "CREATE TRIGGER " + trigger + " AFTER " + strings.ToUpper(operation.Kind) + columns + " ON " + target + " FOR EACH ROW" + when + " EXECUTE FUNCTION " + function + "();"
 	createFunction := "CREATE OR REPLACE FUNCTION " + function + "() RETURNS trigger\n  LANGUAGE plpgsql\n  SECURITY DEFINER\n  SET search_path = pg_catalog, pg_temp\nAS $" + tag + "$\n" + body + "\n$" + tag + "$;"
 	return triggerStatements{
 		createFunction:  createFunction,
@@ -61,7 +65,7 @@ func statementsFor(request Request, operation config.Operation, functionName str
 }
 
 func updateColumns(operation config.Operation) (string, error) {
-	if operation.Kind != "update" || len(operation.Columns) == 0 {
+	if operation.Kind != "update" || operation.IsDistinct || len(operation.Columns) == 0 {
 		return "", nil
 	}
 	quoted := make([]string, 0, len(operation.Columns))

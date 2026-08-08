@@ -39,6 +39,7 @@ var stageHRejectingFixtures = map[string]semanticFixture{
 	"R39_listener_concurrency_zero":          {R39, "listeners[0].concurrency"},
 	"R39_listener_concurrency_1025":          {R39, "listeners[0].concurrency"},
 	"R40_retention_precreate_days":           {R40, "retention.precreate"},
+	"R43_is_distinct_not_boolean":            {R43, "listeners[0].operations.update.is_distinct"},
 	"R1_version_absent_plus_batch_size_zero": {R1, "version"},
 }
 
@@ -64,6 +65,7 @@ var stageHAcceptingFixtures = []string{
 	"R37_ok_destination_methods",
 	"R39_ok_listener_concurrency_boundaries",
 	"R40_ok_duration_boundaries",
+	"R43_ok_is_distinct_boolean",
 }
 
 func TestEveryStageHRejectingFixtureRaisesExactlyItsClaim(t *testing.T) {
@@ -113,7 +115,7 @@ func TestEveryStageHEntryHasNamedRejectingAndAcceptingFixtures(t *testing.T) {
 		t.Errorf("%d accepting fixtures, want %d derived from entries plus R6's second boundary",
 			len(stageHAcceptingFixtures), want)
 	}
-	// Twenty base rejections + the extra R4/R6/R39 boundary cases + the combined R1/R7 policy
+	// One base rejection per entry + the extra R4/R6/R39 boundary cases + the combined R1/R7 policy
 	// fixture + four listener retry extents added by the independent partition audits.
 	if want := len(stageHRuleEntries) + 3 + 1 + 4; len(stageHRejectingFixtures) != want {
 		t.Errorf("%d rejecting fixtures, want the derived corpus extent %d", len(stageHRejectingFixtures), want)

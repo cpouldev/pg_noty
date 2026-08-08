@@ -30,8 +30,8 @@ import (
 // give them their meaning so that a rule and the table cannot come to name different keys.
 //
 // operationsKey is the one key this table accepts in two shapes: the map form, and the list sugar
-// stage E folds into it (listsugar.go). updateOperation is the one statement a column filter
-// narrows, which is what makes `columns` legal beneath it and nowhere else (R29).
+// stage E folds into it (listsugar.go). updateOperation is the one statement the update-only
+// filters apply to.
 const (
 	operationsKey     = "operations"
 	updateOperation   = "update"
@@ -121,6 +121,7 @@ var schemaLevels = map[levelName]mappingLevel{
 	},
 	levelOperation: {keys: []keySpec{
 		key("columns", sequenceValue).onlyUnder(updateOperation, R29).holdingSomething(R29),
+		key("is_distinct", scalarValue).onlyUnder(updateOperation, R43).convertedBy(R43),
 		key("when", scalarValue),
 	}},
 	levelPayload: {keys: []keySpec{

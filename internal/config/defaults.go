@@ -17,6 +17,7 @@ type listenerDefaults struct {
 	enabled           bool
 	timeout           time.Duration
 	retry             Retry
+	operationDistinct bool
 	payload           Payload
 	destinationMethod string
 }
@@ -28,7 +29,7 @@ type builtInDefault struct {
 	apply func(*defaultState)
 }
 
-// builtInDefaults is the single enumeration of all 22 built-in defaults. Instance is a deferred
+// builtInDefaults is the single enumeration of all 23 built-in defaults. Instance is a deferred
 // derivation: its row stores the relationship to the effective database schema, not "noty".
 //
 // The auto_reconcile row assigns false, which is Go's zero value and therefore a no-op, and it is
@@ -54,6 +55,7 @@ var builtInDefaults = []builtInDefault{
 	{"retry.max_interval", func(d *defaultState) { d.listener.retry.MaxInterval = time.Hour }},
 	{"retry.jitter", func(d *defaultState) { d.listener.retry.Jitter = true }},
 	{"enabled", func(d *defaultState) { d.listener.enabled = true }},
+	{"operations.update.is_distinct", func(d *defaultState) { d.listener.operationDistinct = false }},
 	{"payload.mode", func(d *defaultState) { d.listener.payload.Mode = payloadModeFull }},
 	{"payload.include_old", func(d *defaultState) { d.listener.payload.IncludeOld = false }},
 	{"payload.max_bytes", func(d *defaultState) { d.listener.payload.MaxBytes = 262144 }},

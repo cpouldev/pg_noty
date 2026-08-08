@@ -40,7 +40,7 @@ func TestAFoldedListEntryCarriesThePositionTheAuthorWrote(t *testing.T) {
 
 func TestAnOperationsFiltersAreDecodedAndPositioned(t *testing.T) {
 	decoded := oneDecodedListener(t, operationsOf("    operations:\n      update:\n"+
-		"        columns: [status, total]\n        when: NEW.total > 0\n"))
+		"        columns: [status, total]\n        is_distinct: true\n        when: NEW.total > 0\n"))
 	if len(decoded.Operations.values) != 1 {
 		t.Fatalf("decoded %d operations, want 1", len(decoded.Operations.values))
 	}
@@ -56,11 +56,15 @@ func TestAnOperationsFiltersAreDecodedAndPositioned(t *testing.T) {
 			}
 		}
 	}
+	if !update.IsDistinct.value || update.IsDistinct.Line() != 10 || update.IsDistinct.Col() != 22 {
+		t.Errorf("is_distinct is %t at %d:%d, want true at 10:22",
+			update.IsDistinct.value, update.IsDistinct.Line(), update.IsDistinct.Col())
+	}
 	if update.When.value != "NEW.total > 0" {
 		t.Errorf("when = %q, want the written condition", update.When.value)
 	}
-	if update.When.Line() != 10 || update.When.Col() != 15 {
-		t.Errorf("when is at %d:%d, want 10:15", update.When.Line(), update.When.Col())
+	if update.When.Line() != 11 || update.When.Col() != 15 {
+		t.Errorf("when is at %d:%d, want 11:15", update.When.Line(), update.When.Col())
 	}
 }
 

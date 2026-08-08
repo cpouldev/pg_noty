@@ -152,7 +152,9 @@ and this body, where `data` holds the row exactly as the trigger captured it:
 }
 ```
 
-`data.old` is populated for `update` and `delete` only when `payload.include_old` is set.
+`data.old` is populated for `update` when `payload.include_old` is set. Delete events always put
+the deleted row in `data.old`, because no post-change row exists. With `payload.mode: columns`,
+`data.old` contains exactly the configured `payload.columns`.
 
 ### Check on it
 
@@ -336,11 +338,14 @@ its header key is `defaults.headers`, while a listener's is `destination.headers
 | `enabled` | `true` | `false` leaves the listener configured but installs no trigger. |
 | `table` | none | Required, schema-qualified: `public.orders`, not `orders`. |
 | `operations` | none | Required. A mapping with any of `insert`, `update`, `delete`. |
+| `operations.update.columns` | none | Watched update columns. Without `is_distinct`, this generates `UPDATE OF` and means a column appeared in the original `SET` list, not that its value changed. |
+| `operations.update.is_distinct` | `false` | Emit only when the watched column values actually differ, or any row value differs when `columns` is omitted. Update-only. |
+| `operations.<op>.when` | none | Raw SQL condition for that operation's trigger. |
 | `timeout` | `5s` | Per-request HTTP timeout. |
 | `payload.mode` | `full` | `full` (whole row), `columns` (a named subset), `keys_only` (primary key only). |
-| `payload.columns` | none | Required when `mode: columns`. |
+| `payload.columns` | none | Required when `mode: columns`; selects fields from each emitted row object. |
 | `payload.exclude` | none | Columns to omit. |
-| `payload.include_old` | `false` | Include the pre-change row for `update` and `delete`. |
+| `payload.include_old` | `false` | Include the pre-change row for `update`; deletes always use the pre-change row. |
 | `payload.max_bytes` | `262144` (256 KiB) | Larger payloads are dead-lettered, not silently truncated. |
 | `destination.url` | none | Required. |
 | `destination.method` | `POST` | `POST`, `PUT` or `PATCH`. |
@@ -357,7 +362,8 @@ Durations accept Go units: `300ms`, `10s`, `5m`, `168h`. Days are **not** a unit
 
 ### Filtering: which rows fire
 
-Each operation can carry a `when:` condition and its own column list:
+Each operation can carry a `when:` condition. Updates can also watch columns and opt into value
+comparison:
 
 ```yaml
 listeners:
@@ -367,8 +373,9 @@ listeners:
       insert:
         when: "NEW.total_cents > 10000"
       update:
-        columns: [status]                    # only fire when `status` changes
-        when: "OLD.status IS DISTINCT FROM NEW.status"
+        columns: [status]
+        is_distinct: true                    # only fire when the value actually changes
+        when: "NEW.total_cents > 10000"      # combined with the comparison using AND
     payload:
       mode: columns
       columns: [id, status, total_cents]
@@ -376,6 +383,20 @@ listeners:
     destination:
       url: ${BIG_ORDER_WEBHOOK}
 ```
+
+`columns` by itself generates PostgreSQL's `UPDATE OF` form. That form fires when a watched column
+is named in the statement's original `SET` list, even if the assigned value is unchanged. Set
+`is_distinct: true` to compare the final `OLD` and `NEW` values instead. With `columns`, only those
+values are compared; without `columns`, the complete rows are compared. The comparison is null-safe
+and JSONB-based, so it does not require every column type to provide an equality operator.
+
+An `is_distinct` update intentionally uses a plain `AFTER UPDATE` trigger rather than `UPDATE OF`.
+That lets it see a watched value changed by a `BEFORE UPDATE` trigger even when the original `SET`
+list did not name that column. When an explicit `when` is also present, both conditions must pass.
+
+This option suppresses row-level no-op updates only. It does not deduplicate transactions, event
+IDs, retries, or at-least-once webhook deliveries; receivers must still deduplicate using the event
+ID as described below.
 
 `when:` is raw SQL spliced into the trigger's `WHEN` clause. It runs inside your write transaction,
 so keep it cheap, and treat it as a trust boundary: anyone who can edit this file can run SQL as the

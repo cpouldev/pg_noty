@@ -8,7 +8,7 @@ BEGIN
   WITH e AS (
     INSERT INTO "noty"."events" (listener, table_name, operation, payload, txid, occurred_at)
     VALUES ('order_paid', '"public"."orders"', 'delete',
-            jsonb_build_object('old', to_jsonb(OLD), 'new', NULL::jsonb),
+            jsonb_build_object('old', jsonb_build_object('id', OLD."id", 'status', OLD."status"), 'new', NULL::jsonb),
             pg_current_xact_id(), clock_timestamp())
     RETURNING id, occurred_at
   )

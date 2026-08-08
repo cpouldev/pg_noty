@@ -1,0 +1,5 @@
+R43_is_distinct_under_insert.yaml:11:9
+    9 |     operations:
+   10 |       insert:
+>  11 |         is_distinct: true
+                ^ "is_distinct" is legal only under "update"

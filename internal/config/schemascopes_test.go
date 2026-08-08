@@ -133,6 +133,7 @@ func TestNodeKindsAreDeclaredPreciselyEnoughToCheck(t *testing.T) {
 		{path: "listeners", want: sequenceValue},
 		{path: "listeners[].operations", want: mappingValue | sequenceValue},
 		{path: "listeners[].operations.update.columns", want: sequenceValue},
+		{path: "listeners[].operations.update.is_distinct", want: scalarValue},
 		{path: "listeners[].payload.mode", want: scalarValue},
 		{path: "listeners[].destination.signing.secrets", want: sequenceValue},
 	}

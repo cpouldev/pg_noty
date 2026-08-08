@@ -142,7 +142,7 @@ func TestResolutionPreservesCanonicalOperationsAndTheirPositions(t *testing.T) {
 	document := "version: 1\ndatabase:\n  url: postgres://noty@db/noty\nlisteners:\n" +
 		"  - name: order_paid\n    table: public.orders\n    operations:\n" +
 		"      delete:\n        when: OLD.cancelled\n      insert: {}\n      update:\n" +
-		"        columns: [status]\n        when: OLD.status <> NEW.status\n" +
+		"        columns: [status]\n        is_distinct: true\n        when: OLD.status <> NEW.status\n" +
 		"    destination:\n      url: https://hooks.example.test/orders\n"
 	cfg, warnings, errs := Parse([]byte(document), "positions.yaml", MapEnv(nil))
 	if len(errs) != 0 || len(warnings) != 0 || cfg == nil {
@@ -155,8 +155,10 @@ func TestResolutionPreservesCanonicalOperationsAndTheirPositions(t *testing.T) {
 	assertResolvedPosition(t, trigger.tablePosition, "listeners[0].table", 6, 12)
 	assertResolvedPosition(t, trigger.Operations[1].columnsPosition,
 		"listeners[0].operations.update.columns", 12, 18)
+	assertResolvedPosition(t, trigger.Operations[1].isDistinctPosition,
+		"listeners[0].operations.update.is_distinct", 13, 22)
 	assertResolvedPosition(t, trigger.Operations[1].whenPosition,
-		"listeners[0].operations.update.when", 13, 15)
+		"listeners[0].operations.update.when", 14, 15)
 	assertResolvedPosition(t, trigger.Operations[2].whenPosition,
 		"listeners[0].operations.delete.when", 9, 15)
 }

@@ -142,4 +142,8 @@ var numberedDiagnosticContractSignals = map[RuleID][]diagnosticContractSignal{
 	R42: {shapedDiagnostic(
 		`mapping key ".*" already defined at \[[1-9][0-9]*:[1-9][0-9]*\]`,
 		`mapping key "schema" already defined at [2:3]`)},
+	R43: {
+		exactDiagnostic(`"is_distinct" is legal only under "update"`),
+		exactDiagnostic("expected true or false"),
+	},
 }

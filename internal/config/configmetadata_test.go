@@ -17,8 +17,9 @@ func TestResolvedTriggerTypesCarryOnlyTheDeclaredPrivatePositions(t *testing.T) 
 		{
 			value: Operation{},
 			want: map[string]string{
-				"columnsPosition": "config.Positioned",
-				"whenPosition":    "config.Positioned",
+				"columnsPosition":    "config.Positioned",
+				"isDistinctPosition": "config.Positioned",
+				"whenPosition":       "config.Positioned",
 			},
 		},
 	}

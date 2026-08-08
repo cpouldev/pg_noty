@@ -50,6 +50,40 @@ func TestOneChangedOperationReplacesOnlyItsCatalogPair(t *testing.T) {
 	assertIdentityControlCanFail(t, pool, cfg, listener, target, before["insert"])
 }
 
+func TestTogglingIsDistinctReplacesOnlyTheUpdateCatalogPair(t *testing.T) {
+	skipIfShort(t)
+	pool := freshDatabase(t)
+	prepareOwnershipDatabase(t, pool)
+	target := mustQualifiedTarget(t, "matrix_distinct_target")
+	mustExecOn(t, pool, "CREATE TABLE "+target+" (id bigint PRIMARY KEY, state text)")
+	listener := matrixListener("matrix_distinct_target", "insert", "update", "delete")
+	listener.Trigger.Operations[1].Columns = []string{"state"}
+	cfg := harnessConfig(t)
+	cfg.Listeners = []config.Listener{listener}
+	if _, err := Apply(t.Context(), pool, cfg, Approval{Approved: true}, Options{}); err != nil {
+		t.Fatal(err)
+	}
+	before := matrixIdentities(t, pool, target, listener.Name)
+	beforeHash := registryDDLHash(t, pool, listener.Name, "update")
+
+	listener.Trigger.Operations[1].IsDistinct = true
+	cfg.Listeners[0] = listener
+	plan, err := Plan(t.Context(), pool, cfg, Options{})
+	assertOneMatrixAction(t, plan, err, listener.Name, "update", ActionReplace)
+	if _, err := Apply(t.Context(), pool, cfg, Approval{Approved: true}, Options{}); err != nil {
+		t.Fatal(err)
+	}
+
+	after := matrixIdentities(t, pool, target, listener.Name)
+	if before["update"] == after["update"] || before["insert"] != after["insert"] ||
+		before["delete"] != after["delete"] {
+		t.Fatalf("identities before=%v after=%v; only update may change", before, after)
+	}
+	if afterHash := registryDDLHash(t, pool, listener.Name, "update"); afterHash == beforeHash {
+		t.Fatalf("update ddl_hash = %q after is_distinct changed", afterHash)
+	}
+}
+
 func TestAddedAndRemovedOperationsAreBoundToTheirOwnPairs(t *testing.T) {
 	skipIfShort(t)
 	pool := freshDatabase(t)

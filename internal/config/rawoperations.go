@@ -122,6 +122,7 @@ func (o *rawOperations) resolve(pass *decodePass) {
 	for i := range o.values {
 		o.values[i].Name.resolve(pass)
 		o.values[i].Filter.Columns.resolve(pass)
+		o.values[i].Filter.IsDistinct.resolve(pass)
 		o.values[i].Filter.When.resolve(pass)
 	}
 }

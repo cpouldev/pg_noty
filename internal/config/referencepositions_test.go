@@ -9,8 +9,9 @@ import (
 )
 
 type operationPositionLiterals struct {
-	columns string
-	when    string
+	columns    string
+	isDistinct string
+	when       string
 }
 
 // semanticConfig removes only the private provenance fields bounded by
@@ -23,6 +24,7 @@ func semanticConfig(cfg Config) Config {
 		cfg.Listeners[i].Trigger.tablePosition = nil
 		for j := range cfg.Listeners[i].Trigger.Operations {
 			cfg.Listeners[i].Trigger.Operations[j].columnsPosition = nil
+			cfg.Listeners[i].Trigger.Operations[j].isDistinctPosition = nil
 			cfg.Listeners[i].Trigger.Operations[j].whenPosition = nil
 		}
 	}
@@ -41,12 +43,14 @@ func assertNormalizationOnlyClearsSourcePositions(t *testing.T, raw Config) {
 		for j := range restored.Listeners[i].Trigger.Operations {
 			restored.Listeners[i].Trigger.Operations[j].columnsPosition =
 				raw.Listeners[i].Trigger.Operations[j].columnsPosition
+			restored.Listeners[i].Trigger.Operations[j].isDistinctPosition =
+				raw.Listeners[i].Trigger.Operations[j].isDistinctPosition
 			restored.Listeners[i].Trigger.Operations[j].whenPosition =
 				raw.Listeners[i].Trigger.Operations[j].whenPosition
 		}
 	}
 	if !reflect.DeepEqual(restored, raw) {
-		t.Fatal("normalization changed a field outside tablePosition, columnsPosition or whenPosition")
+		t.Fatal("normalization changed a field outside the four declared source positions")
 	}
 }
 
@@ -56,7 +60,7 @@ func assertOnlySourcePositionsDiffer(t *testing.T, left, right Config) {
 		t.Fatal("raw configs are equal; syntax-specific provenance was not exercised")
 	}
 	if !reflect.DeepEqual(semanticConfig(left), semanticConfig(right)) {
-		t.Fatal("map/list forms differ outside the three known source-position fields")
+		t.Fatal("map/list forms differ outside the four known source-position fields")
 	}
 }
 
@@ -80,6 +84,8 @@ func assertReferenceSourcePositions(t *testing.T, data []byte, file string, cfg 
 		prefix := "listeners[0].operations." + operation.Kind
 		assertLiteralPosition(t, data, file, literals.columns, prefix+".columns",
 			operation.columnsPosition)
+		assertLiteralPosition(t, data, file, literals.isDistinct, prefix+".is_distinct",
+			operation.isDistinctPosition)
 		assertLiteralPosition(t, data, file, literals.when, prefix+".when",
 			operation.whenPosition)
 	}

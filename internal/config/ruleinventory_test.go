@@ -15,20 +15,20 @@ var (
 		R11, R12, R13, R14, R15, R16, R17, R18, R19, R20,
 		R21, R22, R23, R24, R25, R26, R27, R28, R29, R30,
 		R31, R32, R33, R34, R35, R36, R37, R38, R39, R40,
-		R41, R42,
+		R41, R42, R43,
 	}
 	warningRuleIDs = []RuleID{W1, W2}
 )
 
 func TestRuleIDEnumeratesTheWholeInventory(t *testing.T) {
-	if len(staticRuleIDs) != 42 {
-		t.Fatalf("staticRuleIDs has %d entries, want 42", len(staticRuleIDs))
+	if len(staticRuleIDs) != 43 {
+		t.Fatalf("staticRuleIDs has %d entries, want 43", len(staticRuleIDs))
 	}
 	if len(warningRuleIDs) != 2 {
 		t.Fatalf("warningRuleIDs has %d entries, want 2", len(warningRuleIDs))
 	}
 
-	seen := make(map[RuleID]bool, 44)
+	seen := make(map[RuleID]bool, 45)
 	for i, rule := range staticRuleIDs {
 		if want := RuleID(fmt.Sprintf("R%d", i+1)); rule != want {
 			t.Errorf("staticRuleIDs[%d] = %q, want %q", i, rule, want)
@@ -46,7 +46,7 @@ func TestRuleIDEnumeratesTheWholeInventory(t *testing.T) {
 }
 
 // TestStructuralRuleIDsStayOutsideTheNumberedInventory keeps `Rule` meaningful now that
-// values beyond R1-R42 and W1-W2 exist. The structural stages report conditions that are
+// values beyond R1-R43 and W1-W2 exist. The structural stages report conditions that are
 // not numbered rules, so a coverage walker counting the inventory must be able to tell them
 // apart by value rather than by knowing the list.
 //
@@ -54,7 +54,7 @@ func TestRuleIDEnumeratesTheWholeInventory(t *testing.T) {
 // that set's size, so a stage added later cannot join the constants without joining the
 // claim.
 func TestStructuralRuleIDsStayOutsideTheNumberedInventory(t *testing.T) {
-	numbered := make(map[RuleID]bool, 44)
+	numbered := make(map[RuleID]bool, 45)
 	for _, rule := range slices.Concat(staticRuleIDs, warningRuleIDs) {
 		numbered[rule] = true
 	}

@@ -57,15 +57,15 @@ func listenerMappingLevelCases() []mappingLevelCase {
 		},
 		{
 			level: "operations.insert", path: []string{"listeners", "operations", "insert"},
-			keys: []string{"columns", "when"},
+			keys: []string{"columns", "is_distinct", "when"},
 		},
 		{
 			level: "operations.update", path: []string{"listeners", "operations", "update"},
-			keys: []string{"columns", "when"},
+			keys: []string{"columns", "is_distinct", "when"},
 		},
 		{
 			level: "operations.delete", path: []string{"listeners", "operations", "delete"},
-			keys: []string{"columns", "when"},
+			keys: []string{"columns", "is_distinct", "when"},
 		},
 		{
 			level: "payload", path: []string{"listeners", "payload"},

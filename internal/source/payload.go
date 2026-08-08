@@ -31,8 +31,12 @@ func payloadExpressionsFor(operation string, listener config.Listener, target Ta
 	if operation == "delete" {
 		newExpression = "NULL::jsonb"
 	}
+	oldExpression, err := oldPayloadExpression(operation, listener.Trigger.Payload)
+	if err != nil {
+		return payloadExpressions{}, err
+	}
 	return payloadExpressions{
-		new: newExpression, old: oldPayloadExpression(operation, listener.Trigger.Payload.IncludeOld),
+		new: newExpression, old: oldExpression,
 	}, nil
 }
 
@@ -84,16 +88,20 @@ func payloadKey(column string) (string, error) {
 	return quoteLiteral(column), nil
 }
 
-func oldPayloadExpression(operation string, includeOld bool) string {
+func oldPayloadExpression(operation string, payload config.Payload) (string, error) {
 	switch operation {
 	case "insert":
-		return "NULL::jsonb"
+		return "NULL::jsonb", nil
 	case "delete":
-		return "to_jsonb(OLD)"
 	case "update":
-		if includeOld {
-			return "to_jsonb(OLD)"
+		if !payload.IncludeOld {
+			return "NULL::jsonb", nil
 		}
+	default:
+		return "NULL::jsonb", nil
 	}
-	return "NULL::jsonb"
+	if payload.Mode == "columns" {
+		return objectPayloadExpression(payload.Columns, "OLD")
+	}
+	return "to_jsonb(OLD)", nil
 }

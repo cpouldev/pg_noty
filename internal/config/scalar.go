@@ -113,7 +113,7 @@ func (i *Int) UnmarshalYAML(node ast.Node) error {
 	return nil
 }
 
-// Bool is a flag: `enabled`, `jitter`, `include_old`.
+// Bool is a flag such as `enabled`, `jitter`, `include_old` or `is_distinct`.
 type Bool struct {
 	presence
 	value bool
@@ -136,7 +136,7 @@ func (b *Bool) UnmarshalYAML(node ast.Node) error {
 	return nil
 }
 
-// resolve assigns the three schema-declared boolean conversions to their numbered rules. A Bool
+// resolve assigns the schema-declared boolean conversions to their numbered rules. A Bool
 // used outside a declared key retains stage G's structural rule, as every direct wrapper test does.
 func (b *Bool) resolve(pass *decodePass) {
 	reportedBy := noRule

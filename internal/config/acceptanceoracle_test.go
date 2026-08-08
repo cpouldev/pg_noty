@@ -41,12 +41,12 @@ func verifiedAcceptanceClaims(t *testing.T) []acceptanceClaim {
 }
 
 func TestAcceptanceRegistryHasExactClaimsAndBidirectionalSubjectOracle(t *testing.T) {
-	if got := len(acceptanceUniverse()); got != 51 {
-		t.Fatalf("acceptance universe has %d claims, want 44 whole rules plus 7 split halves", got)
+	if got := len(acceptanceUniverse()); got != 52 {
+		t.Fatalf("acceptance universe has %d claims, want 45 whole rules plus 7 split halves", got)
 	}
 	verifiedAcceptanceClaims(t)
 	subjects, observations := acceptanceRegistryKeys(acceptanceSpecs())
-	if got, want := len(subjects), 104; got != want {
+	if got, want := len(subjects), 106; got != want {
 		t.Fatalf("acceptance registry has %d subjects, want the audited %d", got, want)
 	}
 	if !slices.Equal(subjects, observations) {

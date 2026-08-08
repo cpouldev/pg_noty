@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// stageHRuleEntries is the ownership table's twenty entries. Keeping the clauses here makes the
+// stageHRuleEntries is the ownership table's scalar entries. Keeping the clauses here makes the
 // fixture inventory and anchor assignment fail together if either side drifts.
 var stageHRuleEntries = map[RuleID]string{
 	R1:  "version equals 1",
@@ -28,11 +28,12 @@ var stageHRuleEntries = map[RuleID]string{
 	R37: "destination.method is POST, PUT or PATCH",
 	R39: "listener concurrency is between 1 and 1024",
 	R40: "durations use Go duration units",
+	R43: "operations.update.is_distinct is boolean",
 }
 
-func TestStageHOwnsTwentyEntriesAndAssignsEveryOneAnAnchor(t *testing.T) {
-	if len(stageHRuleEntries) != 20 {
-		t.Fatalf("stage H owns %d entries, want 20", len(stageHRuleEntries))
+func TestStageHOwnsTwentyOneEntriesAndAssignsEveryOneAnAnchor(t *testing.T) {
+	if len(stageHRuleEntries) != 21 {
+		t.Fatalf("stage H owns %d entries, want 21", len(stageHRuleEntries))
 	}
 	if len(semanticAnchors) != 4 {
 		t.Fatalf("anchor table has %d classes, want the four ADR-6 classes", len(semanticAnchors))
@@ -86,8 +87,8 @@ func TestNumberedConversionLeafNamesAreUnique(t *testing.T) {
 			seen[spec.name] = spec.conversion
 		}
 	}
-	if len(seen) != 3 {
-		t.Errorf("%d numbered conversion leaves, want jitter, enabled and include_old", len(seen))
+	if len(seen) != 4 {
+		t.Errorf("%d numbered conversion leaves, want jitter, enabled, include_old and is_distinct", len(seen))
 	}
 }
 
@@ -119,6 +120,7 @@ func TestEveryScalarConstraintRejectsItsOutsideClassOnce(t *testing.T) {
 		{"method", "method: POST", "method: DELETE", "listeners[0].destination.method", "POST", R37},
 		{"listener range", stageHListenerConcurrency, "concurrency: 0", "listeners[0].concurrency", "1 to 1024", R39},
 		{"duration units", "precreate: 48h", "precreate: 7d", "retention.precreate", "ns", R40},
+		{"is distinct", "is_distinct: true", "is_distinct: perhaps", "listeners[0].operations.update.is_distinct", "true or false", R43},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {

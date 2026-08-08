@@ -39,7 +39,7 @@ type keySpec struct {
 	// one, because AC #16 requires its diagnostic to show both accepted forms.
 	shapeHint string
 	// conversion is the numbered rule that reports a scalar this key's wrapper cannot read. Most
-	// conversions are structural RuleDecode failures; the three boolean keys are contract rules.
+	// conversions are structural RuleDecode failures; selected boolean keys are contract rules.
 	conversion RuleID
 	// sensitive is the diagnostic-render extent; logSensitivity is the resolved-config log
 	// extent. Most declarations set both together through holding. destination.url is the

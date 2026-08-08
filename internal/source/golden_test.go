@@ -34,7 +34,7 @@ var generationIncludeOld = []bool{false, true}
 
 // The corpus axes, as literals: operation {insert, update, delete} = 3, mode
 // {full, full + exclude, columns, keys_only} = 4 and include_old {false, true} = 2, so the grid is
-// 3 x 4 x 2 = 24 cells, beside the 3 named goldens the axes do not reach. The pin reads the axis
+// 3 x 4 x 2 = 24 cells, beside the 6 named goldens the axes do not reach. The pin reads the axis
 // values gridCases ranges over and the files committed under testdata/ against these numbers, so
 // dropping a mode shrinks one side of a comparison and not the other -- unlike a product computed
 // from the very slices the rows are built from, which moves together with any contents at all.
@@ -43,7 +43,7 @@ const (
 	declaredModes        = 4
 	declaredIncludeOld   = 2
 	declaredGridCells    = declaredOperations * declaredModes * declaredIncludeOld
-	declaredNamedGoldens = 3
+	declaredNamedGoldens = 6
 )
 
 // goldenPopulation holds the three populations the corpus pin reconciles. They move independently:
@@ -85,10 +85,21 @@ func namedGoldenCases() []goldenCase {
 	columns := generationRequest(config.Operation{Kind: "update", Columns: []string{"status", "total"}})
 	hostile := generationRequest(config.Operation{Kind: "insert"})
 	hostile.Target.Table = `orders"; DROP TABLE users; --`
+	distinctColumns := generationRequest(config.Operation{
+		Kind: "update", Columns: []string{"Status", `a"b`}, IsDistinct: true,
+	})
+	distinctRow := generationRequest(config.Operation{Kind: "update", IsDistinct: true})
+	distinctAndWhen := generationRequest(config.Operation{
+		Kind: "update", Columns: []string{"status"}, IsDistinct: true,
+		When: "NEW.enabled OR NEW.priority > 10",
+	})
 	return []goldenCase{
 		{name: "named_when_update.golden", request: when},
 		{name: "named_columns_update.golden", request: columns},
 		{name: "named_hostile_catalog_table.golden", request: hostile},
+		{name: "named_distinct_columns_update.golden", request: distinctColumns},
+		{name: "named_distinct_row_update.golden", request: distinctRow},
+		{name: "named_distinct_and_when_update.golden", request: distinctAndWhen},
 	}
 }
 

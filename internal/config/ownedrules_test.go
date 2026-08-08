@@ -33,7 +33,7 @@ var ownedRuleEntries = map[RuleID]string{
 }
 
 // TestThisStepOwnsElevenRuleEntries pins the count the ownership table's arithmetic depends on:
-// 1 + 11 + 20 + 12 + 5 = 49 entries for 42 rules across seven splits. An entry added or dropped
+// 1 + 11 + 21 + 12 + 5 = 50 entries for 43 rules across seven splits. An entry added or dropped
 // here without the table moving with it breaks that reconciliation silently.
 func TestThisStepOwnsElevenRuleEntries(t *testing.T) {
 	if len(ownedRuleEntries) != 11 {

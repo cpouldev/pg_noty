@@ -20,8 +20,9 @@ func TestTheExactPrintedContractLoadsWithItsFilters(t *testing.T) {
 	positions := map[string]operationPositionLiterals{
 		"insert": {},
 		"update": {
-			columns: "[status, total]",
-			when:    `"OLD.status <> 'paid' AND NEW.status = 'paid'"`,
+			columns:    "[status, total]",
+			isDistinct: "true # compare watched columns after BEFORE triggers",
+			when:       `"OLD.status <> 'paid' AND NEW.status = 'paid'"`,
 		},
 	}
 	assertReferenceSourcePositions(t, data, "reference_contract_filtered_map.yaml", cfg, positions)
@@ -75,7 +76,7 @@ func filteredReferenceContractConfig() Config {
 	cfg.Listeners[0].Trigger.Operations = Operations{
 		{Kind: "insert"},
 		{Kind: "update", Columns: []string{"status", "total"},
-			When: "OLD.status <> 'paid' AND NEW.status = 'paid'"},
+			IsDistinct: true, When: "OLD.status <> 'paid' AND NEW.status = 'paid'"},
 	}
 	return cfg
 }

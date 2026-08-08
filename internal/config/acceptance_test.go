@@ -60,6 +60,7 @@ func acceptanceSpecs() []acceptanceSpec {
 		acceptanceSpecR30(),
 		acceptanceSpecsR31ToR38(),
 		acceptanceSpecsR39ToR42(),
+		acceptanceSpecsR43(),
 		acceptanceWarningSpecs(),
 	)
 }

@@ -133,7 +133,7 @@ func TestResolutionCanonicalizesAnUnorderedRawOperationSlice(t *testing.T) {
 		{Name: writtenName("update")},
 	}}
 
-	if got := operationKinds(resolveOperations(raw)); !reflect.DeepEqual(got,
+	if got := operationKinds(resolveOperations(raw, false)); !reflect.DeepEqual(got,
 		[]string{"insert", "update", "delete"}) {
 		t.Errorf("operation order = %v, want insert, update, delete", got)
 	}

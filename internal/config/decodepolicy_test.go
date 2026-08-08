@@ -72,6 +72,7 @@ func everyKindOfValue(extraWorker string) string {
 		"    insert: {}\n" +
 		"    update:\n" +
 		"      columns: [id, total]\n" +
+		"      is_distinct: true\n" +
 		"      when: NEW.total > 0\n" +
 		"    delete: {}\n" +
 		"  payload:\n" +

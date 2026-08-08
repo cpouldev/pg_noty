@@ -17,7 +17,11 @@ func TestWhenClauseIsEmptyOrByteTransparent(t *testing.T) {
 	} {
 		t.Run(
 			tc.name, func(t *testing.T) {
-				if got := whenClause(config.Operation{When: tc.when}); got != tc.want {
+				got, err := whenClause(config.Operation{When: tc.when})
+				if err != nil {
+					t.Fatal(err)
+				}
+				if got != tc.want {
 					t.Fatalf("whenClause(%q) = %q, want %q", tc.when, got, tc.want)
 				}
 			},

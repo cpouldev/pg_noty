@@ -33,6 +33,7 @@ listeners:
     operations:
       update:
         columns: [status, total]
+        is_distinct: true # compare watched columns after BEFORE triggers
         when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
       insert: {}
     payload:

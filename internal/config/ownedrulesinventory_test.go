@@ -23,11 +23,13 @@ const (
 	step13RejectingFixtures         = 8
 	step13AcceptingFixtures         = 4 // R42, three reference-contract roles
 	step13WarningFixtures           = 1
+	isDistinctRejectingFixtures     = 3 // insert/delete placement and scalar conversion
+	isDistinctAcceptingFixtures     = 1 // true and false update-operation values
 	rejectingFixtures               = step8RejectingFixtures + step9RejectingFixtures +
-		step11RejectingFixtures + step13RejectingFixtures
+		step11RejectingFixtures + step13RejectingFixtures + isDistinctRejectingFixtures
 	acceptingFixtures = step8AcceptingFixtures + step9AcceptingFixtures +
 		step10AcceptingFixtures + step11AcceptingFixtures + step12AcceptingFixtures +
-		step13AcceptingFixtures
+		step13AcceptingFixtures + isDistinctAcceptingFixtures
 )
 
 // TestTheCorpusHoldsTheFixturesTheNotesInventory ties the two together.
