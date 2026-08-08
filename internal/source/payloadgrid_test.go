@@ -9,14 +9,23 @@ import (
 
 var payloadGridOperations = []string{"insert", "update", "delete"}
 
-var payloadGridModes = []struct {
+// wantOld is the expression the mode ships for the old row when the old row is active,
+// written out from the configuration rather than from a run: keys go through quoteLiteral
+// and columns through schema.Quoted, joined by ", ". Every mode is a filter, so each of
+// these carries the same filter the mode applies to the new row -- a whole-row conversion
+// here for any mode but "full" with no exclude list would ship a withheld column.
+type payloadGridMode struct {
 	name    string
 	payload config.Payload
-}{
-	{"full", config.Payload{Mode: "full"}},
-	{"full_exclude", config.Payload{Mode: "full", Exclude: []string{"secret"}}},
-	{"columns", config.Payload{Mode: "columns", Columns: []string{"id", "status"}}},
-	{"keys_only", config.Payload{Mode: "keys_only"}},
+	wantOld string
+}
+
+var payloadGridModes = []payloadGridMode{
+	{"full", config.Payload{Mode: "full"}, `to_jsonb(OLD)`},
+	{"full_exclude", config.Payload{Mode: "full", Exclude: []string{"secret"}}, `to_jsonb(OLD) - 'secret'`},
+	{"columns", config.Payload{Mode: "columns", Columns: []string{"id", "status"}},
+		`jsonb_build_object('id', OLD."id", 'status', OLD."status")`},
+	{"keys_only", config.Payload{Mode: "keys_only"}, `jsonb_build_object('id', OLD."id")`},
 }
 
 func TestPayloadGridCrossesEveryOperationModeAndFlag(t *testing.T) {
@@ -32,7 +41,7 @@ func TestPayloadGridCrossesEveryOperationModeAndFlag(t *testing.T) {
 				if err != nil || got.new == "" || got.old == "" {
 					t.Fatalf("grid cell %s/%s/%t = %#v, err=%v", operation, mode.name, includeOld, got, err)
 				}
-				assertOperationPayloadCell(t, operation, payload, got)
+				assertOperationPayloadCell(t, operation, mode, includeOld, got)
 			}
 		}
 	}
@@ -41,22 +50,55 @@ func TestPayloadGridCrossesEveryOperationModeAndFlag(t *testing.T) {
 	}
 }
 
-func assertOperationPayloadCell(t *testing.T, operation string, payload config.Payload, got payloadExpressions) {
+func assertOperationPayloadCell(t *testing.T, operation string, mode payloadGridMode, includeOld bool, got payloadExpressions) {
 	t.Helper()
 	wantOld := "NULL::jsonb"
-	if operation == "delete" || operation == "update" && payload.IncludeOld {
-		wantOld = "to_jsonb(OLD)"
-		if payload.Mode == "columns" {
-			// The configured order is id then status, so the old object must contain exactly
-			// those two keys in that order and no whole-row conversion.
-			wantOld = `jsonb_build_object('id', OLD."id", 'status', OLD."status")`
-		}
+	if operation == "delete" || operation == "update" && includeOld {
+		wantOld = mode.wantOld
 	}
 	if got.old != wantOld {
-		t.Errorf("%s/%s/include_old=%t old = %q, want %q", operation, payload.Mode, payload.IncludeOld, got.old, wantOld)
+		t.Errorf("%s/%s/include_old=%t old = %q, want %q", operation, mode.name, includeOld, got.old, wantOld)
 	}
 	if operation == "delete" && got.new != "NULL::jsonb" {
 		t.Errorf("delete new = %q, want NULL::jsonb", got.new)
+	}
+}
+
+// TestEveryModeFiltersTheOldRowAsItFiltersTheNewRow states the class the grid rows are
+// instances of. A payload mode is a filter over a row, so a mode routed for NEW and left as a
+// whole-row conversion for OLD delivers, under data.old, exactly the columns the operator
+// configured the mode to withhold.
+func TestEveryModeFiltersTheOldRowAsItFiltersTheNewRow(t *testing.T) {
+	for _, mode := range payloadGridModes {
+		payload := mode.payload
+		payload.IncludeOld = true
+		listener := config.Listener{Name: "orders", Trigger: config.TriggerSpec{Payload: payload}}
+		got, err := payloadExpressionsFor("update", listener, Target{PrimaryKeyColumns: []string{"id"}})
+		if err != nil {
+			t.Fatalf("%s: %v", mode.name, err)
+		}
+		if want := strings.ReplaceAll(got.new, "NEW", "OLD"); got.old != want {
+			t.Errorf("%s old = %q, want %q: the old row carries the filter the new row carries",
+				mode.name, got.old, want)
+		}
+	}
+}
+
+// TestThePayloadGridCoversEveryDeclaredMode keeps the grid closed over the mode set rather
+// than over the rows someone remembered, so a fourth mode arrives with a row asserting what it
+// ships for the old row instead of inheriting another mode's.
+func TestThePayloadGridCoversEveryDeclaredMode(t *testing.T) {
+	covered := map[string]struct{}{}
+	for _, mode := range payloadGridModes {
+		covered[mode.payload.Mode] = struct{}{}
+	}
+	for _, declared := range payloadModes {
+		if _, found := covered[declared]; !found {
+			t.Errorf("payload mode %q is declared and has no grid row", declared)
+		}
+	}
+	if len(covered) != len(payloadModes) {
+		t.Fatalf("the grid covers %d modes, want the declared %d", len(covered), len(payloadModes))
 	}
 }
 

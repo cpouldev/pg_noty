@@ -3,6 +3,7 @@
 package source
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/cpouldev/pg_noty/internal/config"
@@ -14,12 +15,20 @@ type includeOldModeCase struct {
 	wantOldColumns []string
 }
 
+// Every mode that withholds a column from the new row must withhold it from the old row as
+// well, so each filtering mode has a case whose wantOldColumns omits "secret". Only the
+// unfiltered "full" mode ships it.
 var includeOldModeCases = []includeOldModeCase{
 	{name: "full", payload: config.Payload{Mode: "full"}, wantOldColumns: []string{"id", "status", "secret"}},
+	{
+		name: "full_exclude", payload: config.Payload{Mode: "full", Exclude: []string{"secret"}},
+		wantOldColumns: []string{"id", "status"},
+	},
 	{
 		name: "columns", payload: config.Payload{Mode: "columns", Columns: []string{"id", "status"}},
 		wantOldColumns: []string{"id", "status"},
 	},
+	{name: "keys_only", payload: config.Payload{Mode: "keys_only"}, wantOldColumns: []string{"id"}},
 }
 
 func TestIncludeOldGridAcrossOperations(t *testing.T) {
@@ -41,6 +50,8 @@ func testIncludeOldCell(t *testing.T, mode includeOldModeCase, operation string,
 	mustExecOn(t, pool, `CREATE TABLE public.old_target (id int PRIMARY KEY, status text, secret text)`)
 	request := generationRequest(config.Operation{Kind: operation})
 	request.Target.Table = "old_target"
+	// old_target's primary key is id alone; the shared request names the orders table's.
+	request.Target.PrimaryKeyColumns = []string{"id"}
 	request.Listener.Trigger.Payload = mode.payload
 	request.Listener.Trigger.Payload.IncludeOld = includeOld
 	sets, err := Generate(request)
@@ -74,9 +85,9 @@ func testIncludeOldCell(t *testing.T, mode includeOldModeCase, operation string,
 			t.Errorf("operation %s old omitted column %q: %#v", operation, column, old)
 		}
 	}
-	if mode.payload.Mode == "columns" {
+	if !slices.Contains(mode.wantOldColumns, "secret") {
 		if _, exposed := old["secret"]; exposed {
-			t.Errorf("operation %s old exposed an unconfigured column: %#v", operation, old)
+			t.Errorf("operation %s old exposed a column %s withholds: %#v", operation, mode.name, old)
 		}
 	}
 }

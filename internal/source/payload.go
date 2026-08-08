@@ -24,14 +24,14 @@ func payloadExpressionsFor(operation string, listener config.Listener, target Ta
 	if err := payloadModeKnown(listener.Trigger.Payload.Mode); err != nil {
 		return payloadExpressions{}, err
 	}
-	newExpression, err := newPayloadExpression(listener.Trigger.Payload, target, listener.Name)
+	newExpression, err := rowPayloadExpression(listener.Trigger.Payload, target, listener.Name, "NEW")
 	if err != nil {
 		return payloadExpressions{}, err
 	}
 	if operation == "delete" {
 		newExpression = "NULL::jsonb"
 	}
-	oldExpression, err := oldPayloadExpression(operation, listener.Trigger.Payload)
+	oldExpression, err := oldPayloadExpression(operation, listener.Trigger.Payload, target, listener.Name)
 	if err != nil {
 		return payloadExpressions{}, err
 	}
@@ -40,24 +40,28 @@ func payloadExpressionsFor(operation string, listener config.Listener, target Ta
 	}, nil
 }
 
-func newPayloadExpression(payload config.Payload, target Target, listener string) (string, error) {
+// rowPayloadExpression is the payload the configured mode ships for one trigger row variable,
+// NEW or OLD. Both sides go through it because every mode is a filter over the row -- an
+// exclude list, a named column list, the primary key alone -- and a filter that governs the
+// new row and not the old one ships the columns it was configured to withhold.
+func rowPayloadExpression(payload config.Payload, target Target, listener, row string) (string, error) {
 	switch payload.Mode {
 	case "full":
-		return fullPayloadExpression(payload.Exclude)
+		return fullPayloadExpression(payload.Exclude, row)
 	case "columns":
-		return objectPayloadExpression(payload.Columns, "NEW")
+		return objectPayloadExpression(payload.Columns, row)
 	case "keys_only":
 		if len(target.PrimaryKeyColumns) == 0 {
 			return "", missingPrimaryKey(listener)
 		}
-		return objectPayloadExpression(target.PrimaryKeyColumns, "NEW")
+		return objectPayloadExpression(target.PrimaryKeyColumns, row)
 	default:
 		return "", unknownPayloadModeError{mode: payload.Mode}
 	}
 }
 
-func fullPayloadExpression(exclude []string) (string, error) {
-	expression := "to_jsonb(NEW)"
+func fullPayloadExpression(exclude []string, row string) (string, error) {
+	expression := "to_jsonb(" + row + ")"
 	for _, column := range exclude {
 		key, err := payloadKey(column)
 		if err != nil {
@@ -88,7 +92,7 @@ func payloadKey(column string) (string, error) {
 	return quoteLiteral(column), nil
 }
 
-func oldPayloadExpression(operation string, payload config.Payload) (string, error) {
+func oldPayloadExpression(operation string, payload config.Payload, target Target, listener string) (string, error) {
 	switch operation {
 	case "insert":
 		return "NULL::jsonb", nil
@@ -100,8 +104,5 @@ func oldPayloadExpression(operation string, payload config.Payload) (string, err
 	default:
 		return "NULL::jsonb", nil
 	}
-	if payload.Mode == "columns" {
-		return objectPayloadExpression(payload.Columns, "OLD")
-	}
-	return "to_jsonb(OLD)", nil
+	return rowPayloadExpression(payload, target, listener, "OLD")
 }

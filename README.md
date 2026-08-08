@@ -153,8 +153,10 @@ and this body, where `data` holds the row exactly as the trigger captured it:
 ```
 
 `data.old` is populated for `update` when `payload.include_old` is set. Delete events always put
-the deleted row in `data.old`, because no post-change row exists. With `payload.mode: columns`,
-`data.old` contains exactly the configured `payload.columns`.
+the deleted row in `data.old`, because no post-change row exists. Whichever row it holds,
+`data.old` is filtered by the same `payload` settings as `data.new`: `payload.exclude` drops the
+same keys from both, `payload.mode: columns` gives both exactly the configured `payload.columns`,
+and `payload.mode: keys_only` gives both the primary key alone.
 
 ### Check on it
 
