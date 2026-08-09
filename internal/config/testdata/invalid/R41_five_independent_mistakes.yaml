@@ -1,0 +1,18 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+  schmea: public
+defaults:
+  retry:
+    max_attempts: 0
+    backoff: fibonacci
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    payload:
+      mode: full
+      columns: [id]
+      exclude: [internal_note]
+    destination:
+      url: ftp://host/x

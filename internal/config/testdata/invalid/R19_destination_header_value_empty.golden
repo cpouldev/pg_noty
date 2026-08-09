@@ -1,0 +1,5 @@
+R19_destination_header_value_empty.yaml:11:18
+    9 |       url: https://hooks.example.test/order-paid
+   10 |       headers:
+>  11 |         X-Trace: ""
+                         ^ header value must not be empty

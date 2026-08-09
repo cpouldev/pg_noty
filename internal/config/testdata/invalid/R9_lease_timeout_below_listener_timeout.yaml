@@ -1,0 +1,12 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+worker:
+  drain_timeout: 7m
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    timeout: 6m
+    destination:
+      url: https://hooks.example.test/order-paid

@@ -1,0 +1,5 @@
+W2_drain_below_timeout.yaml:6:18
+   4 | worker:
+   5 |   lease_timeout: 20s
+>  6 |   drain_timeout: 9s
+                        ^ warning: worker.drain_timeout is smaller than the largest effective listeners[].timeout; increase the drain timeout or lower the listener timeout so shutdown does not abandon in-flight requests

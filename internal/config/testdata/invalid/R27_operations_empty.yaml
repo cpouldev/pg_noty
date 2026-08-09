@@ -1,0 +1,11 @@
+# R27's second half: operations is present and names no statement, so the listener reacts to
+# nothing. An empty list folds to the same empty mapping and is refused here too.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: {}
+    destination:
+      url: https://hooks.example.test/order-paid

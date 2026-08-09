@@ -1,0 +1,5 @@
+R1_version_absent.yaml:3:1
+   1 | # R1's presence half. The caret sits on the document root's first key, because an absent key
+   2 | # has no token of its own.
+>  3 | database:
+       ^ missing required key "version"

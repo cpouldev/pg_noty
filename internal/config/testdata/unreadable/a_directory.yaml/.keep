@@ -1,0 +1,5 @@
+# This directory stands in for a path that cannot be read as a file.
+# A chmod-000 file cannot be committed and would live at a per-run temporary
+# path, so its rendered diagnostic could never be a byte-stable golden; a
+# directory named like a configuration file can be committed and is just as
+# unreadable.

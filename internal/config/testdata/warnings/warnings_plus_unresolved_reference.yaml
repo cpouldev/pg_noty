@@ -1,0 +1,17 @@
+version: 1
+instance: ${MISSING_INSTANCE}
+database:
+  url: postgres://noty@db.internal/noty
+worker:
+  lease_timeout: 20s
+  drain_timeout: 9s
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    timeout: 10s
+    destination:
+      url: https://hooks.example.test/order-paid
+      signing:
+        secrets:
+          - local-development-secret

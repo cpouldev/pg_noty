@@ -1,0 +1,12 @@
+# R43's placement clause again: deletes have no NEW row to compare.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations:
+      delete:
+        is_distinct: true
+    destination:
+      url: https://hooks.example.test/order-paid

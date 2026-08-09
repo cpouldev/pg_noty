@@ -1,0 +1,11 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: order_updated
+    table: public.orders
+    operations:
+      update:
+        columns: [id, Total, Δelta]
+    destination:
+      url: https://hooks.example.test/order-updated

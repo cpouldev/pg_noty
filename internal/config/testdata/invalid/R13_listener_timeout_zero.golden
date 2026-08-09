@@ -1,0 +1,5 @@
+R13_listener_timeout_zero.yaml:8:14
+   6 |     table: public.orders
+   7 |     operations: [insert]
+>  8 |     timeout: 0s
+                    ^ must be greater than zero

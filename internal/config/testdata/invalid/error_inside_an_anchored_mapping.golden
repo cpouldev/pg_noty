@@ -1,0 +1,6 @@
+error_inside_an_anchored_mapping.yaml:9:13
+   7 |       url: https://hooks.example.test/order-paid
+   8 |       headers:
+>  9 |         <<: *missing_defaults
+                   ^ alias refers to an anchor that is not defined earlier in this document
+                     define the anchor with &name before the alias, or write the value out in full

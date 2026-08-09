@@ -1,0 +1,5 @@
+R23_listener_name_absent.yaml:6:5
+   4 |   url: postgres://noty:[redacted]@db.internal:5432/noty
+   5 | listeners:
+>  6 |   - table: public.orders
+           ^ missing required key "name"

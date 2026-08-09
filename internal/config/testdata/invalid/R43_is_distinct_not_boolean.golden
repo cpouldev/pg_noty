@@ -1,0 +1,5 @@
+R43_is_distinct_not_boolean.yaml:9:22
+   7 |     operations:
+   8 |       update:
+>  9 |         is_distinct: perhaps
+                            ^ expected true or false

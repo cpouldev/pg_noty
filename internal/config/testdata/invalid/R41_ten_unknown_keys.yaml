@@ -1,0 +1,30 @@
+# AC #8: one key the contract declares nowhere, at each of the ten nesting levels the
+# criterion enumerates. The database password and the signing secret are planted with the
+# leak sentinel, because two of the ten diagnostics quote the line above one of them.
+version: 1
+rootstray: 1
+database:
+  url: postgres://noty:PGNOTY-SENTINEL-1-HEADpwPGNOTY-SENTINEL-1-TAIL@db.internal:5432/noty
+  dbstray: 1
+worker:
+  workerstray: 1
+retention:
+  retentionstray: 1
+defaults:
+  retry:
+    retrystray: 1
+listeners:
+  - name: order_paid
+    table: public.orders
+    listenerstray: 1
+    operations:
+      update:
+        updatestray: 1
+    payload:
+      payloadstray: 1
+    destination:
+      url: https://hooks.example.test/order-paid
+      destinationstray: 1
+      signing:
+        secrets: [PGNOTY-SENTINEL-2-HEADsecretPGNOTY-SENTINEL-2-TAIL]
+        signingstray: 1

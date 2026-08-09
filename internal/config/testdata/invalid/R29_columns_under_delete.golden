@@ -1,0 +1,5 @@
+R29_columns_under_delete.yaml:10:9
+    8 |     operations:
+    9 |       delete:
+>  10 |         columns: [status]
+                ^ "columns" is legal only under "update"

@@ -1,0 +1,13 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+defaults:
+  retry:
+    initial_interval: 2s
+    max_interval: 2s
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid

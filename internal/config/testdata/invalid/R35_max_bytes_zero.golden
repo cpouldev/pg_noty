@@ -1,0 +1,5 @@
+R35_max_bytes_zero.yaml:9:18
+   7 |     operations: [insert]
+   8 |     payload:
+>  9 |       max_bytes: 0
+                        ^ must be greater than zero

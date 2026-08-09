@@ -1,0 +1,5 @@
+R36_destination_url_without_host.yaml:9:12
+   7 |     operations: [insert]
+   8 |     destination:
+>  9 |       url: http:///hook
+                  ^ must be a non-empty http or https URL with a host: no host

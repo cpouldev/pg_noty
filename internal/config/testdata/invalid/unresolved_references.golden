@@ -1,0 +1,27 @@
+unresolved_references.yaml:3:8
+   1 | version: 1
+   2 | database:
+>  3 |   url: ${DATABASE_URL}
+              ^ environment variable "DATABASE_URL" is not set
+                set DATABASE_URL, or write ${DATABASE_URL:-default} to supply a fallback
+
+unresolved_references.yaml:4:11
+   2 | database:
+   3 |   url: ${DATABASE_URL}
+>  4 |   schema: ${DATABASE_SCHEMA}
+                 ^ environment variable "DATABASE_SCHEMA" is not set
+                   set DATABASE_SCHEMA, or write ${DATABASE_SCHEMA:-default} to supply a fallback
+
+unresolved_references.yaml:5:11
+   3 |   url: ${DATABASE_URL}
+   4 |   schema: ${DATABASE_SCHEMA}
+>  5 | instance: ${DATABASE_URL}-${INSTANCE_SUFFIX}
+                 ^ environment variable "DATABASE_URL" is not set
+                   set DATABASE_URL, or write ${DATABASE_URL:-default} to supply a fallback
+
+unresolved_references.yaml:5:11
+   3 |   url: ${DATABASE_URL}
+   4 |   schema: ${DATABASE_SCHEMA}
+>  5 | instance: ${DATABASE_URL}-${INSTANCE_SUFFIX}
+                 ^ environment variable "INSTANCE_SUFFIX" is not set
+                   set INSTANCE_SUFFIX, or write ${INSTANCE_SUFFIX:-default} to supply a fallback

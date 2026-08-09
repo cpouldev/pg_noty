@@ -1,0 +1,2 @@
+testdata/unreadable/absent.yaml
+cannot read configuration file: no such file or directory

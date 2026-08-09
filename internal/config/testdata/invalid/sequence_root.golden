@@ -1,0 +1,3 @@
+sequence_root.yaml:1:1
+>  1 | - name: order_paid
+       ^ configuration root must be a mapping, found sequence

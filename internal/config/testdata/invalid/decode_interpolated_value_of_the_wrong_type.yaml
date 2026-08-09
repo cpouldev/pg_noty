@@ -1,0 +1,21 @@
+# Decode, rejecting: AC #5's second case. The reference resolves to text that is not a number, and the
+# diagnostic names the type the contract declares while the snippet quotes the reference the author
+# wrote -- never what it resolved to (ADR-5, ADR-7).
+#
+# The value arrives through a default rather than through a set variable, and the two are the same
+# substitution: stage D writes the text into the node either way. A default is what lets the rejecting
+# half of this pair live in the corpus at all, because the golden harness renders every rejecting
+# fixture against an empty environment -- a fixture needing a variable set would render an unresolved
+# reference instead of the conversion failure it is about. The set-variable spelling is covered by
+# TestAnInterpolatedValueReachesTheFieldsDeclaredType.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+worker:
+  concurrency: ${WORKER_CONCURRENCY:-abc}
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid

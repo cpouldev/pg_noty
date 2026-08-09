@@ -1,0 +1,9 @@
+{
+  "body": "body",
+  "timestamp": 1700000000,
+  "secrets": ["old", "secret"],
+  "digests": [
+    "1357aaf3e8320b9f5f3f255ed236a05276ecd37cebc7a1eaa8051b63908d3793",
+    "42ac6f0448c1d9c3e1e82b9726248f58fef84afffcbad5188246e96070e0ea46"
+  ]
+}

@@ -1,0 +1,6 @@
+ALTER SCHEMA "noty" OWNER TO "pg_noty";
+GRANT CREATE ON SCHEMA "noty" TO "pg_noty";
+GRANT USAGE ON SCHEMA "noty" TO "pg_noty";
+GRANT TRIGGER ON TABLE "public"."orders" TO "pg_noty";
+GRANT TRIGGER ON TABLE "public"."shipments" TO "pg_noty";
+GRANT TRIGGER ON TABLE "sales"."invoices" TO "pg_noty";

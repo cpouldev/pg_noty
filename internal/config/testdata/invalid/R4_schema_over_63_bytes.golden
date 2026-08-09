@@ -1,0 +1,5 @@
+R4_schema_over_63_bytes.yaml:4:11
+   2 | database:
+   3 |   url: postgres://noty@db.internal/noty
+>  4 |   schema: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                 ^ must be a PostgreSQL identifier of at most 63 bytes: over the byte limit

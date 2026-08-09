@@ -1,0 +1,5 @@
+R18_listener_retry_jitter_not_boolean.yaml:9:15
+   7 |     operations: [insert]
+   8 |     retry:
+>  9 |       jitter: perhaps
+                     ^ expected true or false

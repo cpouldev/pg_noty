@@ -1,0 +1,37 @@
+CreateFunction
+CREATE OR REPLACE FUNCTION "noty"."pg_noty_order_paid_upd"() RETURNS trigger
+  LANGUAGE plpgsql
+  SECURITY DEFINER
+  SET search_path = pg_catalog, pg_temp
+AS $fn$
+BEGIN
+  WITH e AS (
+    INSERT INTO "noty"."events" (listener, table_name, operation, payload, txid, occurred_at)
+    VALUES ('order_paid', '"public"."orders"', 'update',
+            jsonb_build_object('old', NULL::jsonb, 'new', to_jsonb(NEW) - 'secret' - 'token'),
+            pg_current_xact_id(), clock_timestamp())
+    RETURNING id, occurred_at
+  )
+  INSERT INTO "noty"."event_queue"
+         (event_id, occurred_at, listener, status, attempts, next_attempt_at)
+  SELECT e.id, e.occurred_at, 'order_paid', 'pending', 0, e.occurred_at FROM e;
+
+  IF coalesce(current_setting('pg_noty.n', true), '') = '' THEN
+    PERFORM pg_notify('pg_noty_events_prod', '');
+    PERFORM set_config('pg_noty.n', '1', true);
+  END IF;
+  RETURN NULL;
+END
+$fn$;
+
+RevokeExecute
+REVOKE EXECUTE ON FUNCTION "noty"."pg_noty_order_paid_upd"() FROM PUBLIC;
+
+CommentFunction
+COMMENT ON FUNCTION "noty"."pg_noty_order_paid_upd"() IS 'pg_noty:v1:prod:order_paid:update';
+
+CreateTrigger
+CREATE TRIGGER "pg_noty_order_paid_upd" AFTER UPDATE ON "public"."orders" FOR EACH ROW EXECUTE FUNCTION "noty"."pg_noty_order_paid_upd"();
+
+CommentTrigger
+COMMENT ON TRIGGER "pg_noty_order_paid_upd" ON "public"."orders" IS 'pg_noty:v1:prod:order_paid:update';

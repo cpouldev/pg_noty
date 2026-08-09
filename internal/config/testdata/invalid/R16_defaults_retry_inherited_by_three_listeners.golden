@@ -1,0 +1,5 @@
+R16_defaults_retry_inherited_by_three_listeners.yaml:6:23
+   4 | defaults:
+   5 |   retry:
+>  6 |     initial_interval: 2s
+                             ^ retry.initial_interval must be no greater than retry.max_interval; lower retry.initial_interval or raise retry.max_interval

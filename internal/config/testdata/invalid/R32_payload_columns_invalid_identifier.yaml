@@ -1,0 +1,13 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    payload:
+      mode: columns
+      columns:
+        - bad-column
+    destination:
+      url: https://hooks.example.test/order-paid

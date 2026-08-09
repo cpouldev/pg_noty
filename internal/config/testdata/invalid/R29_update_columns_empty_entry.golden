@@ -1,0 +1,5 @@
+R29_update_columns_empty_entry.yaml:10:13
+    8 |       update:
+    9 |         columns:
+>  10 |           - ""
+                    ^ must be a PostgreSQL identifier of at most 63 bytes: empty

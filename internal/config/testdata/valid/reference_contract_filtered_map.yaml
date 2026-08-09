@@ -1,0 +1,53 @@
+# Exact reference contract for this package. The sole contract-value correction is
+# precreate: 168h because Go durations deliberately do not accept day units.
+version: 1
+instance: prod
+
+database:
+  url: ${DATABASE_URL}
+  schema: noty
+  listen_url: ${DATABASE_DIRECT_URL}
+
+worker:
+  concurrency: 16
+  batch_size: 100
+  poll_interval: 10s
+  lease_timeout: 5m
+  drain_timeout: 30s
+
+retention:
+  keep: 168h
+  partition_interval: 24h
+  precreate: 168h
+
+defaults:
+  timeout: 5s
+  retry: { max_attempts: 5, backoff: exponential, initial_interval: 10s,
+           max_interval: 1h, jitter: true }
+  headers: { User-Agent: pg_noty/1 }
+
+listeners:
+  - name: order_paid
+    enabled: true
+    table: public.orders
+    operations:
+      update:
+        columns: [status, total]
+        is_distinct: true # compare watched columns after BEFORE triggers
+        when: "OLD.status <> 'paid' AND NEW.status = 'paid'"
+      insert: {}
+    payload:
+      mode: full
+      exclude: [card_token]
+      include_old: true
+      max_bytes: 262144
+    destination:
+      url: ${ORDER_WEBHOOK_URL}
+      method: POST
+      headers: { X-Tenant: acme }
+      signing:
+        # Quotes delimit the `${...}` plain text inside a YAML flow sequence; they
+        # do not change either resolved value.
+        secrets: [ "${SIGNING_SECRET}", "${SIGNING_SECRET_OLD}" ]
+    concurrency: 4
+    retry: { max_attempts: 10 }

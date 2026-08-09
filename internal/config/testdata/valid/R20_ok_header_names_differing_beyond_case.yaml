@@ -1,0 +1,15 @@
+# R20, accepting: names that differ by more than case are separate headers, including a
+# pair one character apart -- which a rule comparing names loosely would collapse.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+defaults:
+  headers:
+    X-Trace-Id: a
+    X-Trace-Ids: b
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid

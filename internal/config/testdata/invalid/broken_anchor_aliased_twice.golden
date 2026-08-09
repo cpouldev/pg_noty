@@ -1,0 +1,6 @@
+broken_anchor_aliased_twice.yaml:8:32
+   6 |     payload:
+   7 |       mode: columns
+>  8 |       columns: &shared_columns [id, total]
+                                      ^ a merge key can only merge a mapping
+                                        point << at an anchor whose value is a mapping, or at a list of them

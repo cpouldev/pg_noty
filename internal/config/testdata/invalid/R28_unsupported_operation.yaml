@@ -1,0 +1,12 @@
+# R28: the three statements are the whole vocabulary of an operations mapping, so a fourth
+# name is refused by the rule that states them.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations:
+      truncate: {}
+    destination:
+      url: https://hooks.example.test/order-paid

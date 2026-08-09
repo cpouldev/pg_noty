@@ -1,0 +1,13 @@
+version: 1
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination: &order_destination
+      url: https://hooks.example.test/order-paid
+      headers:
+        <<: *missing_defaults
+  - name: order_refunded
+    table: public.orders
+    operations: [update]
+    destination: *order_destination

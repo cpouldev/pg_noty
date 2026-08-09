@@ -1,0 +1,9 @@
+R1_version_absent_plus_batch_size_zero.yaml:1:1
+>  1 | database:
+       ^ missing required key "version"
+
+R1_version_absent_plus_batch_size_zero.yaml:4:15
+   2 |   url: postgres://noty@db.internal/noty
+   3 | worker:
+>  4 |   batch_size: 0
+                     ^ must be in the range 1 to 10000

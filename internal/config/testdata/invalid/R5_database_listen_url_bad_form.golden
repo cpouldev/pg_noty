@@ -1,0 +1,5 @@
+R5_database_listen_url_bad_form.yaml:4:15
+   2 | database:
+   3 |   url: postgres://noty@db.internal/noty
+>  4 |   listen_url: 1=2
+                     ^ must be a postgres or postgresql URI, or a libpq keyword/value connection string

@@ -1,0 +1,5 @@
+R32_payload_columns_with_full.yaml:10:16
+    8 |     payload:
+    9 |       mode: full
+>  10 |       columns: [id]
+                       ^ payload.columns is legal only when payload.mode is columns

@@ -1,0 +1,27 @@
+R41_keys_the_contract_moved.yaml:15:5
+   13 |     table: public.orders
+   14 |     operations: [insert]
+>  15 |     when: "NEW.status = 'paid'"
+            ^ unknown field "when"
+              move it under operations.<op>.when, so it applies to the statement it was written for
+
+R41_keys_the_contract_moved.yaml:16:5
+   14 |     operations: [insert]
+   15 |     when: "NEW.status = 'paid'"
+>  16 |     columns: [status]
+            ^ unknown field "columns"
+              move it under operations.update.columns, the only statement a column filter applies to
+
+R41_keys_the_contract_moved.yaml:18:7
+   16 |     columns: [status]
+   17 |     destination:
+>  18 |       type: http
+              ^ unknown field "type"
+                HTTP is the only destination kind, so there is nothing left to choose; remove the key
+
+R41_keys_the_contract_moved.yaml:21:9
+   19 |       url: https://hooks.example.test/order-paid
+   20 |       signing:
+>  21 |         secret: not-a-real-secret
+                ^ unknown field "secret"
+                  use signing.secrets, a list, so a secret can be rotated without downtime

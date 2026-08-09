@@ -1,0 +1,5 @@
+R26_listener_table_absent.yaml:6:5
+   4 |   url: postgres://noty:[redacted]@db.internal:5432/noty
+   5 | listeners:
+>  6 |   - name: order_paid
+           ^ missing required key "table"

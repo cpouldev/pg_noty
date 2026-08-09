@@ -1,0 +1,14 @@
+# Decode, accepting: AC #5's first case. The reference resolves to text, because every substituted
+# value is text -- and the wrapper still reaches the integer the contract declares for this key, which
+# is what makes an environment variable usable for a typed field at all.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+worker:
+  concurrency: ${WORKER_CONCURRENCY}
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid

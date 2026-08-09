@@ -1,0 +1,16 @@
+# R41, accepting, on the levels that have no key vocabulary at all: a header mapping accepts
+# every name, at both paths the contract declares one.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+defaults:
+  headers:
+    Not-A-Declared-Key: 2
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid
+      headers:
+        Whatever-The-Author-Needs: yes

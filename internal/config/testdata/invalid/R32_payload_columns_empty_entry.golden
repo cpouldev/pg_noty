@@ -1,0 +1,5 @@
+R32_payload_columns_empty_entry.yaml:11:11
+    9 |       mode: columns
+   10 |       columns:
+>  11 |         - ""
+                  ^ must be a PostgreSQL identifier of at most 63 bytes: empty

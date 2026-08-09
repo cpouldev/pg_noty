@@ -1,0 +1,19 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+defaults:
+  retry:
+    max_attempts: 1
+listeners:
+  - name: overriding_attempts
+    table: public.orders
+    operations: [insert]
+    retry:
+      max_attempts: 1
+    destination:
+      url: https://example.test/override
+  - name: inheriting_attempts
+    table: public.orders_archive
+    operations: [insert]
+    destination:
+      url: https://example.test/inherit

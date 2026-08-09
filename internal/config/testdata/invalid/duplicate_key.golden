@@ -1,0 +1,5 @@
+duplicate_key.yaml:3:3
+   1 | database:
+   2 |   schema: noty
+>  3 |   schema: other
+         ^ mapping key "schema" already defined at [2:3]

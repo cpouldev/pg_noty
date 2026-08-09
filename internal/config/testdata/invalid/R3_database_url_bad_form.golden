@@ -1,0 +1,5 @@
+R3_database_url_bad_form.yaml:3:8
+   1 | version: 1
+   2 | database:
+>  3 |   url: not-a-connection-string
+              ^ must be a postgres or postgresql URI, or a libpq keyword/value connection string

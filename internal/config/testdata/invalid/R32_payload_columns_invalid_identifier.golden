@@ -1,0 +1,5 @@
+R32_payload_columns_invalid_identifier.yaml:11:11
+    9 |       mode: columns
+   10 |       columns:
+>  11 |         - bad-column
+                  ^ must be a PostgreSQL identifier of at most 63 bytes: illegal character

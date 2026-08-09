@@ -1,0 +1,59 @@
+R41_ten_unknown_keys.yaml:5:1
+   3 | # leak sentinel, because two of the ten diagnostics quote the line above one of them.
+   4 | version: 1
+>  5 | rootstray: 1
+       ^ unknown field "rootstray"
+
+R41_ten_unknown_keys.yaml:8:3
+   6 | database:
+   7 |   url: postgres://noty:[redacted]@db.internal:5432/noty
+>  8 |   dbstray: 1
+         ^ unknown field "dbstray"
+
+R41_ten_unknown_keys.yaml:10:3
+    8 |   dbstray: 1
+    9 | worker:
+>  10 |   workerstray: 1
+          ^ unknown field "workerstray"
+
+R41_ten_unknown_keys.yaml:12:3
+   10 |   workerstray: 1
+   11 | retention:
+>  12 |   retentionstray: 1
+          ^ unknown field "retentionstray"
+
+R41_ten_unknown_keys.yaml:15:5
+   13 | defaults:
+   14 |   retry:
+>  15 |     retrystray: 1
+            ^ unknown field "retrystray"
+
+R41_ten_unknown_keys.yaml:19:5
+   17 |   - name: order_paid
+   18 |     table: public.orders
+>  19 |     listenerstray: 1
+            ^ unknown field "listenerstray"
+
+R41_ten_unknown_keys.yaml:22:9
+   20 |     operations:
+   21 |       update:
+>  22 |         updatestray: 1
+                ^ unknown field "updatestray"
+
+R41_ten_unknown_keys.yaml:24:7
+   22 |         updatestray: 1
+   23 |     payload:
+>  24 |       payloadstray: 1
+              ^ unknown field "payloadstray"
+
+R41_ten_unknown_keys.yaml:27:7
+   25 |     destination:
+   26 |       url: https://hooks.example.test/order-paid
+>  27 |       destinationstray: 1
+              ^ unknown field "destinationstray"
+
+R41_ten_unknown_keys.yaml:30:9
+   28 |       signing:
+   29 |         secrets: [[redacted]]
+>  30 |         signingstray: 1
+                ^ unknown field "signingstray"

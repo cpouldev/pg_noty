@@ -1,0 +1,5 @@
+R34_include_old_not_boolean.yaml:9:20
+   7 |     operations: [insert]
+   8 |     payload:
+>  9 |       include_old: perhaps
+                          ^ expected true or false

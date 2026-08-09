@@ -1,0 +1,5 @@
+R10_retention_keep_negative.yaml:5:9
+   3 |   url: postgres://noty@db.internal/noty
+   4 | retention:
+>  5 |   keep: -1s
+               ^ must be greater than zero

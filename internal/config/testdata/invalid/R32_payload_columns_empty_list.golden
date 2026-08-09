@@ -1,0 +1,5 @@
+R32_payload_columns_empty_list.yaml:10:16
+    8 |     payload:
+    9 |       mode: columns
+>  10 |       columns: []
+                       ^ must hold at least one identifier

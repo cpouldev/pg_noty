@@ -1,0 +1,5 @@
+R40_worker_poll_interval_greek_mu.yaml:5:18
+   3 |   url: postgres://noty@db.internal/noty
+   4 | worker:
+>  5 |   poll_interval: 1μs
+                        ^ must use a Go duration with units ns, us/µs, ms, s, m or h

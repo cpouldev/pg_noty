@@ -1,0 +1,18 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: distinct_updates
+    table: public.orders
+    operations:
+      update:
+        is_distinct: true
+    destination:
+      url: https://example.test/distinct
+  - name: all_updates
+    table: public.orders_archive
+    operations:
+      update:
+        is_distinct: false
+    destination:
+      url: https://example.test/all

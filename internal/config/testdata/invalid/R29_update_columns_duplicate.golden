@@ -1,0 +1,5 @@
+R29_update_columns_duplicate.yaml:11:13
+    9 |         columns:
+   10 |           - duplicate_column
+>  11 |           - duplicate_column
+                    ^ entry duplicates the one first written on line 10

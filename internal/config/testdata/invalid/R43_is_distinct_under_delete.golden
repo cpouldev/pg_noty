@@ -1,0 +1,5 @@
+R43_is_distinct_under_delete.yaml:10:9
+    8 |     operations:
+    9 |       delete:
+>  10 |         is_distinct: true
+                ^ "is_distinct" is legal only under "update"

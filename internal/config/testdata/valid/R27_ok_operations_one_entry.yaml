@@ -1,0 +1,17 @@
+# R27, accepting, at the boundary its rejection is measured from: one entry is the smallest
+# legal operations set, and both spellings of it are written here.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    destination:
+      url: https://hooks.example.test/order-paid
+  - name: order_shipped
+    table: public.orders
+    operations:
+      update: {}
+    destination:
+      url: https://hooks.example.test/order-paid

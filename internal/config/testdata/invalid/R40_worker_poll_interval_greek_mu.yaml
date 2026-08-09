@@ -1,0 +1,6 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+worker:
+  poll_interval: 1μs
+listeners: []

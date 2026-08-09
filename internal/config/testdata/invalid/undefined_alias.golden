@@ -1,0 +1,6 @@
+undefined_alias.yaml:6:18
+   4 |     table: public.orders
+   5 |     operations: [insert]
+>  6 |     destination: *order_destination
+                        ^ alias refers to an anchor that is not defined earlier in this document
+                          define the anchor with &name before the alias, or write the value out in full

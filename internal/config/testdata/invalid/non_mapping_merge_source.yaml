@@ -1,0 +1,10 @@
+version: 1
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    payload:
+      mode: columns
+      columns: &shared_columns [id, total]
+    retry:
+      <<: *shared_columns

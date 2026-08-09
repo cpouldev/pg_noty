@@ -1,0 +1,12 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+worker:
+  concurrency: 1024
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [insert]
+    concurrency: 1025
+    destination:
+      url: https://example.test/hook

@@ -1,0 +1,5 @@
+R33_payload_exclude_with_keys_only.yaml:10:16
+    8 |     payload:
+    9 |       mode: keys_only
+>  10 |       exclude: [internal_note]
+                       ^ payload.exclude is legal only when payload.mode is full

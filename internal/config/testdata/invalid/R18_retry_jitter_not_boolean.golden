@@ -1,0 +1,5 @@
+R18_retry_jitter_not_boolean.yaml:6:13
+   4 | defaults:
+   5 |   retry:
+>  6 |     jitter: perhaps
+                   ^ expected true or false

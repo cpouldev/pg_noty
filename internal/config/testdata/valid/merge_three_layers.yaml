@@ -1,0 +1,29 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+defaults:
+  timeout: 6s
+  retry:
+    max_attempts: 6
+    backoff: linear
+    initial_interval: 11s
+    max_interval: 2h
+    jitter: false
+  headers:
+    User-Agent: inherited
+    X-Default: kept
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations: [delete, insert, update]
+    timeout: 7s
+    destination:
+      url: https://hooks.example.test/orders
+      headers:
+        user-agent: listener
+    retry:
+      max_attempts: 7
+      backoff: fixed
+      initial_interval: 12s
+      max_interval: 3h
+      jitter: true

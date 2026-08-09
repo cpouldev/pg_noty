@@ -1,0 +1,5 @@
+R10_retention_partition_interval_negative.yaml:5:23
+   3 |   url: postgres://noty@db.internal/noty
+   4 | retention:
+>  5 |   partition_interval: -1s
+                             ^ must be greater than zero

@@ -1,0 +1,93 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+listeners:
+  - name: when_single
+    table: public.orders
+    operations:
+      insert:
+        when: "status = 'OLD.status'"
+    destination:
+      url: https://hooks.example.test/single
+  - name: when_dollar
+    table: public.orders
+    operations:
+      insert:
+        when: "$tag$OLD.status$tag$"
+    destination:
+      url: https://hooks.example.test/dollar
+  - name: when_line_comment
+    table: public.orders
+    operations:
+      insert:
+        when: |-
+          -- OLD.status
+          NEW.status > 0
+    destination:
+      url: https://hooks.example.test/line-comment
+  - name: when_block_comment
+    table: public.orders
+    operations:
+      insert:
+        when: "/* OLD.status */ NEW.status > 0"
+    destination:
+      url: https://hooks.example.test/block-comment
+  - name: when_identifier
+    table: public.orders
+    operations:
+      insert:
+        when: '"OLD".status = 1'
+    destination:
+      url: https://hooks.example.test/identifier
+  - name: when_long_word
+    table: public.orders
+    operations:
+      insert:
+        when: "old_price > 0"
+    destination:
+      url: https://hooks.example.test/long-word
+  - name: when_max_tag
+    table: public.orders
+    operations:
+      insert:
+        when: "$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa$OLD.status$aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa$"
+    destination:
+      url: https://hooks.example.test/max-tag
+  - name: when_non_ascii_tag
+    table: public.orders
+    operations:
+      insert:
+        when: "$·$OLD.status$·$"
+    destination:
+      url: https://hooks.example.test/non-ascii-tag
+  - name: when_non_ascii_word
+    table: public.orders
+    operations:
+      insert:
+        when: "€old > 0"
+    destination:
+      url: https://hooks.example.test/non-ascii-word
+  - name: when_escape
+    table: public.orders
+    operations:
+      insert:
+        when: |-
+          E'continued\
+          -- OLD.status
+          still string'
+    destination:
+      url: https://hooks.example.test/escape
+  - name: when_old_field
+    table: public.orders
+    operations:
+      insert:
+        when: "NEW.old > 1"
+    destination:
+      url: https://hooks.example.test/old-field
+  - name: when_new_field
+    table: public.orders
+    operations:
+      delete:
+        when: "OLD.new > 1"
+    destination:
+      url: https://hooks.example.test/new-field

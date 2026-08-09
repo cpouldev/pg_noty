@@ -1,0 +1,11 @@
+listener orders:
+  operation delete:
+    -/+ replace
+  operation disable:
+    - disable
+  operation drop:
+    - drop
+  operation insert:
+    + create
+  operation update:
+    ~ rename

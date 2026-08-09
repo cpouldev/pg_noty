@@ -1,0 +1,26 @@
+version: 1
+database:
+  url: postgres://noty@db.internal/noty
+defaults:
+  retry:
+    backoff: exponential
+listeners:
+  - name: linear_backoff
+    table: public.orders
+    operations: [insert]
+    retry:
+      backoff: linear
+    destination:
+      url: https://example.test/linear
+  - name: fixed_backoff
+    table: public.orders_archive
+    operations: [insert]
+    retry:
+      backoff: fixed
+    destination:
+      url: https://example.test/fixed
+  - name: inherited_backoff
+    table: public.order_events
+    operations: [insert]
+    destination:
+      url: https://example.test/inherited

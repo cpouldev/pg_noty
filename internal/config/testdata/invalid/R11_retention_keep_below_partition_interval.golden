@@ -1,0 +1,5 @@
+R11_retention_keep_below_partition_interval.yaml:5:9
+   3 |   url: postgres://noty@db.internal/noty
+   4 | retention:
+>  5 |   keep: 23h
+               ^ retention.keep must be at least retention.partition_interval; increase retention.keep or lower retention.partition_interval

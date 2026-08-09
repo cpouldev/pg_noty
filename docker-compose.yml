@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    networks:
+      pgnoty-demo:
+        ipv4_address: 100.64.0.3
+    environment:
+      POSTGRES_USER: noty
+      POSTGRES_PASSWORD: noty
+      POSTGRES_DB: noty
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U noty -d noty"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - pgnoty-data:/var/lib/postgresql/data
+      - ./demo/seed.sql:/docker-entrypoint-initdb.d/010-orders.sql:ro
+
+  echo:
+    image: mendhak/http-https-echo:41
+    networks:
+      pgnoty-demo:
+        ipv4_address: 100.64.0.2
+
+  pg_noty:
+    build:
+      context: .
+      args:
+        GO_VERSION: ${GO_VERSION:?set GO_VERSION from go.mod before building}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      echo:
+        condition: service_started
+    networks:
+      pgnoty-demo:
+        ipv4_address: 100.64.0.4
+    environment:
+      DATABASE_URL: postgres://noty:noty@postgres:5432/noty?sslmode=disable
+      ORDER_WEBHOOK_URL: http://echo:8080/
+      WEBHOOK_SECRET: demo-secret
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./demo/listeners.yaml:/etc/pg_noty/listeners.yaml:ro
+
+volumes:
+  pgnoty-data:
+
+networks:
+  pgnoty-demo:
+    ipam:
+      config:
+        - subnet: 100.64.0.0/24

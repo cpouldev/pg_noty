@@ -1,0 +1,5 @@
+two_documents.yaml:4:1
+   2 | listeners: []
+   3 | ---
+>  4 | version: 1
+       ^ configuration file must contain exactly one YAML document, found 2

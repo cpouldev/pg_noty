@@ -1,0 +1,5 @@
+R33_payload_columns_and_exclude.yaml:11:16
+    9 |       mode: full
+   10 |       columns: [id]
+>  11 |       exclude: [internal_note]
+                       ^ payload.columns and payload.exclude are mutually exclusive

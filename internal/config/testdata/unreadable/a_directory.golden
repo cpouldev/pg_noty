@@ -1,0 +1,2 @@
+testdata/unreadable/a_directory.yaml
+cannot read configuration file: is a directory

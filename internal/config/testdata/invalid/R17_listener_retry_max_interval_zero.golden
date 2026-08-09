@@ -1,0 +1,5 @@
+R17_listener_retry_max_interval_zero.yaml:9:21
+   7 |     operations: [insert]
+   8 |     retry:
+>  9 |       max_interval: 0s
+                           ^ must be greater than zero

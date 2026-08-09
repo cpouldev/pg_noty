@@ -1,0 +1,5 @@
+R30_delete_when_references_new.yaml:9:15
+   7 |     operations:
+   8 |       delete:
+>  9 |         when: "NEW.status = 'paid'"
+                     ^ DELETE trigger's WHEN condition cannot reference NEW values

@@ -1,0 +1,13 @@
+# R29's emptiness clause: a column filter that names no column narrows nothing, so it is a
+# filter written by mistake rather than one that permits everything.
+version: 1
+database:
+  url: postgres://noty:pw@db.internal:5432/noty
+listeners:
+  - name: order_paid
+    table: public.orders
+    operations:
+      update:
+        columns: []
+    destination:
+      url: https://hooks.example.test/order-paid
