@@ -7,6 +7,7 @@ import (
 	"io"
 
 	"github.com/cpouldev/pg_noty/internal/reconcile"
+	"github.com/getsentry/sentry-go"
 )
 
 // This file is a command's two ends: the entry point cmd/pg_noty calls, and the mapping from what a
@@ -20,7 +21,7 @@ func Execute(ctx context.Context, args []string, streams Streams) int {
 	root := newRoot(&rootOptions{In: streams.In, Out: streams.Out, Err: streams.Err})
 	root.SetArgs(args)
 	err := root.ExecuteContext(ctx)
-	reportFailure(root.ErrOrStderr(), err)
+	reportFailure(ctx, root.ErrOrStderr(), err)
 	return exitStatusOf(err)
 }
 
@@ -32,10 +33,13 @@ func Execute(ctx context.Context, args []string, streams Streams) int {
 // outcomeError is excluded because it carries a verdict rather than a fault. `plan` exiting 2 has
 // already written its plan, and "command completed with reconciliation outcome" is the sentence that
 // lets errors.As find the verdict, not one an operator needs to read.
-func reportFailure(out io.Writer, err error) {
+func reportFailure(ctx context.Context, out io.Writer, err error) {
 	var outcome outcomeError
 	if err == nil || errors.As(err, &outcome) {
 		return
+	}
+	if hub := sentry.GetHubFromContext(ctx); hub != nil {
+		hub.CaptureException(err)
 	}
 	_, _ = fmt.Fprintln(out, "error: "+err.Error())
 }

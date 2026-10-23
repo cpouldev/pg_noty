@@ -10,15 +10,19 @@
 // # Reference: logging
 //
 // The CLI owns the slog handler and rejects unknown level and format values.
+// When a Sentry hub is present in the command context, error-level log records
+// also become Sentry events, including records emitted by background workers.
+// Attributes use slog's encoding so LogValuer redaction applies to both outputs.
 //
 // # Reference: exit status
 //
 // Reconciliation outcomes use reconcile.Verdict.ExitCode; the process entry point
 // is the only place that terminates the process. Any error that is not an
 // outcomeError maps to VerdictError.ExitCode, and Execute writes its message to
-// stderr on the way out. An outcomeError is deliberately silent there, because it
-// carries a verdict rather than a fault: a command returning one has already
-// written whatever the operator needs to read.
+// stderr on the way out. When the process attached a Sentry hub to the command
+// context, Execute reports that same error there. An outcomeError is deliberately
+// silent in both places, because it carries a verdict rather than a fault: a command
+// returning one has already written whatever the operator needs to read.
 //
 // Three commands report status 2. plan reports it for a pending change, bootstrap
 // for a schema behind the migrations this binary embeds, and run for a database

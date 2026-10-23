@@ -8,6 +8,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/spf13/cobra"
 )
 
@@ -89,6 +90,7 @@ func newRoot(opts *rootOptions) *cobra.Command {
 			if err != nil {
 				return err
 			}
+			logger = withSentry(logger, sentry.GetHubFromContext(commandContext(cmd)))
 			opts.Logger = logger
 			slog.SetDefault(logger)
 			return nil

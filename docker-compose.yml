@@ -39,6 +39,9 @@ services:
     environment:
       DATABASE_URL: postgres://noty:noty@postgres:5432/noty?sslmode=disable
       ORDER_WEBHOOK_URL: http://echo:8080/
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      SENTRY_ENVIRONMENT: ${SENTRY_ENVIRONMENT:-}
+      SENTRY_RELEASE: ${SENTRY_RELEASE:-}
       WEBHOOK_SECRET: demo-secret
     ports:
       - "8080:8080"

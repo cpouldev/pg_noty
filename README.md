@@ -183,6 +183,7 @@ your configuration at that path is all it takes.
 ```sh
 docker run --rm \
   -e DATABASE_URL -e ORDER_WEBHOOK_URL -e WEBHOOK_SECRET \
+  -e SENTRY_DSN -e SENTRY_ENVIRONMENT -e SENTRY_RELEASE \
   -v "$PWD/listeners.yaml:/etc/pg_noty/listeners.yaml:ro" \
   -p 8080:8080 \
   cpoul/pg_noty:latest
@@ -198,6 +199,24 @@ docker run --rm -e DATABASE_URL \
 
 The image is `gcr.io/distroless/static-debian12:nonroot` with a statically linked binary and stays
 under 10 MiB per platform. It contains no shell, package manager or compiler.
+
+Set `SENTRY_DSN` in the process environment to report command failures, error-level logs
+(including background worker errors), and panics on the command goroutine to Sentry. Leave it
+unset or blank to disable Sentry. `SENTRY_ENVIRONMENT` and `SENTRY_RELEASE` optionally label events,
+following the [Sentry Go SDK's environment configuration](https://github.com/getsentry/sentry-go/tree/v0.48.0#configuration).
+Keep the DSN in your deployment's environment or secret store rather than tracked YAML.
+
+```sh
+SENTRY_DSN='https://public-key@sentry.example.com/1' \
+SENTRY_ENVIRONMENT=production \
+pg_noty run -f listeners.yaml
+```
+
+Error events include stack traces and the same redacted attributes used by local logs. Normal
+logging continues unchanged; debug, info, and warning logs are not sent. Performance tracing,
+Sentry's separate logs and metrics products are disabled. Shutdown allows up to two seconds to
+flush pending events. An invalid DSN stops startup with `error: SENTRY_DSN is invalid` without
+printing its value. Panic reporting preserves the crash; panics in other goroutines are not captured.
 
 ### Who changes your database
 
