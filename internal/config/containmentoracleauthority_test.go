@@ -9,22 +9,6 @@ import "testing"
 // is not merely reachable without the walk but actually *differs* from it on a document the suite
 // runs.
 
-// theOracleFiles is every file the containment oracle's authority is composed across. It is a set
-// rather than a name because the oracle spans four: the entry point the subjects call, the
-// extents it derives, the concrete paths it expands a declared locator into, and the table
-// positions it reads them from.
-//
-// Scanning one of them left the claim satisfiable by relocation: sensitiveExtentsOf -- the oracle's
-// own entry point -- lives in a file the scan never opened, so reinstating the walk there passed. A
-// file added to the oracle and not to this set is caught by
-// TestTheOracleFileSetSpansTheOraclesOwnEntryPoint.
-var theOracleFiles = []string{
-	"containmentextents_test.go",
-	"containmentschemaoracle_test.go",
-	"containmentschemapaths_test.go",
-	"schemapositions_test.go",
-}
-
 // theWalkTheOracleAudits is the production entry point whose output the containment subjects judge.
 // An oracle that calls it answers "a value the walk found was not replaced", which is true of every
 // walk including one that found nothing.

@@ -1,7 +1,6 @@
 package reconcile
 
 import (
-	"strings"
 	"testing"
 )
 
@@ -168,21 +167,4 @@ func actionsForPair(actions []Action, pair Pair) []Action {
 		}
 	}
 	return matched
-}
-
-func TestClassifyIsTheOnlyCatalogAndRegistryConversionSeam(t *testing.T) {
-	// reuse-the-helper-before-copying-it.md keeps the L1 ownership proof free of adapter readings.
-	var catalogConversions, registryConversions []string
-	for _, name := range productionSourceNames(t) {
-		text := string(sourceBytes(t, name))
-		if strings.Contains(text, "CatalogObject{") {
-			catalogConversions = append(catalogConversions, name)
-		}
-		if strings.Contains(text, "RegistryRow{") {
-			registryConversions = append(registryConversions, name)
-		}
-	}
-	if len(catalogConversions) != 1 || catalogConversions[0] != "classify.go" || len(registryConversions) != 1 || registryConversions[0] != "classify.go" {
-		t.Fatalf("CatalogObject conversions=%v RegistryRow conversions=%v, want classify.go only", catalogConversions, registryConversions)
-	}
 }

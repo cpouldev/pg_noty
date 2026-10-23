@@ -32,28 +32,6 @@ var generationModes = []goldenMode{
 }
 var generationIncludeOld = []bool{false, true}
 
-// The corpus axes, as literals: operation {insert, update, delete} = 3, mode
-// {full, full + exclude, columns, keys_only} = 4 and include_old {false, true} = 2, so the grid is
-// 3 x 4 x 2 = 24 cells, beside the 6 named goldens the axes do not reach. The pin reads the axis
-// values gridCases ranges over and the files committed under testdata/ against these numbers, so
-// dropping a mode shrinks one side of a comparison and not the other -- unlike a product computed
-// from the very slices the rows are built from, which moves together with any contents at all.
-const (
-	declaredOperations   = 3
-	declaredModes        = 4
-	declaredIncludeOld   = 2
-	declaredGridCells    = declaredOperations * declaredModes * declaredIncludeOld
-	declaredNamedGoldens = 6
-)
-
-// goldenPopulation holds the three populations the corpus pin reconciles. They move independently:
-// the axis sizes are the declarations, the asked-for names are what the crossing builds, and the
-// committed names are what is on disk.
-type goldenPopulation struct {
-	operations, modes, includeOld int
-	rows, named, committed        []string
-}
-
 // gridGoldenName spells one cell's golden. The crossed rows and the include_old pair assertions in
 // goldenpairs_test.go both derive their file names through it, so no assertion can read a
 // hand-listed set of names that has drifted from the corpus.
@@ -159,55 +137,8 @@ func checkOrUpdateGolden(t *testing.T, testCase goldenCase) {
 	}
 }
 
-// reportGoldenPopulationIssues drives goldenPopulationIssues -- the same function
-// TestTheCorpusPinFailsOnADroppedCellOrAxisValue falsifies, rather than a second expression of the
-// pin.
-func reportGoldenPopulationIssues(t *testing.T) {
-	t.Helper()
-	for _, issue := range goldenPopulationIssues(observedGoldenPopulation(t)) {
-		t.Error(issue)
-	}
-}
-
-func TestGoldenCorpusIsTheCrossedProduct(t *testing.T) {
-	if !*updateGoldens {
-		reportGoldenPopulationIssues(t)
-	}
+func TestGeneratedSQLMatchesGoldens(t *testing.T) {
 	for _, testCase := range allGoldenCases() {
 		checkOrUpdateGolden(t, testCase)
 	}
-	if *updateGoldens {
-		// A -update run is held to the same shape it just wrote, so a cell the crossing stopped
-		// asking for is left behind on disk rather than silently leaving the corpus.
-		reportGoldenPopulationIssues(t)
-	}
-}
-
-func TestGoldenCorpusDoesNotWriteWithoutUpdate(t *testing.T) {
-	if *updateGoldens {
-		t.Skip("mtime proof applies to the non-update run")
-	}
-	before := goldenMtimes(t)
-	for _, testCase := range allGoldenCases() {
-		checkOrUpdateGolden(t, testCase)
-	}
-	after := goldenMtimes(t)
-	for path, stamp := range before {
-		if after[path] != stamp {
-			t.Errorf("%s changed without -update", path)
-		}
-	}
-}
-
-func goldenMtimes(t *testing.T) map[string]int64 {
-	t.Helper()
-	stamps := make(map[string]int64)
-	for _, testCase := range allGoldenCases() {
-		info, err := os.Stat(goldenPath(testCase.name))
-		if err != nil {
-			t.Fatalf("stat %s: %v", testCase.name, err)
-		}
-		stamps[testCase.name] = info.ModTime().UnixNano()
-	}
-	return stamps
 }

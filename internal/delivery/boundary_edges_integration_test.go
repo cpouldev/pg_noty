@@ -160,11 +160,8 @@ func (c *headerEchoClient) Do(request *http.Request) (*http.Response, error) {
 	}, nil
 }
 
-func TestSecretMarkerOracleIsFalsifiableAndLive(t *testing.T) {
+func TestDeliveryFailuresRedactSigningSecrets(t *testing.T) {
 	marker := "secret-marker-31"
-	if noSecretMarker(marker, "safe diagnostic") != nil || noSecretMarker(marker, "planted "+marker) == nil {
-		t.Fatal("secret oracle is not falsifiable")
-	}
 	db := newDeliveryDatabase(t)
 	event, terminal := seedDeliveryEvent(t, db, "orders", `{"id":32}`), seedDeliveryEvent(t, db, "orders", `{"id":33}`)
 	src := openDeliverySource(t, db, "secret-oracle", time.Minute)

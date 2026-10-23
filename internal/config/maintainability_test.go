@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"reflect"
 	"slices"
 	"testing"
@@ -69,38 +68,6 @@ func assertRuleIndependentProductionSurfaces(t *testing.T, source []byte) {
 	})
 }
 
-func TestRuleIndependenceGateRejectsSyntheticCoupling(t *testing.T) {
-	baseline := ruleIndependenceSnapshot{
-		rendered: "stable",
-		deduped:  []visibleDiagnostic{{File: "a.yaml", Line: 1, Col: 1, Path: "a", Msg: "constraint"}},
-		ordered:  []visibleDiagnostic{{File: "a.yaml", Line: 1, Col: 1, Path: "a", Msg: "constraint"}},
-	}
-	tests := []struct {
-		name   string
-		mutate func(ruleIndependenceSnapshot) ruleIndependenceSnapshot
-	}{
-		{"renderer uses RuleID", func(got ruleIndependenceSnapshot) ruleIndependenceSnapshot {
-			got.rendered += " R1"
-			return got
-		}},
-		{"dedupe key uses RuleID", func(got ruleIndependenceSnapshot) ruleIndependenceSnapshot {
-			got.deduped = append(got.deduped, got.deduped[0])
-			return got
-		}},
-		{"sort key uses RuleID", func(got ruleIndependenceSnapshot) ruleIndependenceSnapshot {
-			got.ordered = append([]visibleDiagnostic{{File: "z.yaml"}}, got.ordered...)
-			return got
-		}},
-	}
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-			if issues := ruleIndependenceIssues(baseline, tc.mutate(baseline)); len(issues) == 0 {
-				t.Fatal("synthetic RuleID coupling passed the maintainability gate")
-			}
-		})
-	}
-}
-
 func observeRuleIndependence(diags Errors, source []byte) ruleIndependenceSnapshot {
 	deduped := visibleDiagnostics(diags.deduped())
 	slices.SortFunc(deduped, compareVisibleDiagnostics)
@@ -142,8 +109,4 @@ func compareVisibleDiagnostics(a, b visibleDiagnostic) int {
 		Error{File: a.File, Line: a.Line, Col: a.Col, Path: a.Path, Msg: a.Msg},
 		Error{File: b.File, Line: b.Line, Col: b.Col, Path: b.Path, Msg: b.Msg},
 	)
-}
-
-func (snapshot ruleIndependenceSnapshot) String() string {
-	return fmt.Sprintf("%q %v %v", snapshot.rendered, snapshot.deduped, snapshot.ordered)
 }

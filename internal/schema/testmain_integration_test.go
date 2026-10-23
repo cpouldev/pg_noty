@@ -9,7 +9,6 @@ import (
 	"os"
 	"sync/atomic"
 	"testing"
-	"time"
 
 	"github.com/cpouldev/pg_noty/internal/config"
 	"github.com/cpouldev/pg_noty/internal/testpostgres"
@@ -45,10 +44,6 @@ var (
 	containersStarted atomic.Int64
 	// containerUses counts the tests that reached the container, which harnessVerdict reads.
 	containerUses atomic.Int64
-	// containerStartup is what a container costs, measured rather than assumed. It is what
-	// TestRestoringIsCheaperThanStartingAnotherContainer compares a restore against, so that claim
-	// rests on two measurements from one machine rather than on a magic constant.
-	containerStartup time.Duration
 )
 
 func TestMain(m *testing.M) {
@@ -85,7 +80,6 @@ func runAgainstOneContainer(m *testing.M) int {
 // so that a start which then fails is still counted as one.
 func startSharedContainer(ctx context.Context) (*postgres.PostgresContainer, error) {
 	containersStarted.Add(1)
-	began := time.Now()
 
 	container, err := postgres.Run(
 		ctx, harnessImage,
@@ -97,7 +91,6 @@ func startSharedContainer(ctx context.Context) (*postgres.PostgresContainer, err
 		postgres.WithSQLDriver(harnessSQLDriver),
 		postgres.BasicWaitStrategies(),
 	)
-	containerStartup = time.Since(began)
 
 	return container, err
 }
@@ -173,19 +166,17 @@ func harnessConfig(t *testing.T) config.Config {
 	}
 }
 
-// restoreToSnapshot takes the database back to the state TestMain snapshotted, and answers with
-// what that cost. Every pool open before it is dead after it, because the mechanism drops and
+// restoreToSnapshot takes the database back to the state TestMain snapshotted.
+// Every pool open before it is dead after it, because the mechanism drops and
 // recreates the database rather than truncating inside it.
-func restoreToSnapshot(t *testing.T) time.Duration {
+func restoreToSnapshot(t *testing.T) {
 	t.Helper()
 	skipIfShort(t)
 	containerUses.Add(1)
 
-	began := time.Now()
 	if err := testpostgres.RestoreSnapshot(t.Context(), sharedContainer); err != nil {
 		t.Fatalf("restore %s to its snapshot: %v", harnessDatabase, err)
 	}
-	return time.Since(began)
 }
 
 // freshDatabase is the shape the eight consuming steps call: an empty database, and a pool onto it

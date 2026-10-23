@@ -7,10 +7,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"reflect"
 	"sync/atomic"
 	"testing"
-	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
@@ -26,23 +24,9 @@ const (
 )
 
 var (
-	sharedContainer         *postgres.PostgresContainer
-	containersStarted       atomic.Int64
-	containerUses           atomic.Int64
-	containerStartup        time.Duration
-	harnessContainerRequest any
+	sharedContainer   *postgres.PostgresContainer
+	containersStarted atomic.Int64
 )
-
-// recordingTheRequest is the internal/source/testmain_integration_test.go:recordingTheRequest twin.
-// The difference is the package under test and nothing else. It leaves the library request untyped:
-// a direct dependency type would promote its module and fail internal/config's release-hygiene gate.
-func recordingTheRequest[Option any](option Option) Option {
-	recorded := reflect.MakeFunc(reflect.TypeOf(option), func(arguments []reflect.Value) []reflect.Value {
-		harnessContainerRequest = arguments[0].Interface()
-		return reflect.ValueOf(option).Call(arguments)
-	})
-	return recorded.Interface().(Option)
-}
 
 func TestMain(m *testing.M) { os.Exit(runReconcileHarness(m)) }
 
@@ -75,13 +59,10 @@ func runReconcileHarness(m *testing.M) int {
 
 func startReconcileContainer(ctx context.Context) (*postgres.PostgresContainer, error) {
 	containersStarted.Add(1)
-	started := time.Now()
-	container, err := postgres.Run(ctx, harnessImage,
+	return postgres.Run(ctx, harnessImage,
 		postgres.WithDatabase(harnessDatabase), postgres.WithUsername(harnessUser),
 		postgres.WithPassword(harnessPassword), postgres.WithSQLDriver(harnessSQLDriver),
-		recordingTheRequest(postgres.BasicWaitStrategies()))
-	containerStartup = time.Since(started)
-	return container, err
+		postgres.BasicWaitStrategies())
 }
 
 // reportToHarnessStderr is the internal/source/testmain_integration_test.go:reportToHarnessStderr

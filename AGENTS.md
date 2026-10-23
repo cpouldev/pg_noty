@@ -15,7 +15,7 @@
 
 ## Project Structure & Module Organization
 
-`cmd/pg_noty/` builds the CLI. Under `internal/`, `cli` composes commands, `config` validates YAML, `schema` owns storage, `source` manages triggers and queues, `reconcile` plans database changes, `delivery` sends webhooks, and `goartifact` supports source checks. Tests sit beside their packages; fixtures and golden files belong in each package's `testdata/`. Use `demo/` and `docker-compose.yml` for the runnable example. Design records live in `.specs/`.
+`cmd/pg_noty/` builds the CLI. Under `internal/`, `cli` composes commands, `config` validates YAML, `schema` owns storage, `source` manages triggers and queues, `reconcile` plans database changes, and `delivery` sends webhooks. Tests sit beside their packages; fixtures and golden files belong in each package's `testdata/`. Use `demo/` and `docker-compose.yml` for the runnable example. Design records live in `.specs/`.
 
 ## Build, Test, and Development Commands
 

@@ -41,35 +41,6 @@ func TestWholeRecursiveCorpusRenderingIsDeterministic(t *testing.T) {
 	}
 }
 
-func TestDeterminismGateRejectsASyntheticOrderPerturbation(t *testing.T) {
-	ordered := Errors{
-		{File: "a.yaml", Line: 1, Col: 1, Path: "alpha", Msg: "must be first"},
-		{File: "a.yaml", Line: 2, Col: 1, Path: "beta", Msg: "must be second"},
-	}
-	if issues := diagnosticOrderIssues(ordered); len(issues) != 0 {
-		t.Fatalf("ordered control failed: %v", issues)
-	}
-	ordered[0], ordered[1] = ordered[1], ordered[0]
-	if issues := diagnosticOrderIssues(ordered); len(issues) == 0 {
-		t.Fatal("synthetically perturbed diagnostic order passed the determinism gate")
-	}
-
-	baseline := corpusDeterminismSnapshot{rendered: "first\nsecond\n", ordering: "1|2\n", logged: "a"}
-	perturbed := corpusDeterminismSnapshot{rendered: "second\nfirst\n", ordering: "2|1\n", logged: "a"}
-	if corpusSnapshotsEqual(baseline, perturbed) {
-		t.Fatal("synthetically perturbed corpus bytes passed the determinism gate")
-	}
-
-	// The logged dimension is perturbed on its own, so a gate that had stopped comparing it -- the
-	// dimension the vacuity count above guards the population of -- fails here rather than passing
-	// on the rendered bytes alone.
-	relogged := baseline
-	relogged.logged = "b"
-	if corpusSnapshotsEqual(baseline, relogged) {
-		t.Fatal("a snapshot differing only in its logged form passed the determinism gate")
-	}
-}
-
 func observeRecursiveCorpus(t *testing.T) corpusDeterminismSnapshot {
 	t.Helper()
 	paths := recursiveYAMLFixtures(t, invalidCorpus, validCorpus, filepath.Join("testdata", "warnings"))

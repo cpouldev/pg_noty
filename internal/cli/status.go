@@ -59,5 +59,3 @@ func buildStatus(opts *rootOptions) *cobra.Command {
 		},
 	}
 }
-
-func statusError(err error) error { return fmt.Errorf("status: %w", err) }

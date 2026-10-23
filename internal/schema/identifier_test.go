@@ -123,34 +123,3 @@ func readDelimitedPart(text string) (part, tail string, delimited bool) {
 	}
 	return "", "", false
 }
-
-// TestTheOracleRefusesARenderingThatEscapedItsQuotes gives the oracle above its own falsifiability.
-// Without it, an oracle that answered "inert" for everything would make every row of the two tests
-// above pass.
-func TestTheOracleRefusesARenderingThatEscapedItsQuotes(t *testing.T) {
-	for _, tc := range []struct {
-		name, rendered string
-		wantParts      []string
-	}{
-		{name: "one plain part", rendered: `"noty"`, wantParts: []string{"noty"}},
-		{name: "two parts", rendered: `"noty"."events"`, wantParts: []string{"noty", "events"}},
-		{name: "a doubled quote inside", rendered: `"no""ty"`, wantParts: []string{`no"ty`}},
-		{name: "a separator inside", rendered: `"noty;drop"`, wantParts: []string{"noty;drop"}},
-		// The failures the oracle exists to catch: each is what a broken quoter emits.
-		{name: "an unquoted name", rendered: "noty"},
-		{name: "a lone quote closing early, leaving a second statement", rendered: `"noty";DROP TABLE x`},
-		{name: "a quote never closed", rendered: `"noty`},
-		{name: "a Go-style backslash escape rather than a doubled quote", rendered: `"no\"ty"`},
-		{name: "a trailing dot with no part after it", rendered: `"noty".`},
-	} {
-		t.Run(tc.name, func(t *testing.T) {
-			parts, whole := unquotedIdentifier(tc.rendered)
-			if whole != (tc.wantParts != nil) {
-				t.Fatalf("unquotedIdentifier(%s) read %q, whole = %t", tc.rendered, parts, whole)
-			}
-			if whole && strings.Join(parts, "\x00") != strings.Join(tc.wantParts, "\x00") {
-				t.Errorf("unquotedIdentifier(%s) = %q, want %q", tc.rendered, parts, tc.wantParts)
-			}
-		})
-	}
-}

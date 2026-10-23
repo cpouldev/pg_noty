@@ -5,7 +5,6 @@ import (
 	"net/url"
 	"slices"
 
-	"github.com/cpouldev/pg_noty/internal/config"
 	"github.com/cpouldev/pg_noty/internal/delivery"
 )
 
@@ -61,10 +60,4 @@ func redactURL(raw string) string {
 		return "<redacted>"
 	}
 	return parsed.Redacted()
-}
-
-var logValuerSet = []func() slog.LogValuer{
-	func() slog.LogValuer { return config.Config{} },
-	func() slog.LogValuer { return listenerLogValue{} },
-	func() slog.LogValuer { return dispatchLogValue{} },
 }

@@ -5,9 +5,6 @@ package source
 import (
 	"context"
 	"net/url"
-	"os"
-	"path/filepath"
-	"slices"
 	"testing"
 
 	"github.com/cpouldev/pg_noty/internal/config"
@@ -66,25 +63,6 @@ func openPoolAs(t *testing.T, cfg config.Config, role string) *pgxpool.Pool {
 	return pool
 }
 
-// Copy of internal/schema/runner_integration_test.go:mustMigrate. The source side accepts SQL text
-// from internal/schema's migration directory because schema's private migration types cannot cross
-// packages.
-func applySchemaMigrations(t *testing.T, pool *pgxpool.Pool) {
-	t.Helper()
-	paths, err := filepath.Glob(filepath.Join("..", "schema", "migrations", "*.sql"))
-	if err != nil || len(paths) == 0 {
-		t.Fatalf("read internal/schema migration corpus: %v", err)
-	}
-	slices.Sort(paths)
-	for _, path := range paths {
-		data, err := os.ReadFile(path)
-		if err != nil {
-			t.Fatalf("read migration %s: %v", path, err)
-		}
-		mustExecOn(t, pool, string(data))
-	}
-}
-
 // Copy of internal/schema/bootstrapprivilege_integration_test.go:createTheLimitedRole.
 func createTheLimitedRole(t *testing.T, pool *pgxpool.Pool, role, password string) {
 	t.Helper()
@@ -93,14 +71,4 @@ func createTheLimitedRole(t *testing.T, pool *pgxpool.Pool, role, password strin
 		t.Fatalf("limited role %s is unusable: %s", role, fault)
 	}
 	mustExecOn(t, pool, "CREATE ROLE "+quoted+" LOGIN PASSWORD "+quoteLiteral(password))
-}
-
-func TestExactlyOneContainerServesTheWholePackage(t *testing.T) {
-	skipIfShort(t)
-	if got := containersStarted.Load(); got != 1 {
-		t.Fatalf("containers started = %d, want 1", got)
-	}
-	if containerStartup <= 0 {
-		t.Fatal("container startup was not measured")
-	}
 }

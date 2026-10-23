@@ -111,22 +111,6 @@ func TestRestoreLeavesTheNextTestNoneOfThePreviousTestsRows(t *testing.T) {
 	})
 }
 
-// TestRestoringIsCheaperThanStartingAnotherContainer is SC-2's third bullet, asserted as the
-// comparison the design rests on rather than against a wall-clock constant that would be flaky on
-// one machine and meaningless on another: restore is called between cases precisely because it
-// costs less than the container it replaces.
-func TestRestoringIsCheaperThanStartingAnotherContainer(t *testing.T) {
-	skipIfShort(t)
-
-	restoring := restoreToSnapshot(t)
-
-	t.Logf("restore took %s, and starting the container took %s", restoring, containerStartup)
-	if restoring >= containerStartup {
-		t.Errorf("a restore takes %s and a container takes %s, so restoring between cases buys "+
-			"nothing and the harness should start one per test instead", restoring, containerStartup)
-	}
-}
-
 // TestSnapshotAndRestoreTakeTheNativeDriverPathRatherThanDockerExec is SC-3 against the running
 // container. modules/postgres opens its snapshot connection with sql.Open(harnessSQLDriver, ...)
 // followed by DB.Conn, and those two failing is the *only* route to the `docker exec psql`

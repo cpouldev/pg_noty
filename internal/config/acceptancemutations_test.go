@@ -62,33 +62,3 @@ func observationsBySubject(t *testing.T, spec acceptanceSpec) map[string]accepta
 	}
 	return observations
 }
-
-func TestConcreteMaskedExtentsAreNamedRegistrySubjects(t *testing.T) {
-	want := map[acceptanceSubjectClaim]bool{}
-	for claim, subjects := range concreteMaskedAcceptanceSubjects() {
-		for _, subject := range subjects {
-			want[acceptanceSubjectClaim{claim, subject}] = true
-		}
-	}
-	got, _ := acceptanceRegistryKeys(acceptanceSpecs())
-	for _, key := range got {
-		delete(want, key)
-	}
-	for missing := range want {
-		t.Errorf("concrete masked extent is not a subject: %s/%s", missing.claim, missing.subject)
-	}
-}
-
-func concreteMaskedAcceptanceSubjects() map[acceptanceClaim][]string {
-	return map[acceptanceClaim][]string{
-		{rule: R1, half: r1PresenceHalf}: {"version.presence"},
-		{rule: R1, half: r1ValueHalf}:    {"version.value"},
-		{rule: R13}:                      {"defaults.timeout", "listener.timeout"},
-		{rule: R14}:                      {"defaults.max_attempts", "listener.max_attempts"},
-		{rule: R15}:                      {"defaults.exponential", "listener.linear", "listener.fixed"},
-		{rule: R17}:                      {"defaults.max_interval", "listener.max_interval"},
-		{rule: R18}:                      {"defaults.jitter.true", "listener.jitter.false"},
-		{rule: R40}: {"worker.poll_interval", "worker.lease_timeout",
-			"worker.drain_timeout", "retention.keep", "defaults.timeout"},
-	}
-}

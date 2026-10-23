@@ -7,11 +7,7 @@ import (
 	"time"
 )
 
-// This file is what a maintenance pass *says*: the statement it writes for one range, and the words
-// it reports a range in. It is separate from maintain.go for the reason internal/goartifact and
-// partition.go's corpus split before it -- one file would breach the 200-line budget this package's
-// own gate enforces -- and the seam is the one that changes for different reasons: maintain.go
-// changes when the shape of a pass changes, this file when the wording an operator reads does.
+// This file builds partition statements and the messages reported by a maintenance pass.
 //
 // It reaches no driver and no catalog. Everything here is a pure function of a Range and an error,
 // which is what lets criterion 33's wording and M6's statement be asserted container-free.

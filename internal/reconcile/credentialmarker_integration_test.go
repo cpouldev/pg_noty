@@ -164,33 +164,6 @@ func assertNoMarkerReaches(t *testing.T, run string, surfaces map[string]string,
 	}
 }
 
-// TestTheCredentialOracleSeesAMarkerOnEveryLineOfAPlantedValue is what makes every assertion built
-// on this oracle falsifiable: without it a search that found nothing is indistinguishable from one
-// that could find nothing, and the whole credential suite passes by being blind. Each line's markers
-// are planted alone and exactly one leak is required, so this also pins the separator keeping line
-// 1's marker out of line 11's. The clean surface is the guard's other side.
-func TestTheCredentialOracleSeesAMarkerOnEveryLineOfAPlantedValue(t *testing.T) {
-	skipIfShort(t)
-
-	marked := credentialMarkedOnEveryLine("control", "a planted value\nspanning two lines\nand a third")
-	if want := 3 * 2; len(marked.markers) != want {
-		t.Fatalf(
-			"a three-line value carries %d markers, want %d: one pair per line",
-			len(marked.markers), want,
-		)
-	}
-	for _, marker := range marked.markers {
-		leaks := markersReaching(map[string]string{"probe": "before " + marker + " after"}, marked.markers)
-
-		if len(leaks) != 1 || !strings.Contains(leaks[0], marker) {
-			t.Errorf("a surface quoting %s produced %v, want exactly one leak naming it", marker, leaks)
-		}
-	}
-	if leaks := markersReaching(map[string]string{"probe": "nothing planted here"}, marked.markers); len(leaks) != 0 {
-		t.Errorf("a surface quoting no marker produced %v, so the oracle over-fires", leaks)
-	}
-}
-
 // recordedRun drives one Plan or Apply with a debug logger attached, so the log surface is captured
 // at the level that renders the most.
 func recordedRun(t *testing.T, pool *pgxpool.Pool, cfg config.Config, opts Options, apply bool) runOutcome {

@@ -23,12 +23,6 @@ import (
 // maintaindefault_ and maintaingauge_ (AC 30's three halves), maintaincontention_ (AC 33 and AC 40)
 // and maintainconcurrency_ (AC 23's precursor and M6).
 
-// theMaintenancePass is this step's production file, named as a constant so the gates other steps
-// own join it by name rather than by literal -- the shape Step 10's runner_test.go declared for
-// runner.go. It is read by errorelisionscan_test.go's driver-reaching set and by
-// catalog_test.go's partition-deciding set.
-const theMaintenancePass = "maintain.go"
-
 // theRenderedRange is one range with bounds no formatter can accidentally agree with: a fractional
 // second, and a day that is not the epoch's.
 var theRenderedRange = Range{

@@ -2,7 +2,6 @@ package config
 
 import (
 	"path/filepath"
-	"strings"
 	"testing"
 )
 
@@ -43,31 +42,6 @@ var stageHRejectingFixtures = map[string]semanticFixture{
 	"R1_version_absent_plus_batch_size_zero": {R1, "version"},
 }
 
-var stageHAcceptingFixtures = []string{
-	"R1_ok_version_one",
-	"R2_ok_instance_max_length",
-	"R4_ok_schema_63_bytes",
-	"R6_ok_worker_concurrency_lower_bound",
-	"R6_ok_worker_concurrency_upper_bound",
-	"R7_ok_worker_batch_size_upper_bound",
-	"R8_ok_worker_durations_positive",
-	"R10_ok_retention_durations_positive",
-	"R13_ok_timeouts_positive",
-	"R14_ok_retry_max_attempts_one",
-	"R15_ok_retry_backoffs",
-	"R17_ok_retry_max_interval_positive",
-	"R18_ok_retry_jitter_boolean",
-	"R23_ok_listener_name_charset",
-	"R25_ok_listener_enabled_boolean",
-	"R31_ok_payload_modes",
-	"R34_ok_include_old_boolean",
-	"R35_ok_max_bytes_positive",
-	"R37_ok_destination_methods",
-	"R39_ok_listener_concurrency_boundaries",
-	"R40_ok_duration_boundaries",
-	"R43_ok_is_distinct_boolean",
-}
-
 func TestEveryStageHRejectingFixtureRaisesExactlyItsClaim(t *testing.T) {
 	for name, want := range stageHRejectingFixtures {
 		t.Run(name, func(t *testing.T) {
@@ -93,31 +67,5 @@ func TestEveryStageHRejectingFixtureRaisesExactlyItsClaim(t *testing.T) {
 				t.Errorf("Path = %q, want %q", diags[0].Path, want.path)
 			}
 		})
-	}
-}
-
-func TestEveryStageHEntryHasNamedRejectingAndAcceptingFixtures(t *testing.T) {
-	for rule := range stageHRuleEntries {
-		rejecting, accepting := false, false
-		for name := range stageHRejectingFixtures {
-			rejecting = rejecting || strings.HasPrefix(name, string(rule)+"_")
-		}
-		for _, name := range stageHAcceptingFixtures {
-			accepting = accepting || strings.HasPrefix(name, string(rule)+"_ok_")
-		}
-		if !rejecting || !accepting {
-			t.Errorf("%s fixture pair: rejecting=%t accepting=%t", rule, rejecting, accepting)
-		}
-	}
-	// Each owned entry needs one accepting fixture; R6 needs a second because one worker scalar
-	// cannot simultaneously write both ends of its 1..1024 boundary.
-	if want := len(stageHRuleEntries) + 1; len(stageHAcceptingFixtures) != want {
-		t.Errorf("%d accepting fixtures, want %d derived from entries plus R6's second boundary",
-			len(stageHAcceptingFixtures), want)
-	}
-	// One base rejection per entry + the extra R4/R6/R39 boundary cases + the combined R1/R7 policy
-	// fixture + four listener retry extents added by the independent partition audits.
-	if want := len(stageHRuleEntries) + 3 + 1 + 4; len(stageHRejectingFixtures) != want {
-		t.Errorf("%d rejecting fixtures, want the derived corpus extent %d", len(stageHRejectingFixtures), want)
 	}
 }

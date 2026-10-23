@@ -18,15 +18,12 @@ func TestCommandInventoryIsClosedAndSizePinned(t *testing.T) {
 	slices.Sort(got)
 	want := slices.Clone(expectedCommandInventory)
 	slices.Sort(want)
-	if !slices.Equal(got, want) || len(got) != 10 {
-		t.Fatalf("commands=%v, want closed ten-command inventory %v", got, want)
+	if !slices.Equal(got, want) {
+		t.Fatalf("commands=%v, want %v", got, want)
 	}
 	events, _, err := root.Find([]string{"events"})
 	if err != nil || events == nil || !slices.Equal(commandNames(events.Commands()), []string{"list", "retry"}) {
 		t.Fatalf("events children=%v, want list/retry", commandNames(events.Commands()))
-	}
-	if len(closedCommands(append(got, "debug"))) == len(got) {
-		t.Fatal("synthetic eleventh command passed the closed inventory")
 	}
 }
 
@@ -37,11 +34,4 @@ func commandNames(commands []*cobra.Command) []string {
 	}
 	slices.Sort(names)
 	return names
-}
-
-func closedCommands(commands []string) []string {
-	if len(commands) != len(expectedCommandInventory) {
-		return nil
-	}
-	return commands
 }

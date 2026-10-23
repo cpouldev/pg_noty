@@ -1,7 +1,6 @@
 package config
 
 import (
-	goast "go/ast"
 	"testing"
 
 	"github.com/goccy/go-yaml"
@@ -63,19 +62,4 @@ func messagesOf(diags Errors) []string {
 		messages[i] = diag.Msg
 	}
 	return messages
-}
-
-// declarationOf is the named function's whole declaration, failing the test when the file
-// declares no such function so that a rename cannot make an assertion pass vacuously.
-func declarationOf(t *testing.T, file *goast.File, function string) *goast.FuncDecl {
-	t.Helper()
-
-	for _, decl := range file.Decls {
-		if declared, isFunction := decl.(*goast.FuncDecl); isFunction && declared.Name.Name == function {
-			return declared
-		}
-	}
-
-	t.Fatalf("no function %s is declared here", function)
-	return nil
 }

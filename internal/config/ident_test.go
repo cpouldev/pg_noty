@@ -961,15 +961,3 @@ func TestURLParseWrapsItsReasonWithoutTheValue(t *testing.T) {
 		t.Errorf("the wrapped reason %q quotes the value, which a message must not carry", failure.Err)
 	}
 }
-
-// forbiddenL1Imports are the three import classes an L1 file may not have. The YAML
-// library and its AST would mean a domain rule knew how the document was parsed, and os
-// would mean it performed IO.
-var forbiddenL1Imports = []struct {
-	class   string
-	matches func(path string) bool
-}{
-	{class: "ast", matches: func(path string) bool { return strings.HasSuffix(path, "/ast") }},
-	{class: "yaml", matches: func(path string) bool { return strings.Contains(path, "yaml") }},
-	{class: "os", matches: func(path string) bool { return path == "os" }},
-}
