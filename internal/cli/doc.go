@@ -3,9 +3,7 @@
 // # Reference: command execution
 //
 // Commands are registered by their own files and are executed through Execute.
-// The inventory is closed: commandinventory_test.go pins both its membership and
-// its size, and readmesurface_test.go pins the same list against README.md, so a
-// new command joins three places or none.
+// commandinventory_test.go checks the available commands and events subcommands.
 //
 // # Reference: logging
 //

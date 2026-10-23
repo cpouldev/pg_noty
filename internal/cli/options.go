@@ -15,9 +15,3 @@ func reconcileOptions(logger *slog.Logger) reconcile.Options {
 }
 
 func sourceOptions(logger *slog.Logger) source.Options { return source.Options{Logger: logger} }
-
-var optionConstructors = []func(*slog.Logger) any{
-	func(logger *slog.Logger) any { return schemaOptions(logger) },
-	func(logger *slog.Logger) any { return reconcileOptions(logger) },
-	func(logger *slog.Logger) any { return sourceOptions(logger) },
-}
