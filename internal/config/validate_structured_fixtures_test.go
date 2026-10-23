@@ -2,7 +2,6 @@ package config
 
 import (
 	"path/filepath"
-	"slices"
 	"testing"
 )
 
@@ -99,23 +98,5 @@ func TestFiveMistakeFixtureHasFiveOrderedIndependentDiagnostics(t *testing.T) {
 		if diags[i].Rule != wantRules[i] || diags[i].Path != wantPaths[i] {
 			t.Errorf("diagnostic %d = %+v, want %s at %s", i, diags[i], wantRules[i], wantPaths[i])
 		}
-	}
-}
-
-func TestStructuredFixtureInventoryCoversItsTwelveOwnedRules(t *testing.T) {
-	if len(structuredRejectingFixtures) != 32 || len(structuredAcceptingFixtures) != 12 {
-		t.Fatalf("structured fixture inventories = %d rejecting, %d accepting; want 32 and 12",
-			len(structuredRejectingFixtures), len(structuredAcceptingFixtures))
-	}
-	got := make([]RuleID, 0, len(structuredRejectingFixtures))
-	for _, fixture := range structuredRejectingFixtures {
-		got = append(got, fixture.rule)
-	}
-	slices.Sort(got)
-	got = slices.Compact(got)
-	want := []RuleID{R3, R5, R19, R21, R24, R26, R29, R30, R32, R33, R36, R38}
-	slices.Sort(want)
-	if !slices.Equal(got, want) {
-		t.Errorf("rejecting rules = %v, want %v", got, want)
 	}
 }

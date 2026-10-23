@@ -72,7 +72,6 @@ It starts PostgreSQL seeded from `demo/seed.sql`, an echo receiver, and `pg_noty
 | `internal/source/` | Trigger DDL generation and the queue. Implements `EventSource`. |
 | `internal/reconcile/` | Plans and applies database changes; ownership rules. |
 | `internal/delivery/` | The webhook worker: signing, retries, HTTP boundary, SSRF guard. |
-| `internal/goartifact/` | Shared source-measurement helpers used by tests. |
 | `demo/` | Runnable example. |
 
 Dependencies point inward, and each package's `doc.go` states its boundary. Only `internal/cli`

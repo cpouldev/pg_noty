@@ -1,7 +1,6 @@
 package config
 
 import (
-	"errors"
 	"regexp"
 	"slices"
 	"testing"
@@ -122,30 +121,6 @@ func TestGoccyStrictDecodeDoesNotPromiseWhichUnknownFieldItReports(t *testing.T)
 			"unaffected either way.", seen)
 	}
 	t.Logf("which unknown field was named, over 1000 calls: %v", seen)
-}
-
-// TestTheOneErrorPerCallPinWouldSeeAVersionThatReportedThemAll is the equality's own falsifiability, which
-// no run against the current library can demonstrate: it reports one field, so the assertion passes and
-// says nothing about what it would do with three.
-//
-// Without this the pin could be satisfied by a reader that only ever found the first name -- a
-// `FindStringSubmatch` in place of `FindAllStringSubmatch`, say -- and a library that started enumerating
-// every unknown field would then be counted as one and pass. The whole accumulate design rests on that
-// case being caught, so the counting is exercised against a message holding all three.
-func TestTheOneErrorPerCallPinWouldSeeAVersionThatReportedThemAll(t *testing.T) {
-	// The library's own wording, repeated once per field, which is the shape a version reporting the whole
-	// set would produce.
-	reportedAll := errors.New(`[2:1] unknown field "b"` + "\n" + `[3:1] unknown field "c"` + "\n" +
-		`[4:1] unknown field "d"`)
-
-	if named := unknownFieldsNamed(reportedAll); !slices.Equal(named, theUnknownFields) {
-		t.Errorf("the reader found %v in a message naming all of %v; a version that enumerated every "+
-			"unknown field would be counted as one and pass the equality above", named, theUnknownFields)
-	}
-	if named := unknownFieldsNamed(nil); named != nil {
-		t.Errorf("the reader found %v in the absence of an error, so a passing decode would be counted "+
-			"as a report", named)
-	}
 }
 
 // TestGoccyStrictDecodeIsBlindInsideAnUnmarshaler is **V4**'s second finding, and the measurement

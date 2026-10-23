@@ -1,8 +1,6 @@
 package config
 
 import (
-	goparser "go/parser"
-	gotoken "go/token"
 	"strings"
 	"testing"
 )
@@ -980,26 +978,4 @@ func isDolqStartByte(char byte) bool {
 // isDolqContByte reports whether a byte may continue one: dolq_cont [A-Za-z\200-\377_0-9].
 func isDolqContByte(char byte) bool {
 	return isDolqStartByte(char) || char >= '0' && char <= '9'
-}
-
-// commentsOf returns the text of every comment in one file of this package.
-//
-// It parses the file itself rather than using packageSyntax, which discards comments on
-// purpose: a prohibition that could be satisfied by editing a comment would assert what a
-// file says about itself. This assertion is the opposite kind -- the note it looks for is a
-// deliverable -- so it is the one place that has to read them.
-func commentsOf(t *testing.T, name string) string {
-	t.Helper()
-
-	file, err := goparser.ParseFile(gotoken.NewFileSet(), name, nil,
-		goparser.ParseComments|goparser.SkipObjectResolution)
-	if err != nil {
-		t.Fatalf("parsing %s failed: %v", name, err)
-	}
-
-	var text strings.Builder
-	for _, group := range file.Comments {
-		text.WriteString(group.Text())
-	}
-	return text.String()
 }

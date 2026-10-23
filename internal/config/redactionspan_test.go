@@ -75,23 +75,3 @@ func TestACaretRightOfALengthChangingRedactionPointsAtItsToken(t *testing.T) {
 		t.Errorf("caret points at %q, want the first rune of pg_bad:\n%s", target, block)
 	}
 }
-
-// quotedSnippetLine is the source text of a block's marked snippet line, without its gutter, so a
-// test can ask where a token sits in the line a reader actually sees.
-func quotedSnippetLine(t *testing.T, block string) string {
-	t.Helper()
-
-	for _, line := range strings.Split(block, "\n") {
-		after, marked := strings.CutPrefix(line, offendingMarker)
-		if !marked {
-			continue
-		}
-		if _, quoted, found := strings.Cut(after, gutterBar); found {
-			return quoted
-		}
-		t.Fatalf("marked line %q carries no gutter bar", line)
-	}
-
-	t.Fatalf("no marked snippet line in:\n%s", block)
-	return ""
-}

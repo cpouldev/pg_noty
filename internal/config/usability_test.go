@@ -16,16 +16,6 @@ var vacuousDiagnosticMessages = []string{
 	"unexpected value",
 }
 
-var diagnosticSubjects = []string{
-	"configuration",
-	"environment variable",
-	"alias",
-	"merge key",
-	"interpolation",
-	"token",
-	"header",
-}
-
 type usabilityScenario struct {
 	name string
 	path string
@@ -106,18 +96,4 @@ func diagnosticUsabilityIssues(diag Error) []string {
 		issues = append(issues, statesNoConditionIssue)
 	}
 	return issues
-}
-
-func assertUsableDiagnostic(t *testing.T, diag Error) {
-	t.Helper()
-	if issues := diagnosticUsabilityIssues(diag); len(issues) != 0 {
-		t.Fatalf("diagnostic should pass usability gate: %v", issues)
-	}
-}
-
-func assertUnusableDiagnostic(t *testing.T, diag Error) {
-	t.Helper()
-	if issues := diagnosticUsabilityIssues(diag); len(issues) == 0 {
-		t.Fatal("diagnostic should fail usability gate")
-	}
 }

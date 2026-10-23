@@ -180,7 +180,3 @@ func TestEveryWrapperReturnsNilForAnInvalidValueOfItsOwnType(t *testing.T) {
 		})
 	}
 }
-
-// scalarWrapperNames is the five wrappers as the step names them. It is read by the closure above
-// and by the source scan below, so "these five exist" and "these five are covered" are one list.
-var scalarWrapperNames = []string{"Str", "Int", "Bool", "Dur", "StrList"}

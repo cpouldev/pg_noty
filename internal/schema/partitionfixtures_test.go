@@ -8,15 +8,6 @@ import (
 )
 
 // This file holds the fixtures and assertion helpers the boundary corpus is built from.
-//
-// Step 3's Expected Output names four test files; the corpus is written across nine, and that is
-// this step's one deviation from it -- taken for the reason internal/goartifact declared the same
-// deviation in Step 1, that a single file would breach the 200-line budget this package's own gate
-// enforces. The corpus is partition_test.go (the required set), partitiondeterminism_test.go
-// (AC 24's four evaluations), partitionfloor_test.go (the division and the 2262 limit),
-// partitionname_test.go (the identifier), partitionretention_test.go (the cutoff and the horizon),
-// partitionproperty_test.go (the generated dimension) and this file; packagesources_test.go is the
-// one source reader the three source-level gates share.
 
 // utc writes one UTC instant. Every row in this corpus writes its instants through it, so no row
 // can accidentally carry a local-zone instant and read as if it were absolute.

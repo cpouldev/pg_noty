@@ -122,16 +122,3 @@ func TestOnlyAShapeTheLaterStagesCannotReadStopsTheRun(t *testing.T) {
 		})
 	}
 }
-
-// strictnessPinTests is the V4 pins, which are the only functions in the package that may pass a
-// strictness option: one error per call, no promise about *which* error, and blindness inside a
-// NodeUnmarshaler subtree.
-//
-// The list is deliberately of test functions and holds no helper. A helper applying Strict would be
-// callable from every other file of the package, which is the hole this assertion exists to close, so the
-// three below each apply it in their own body rather than sharing one call.
-var strictnessPinTests = []string{
-	"TestGoccyStrictDecodeDoesNotPromiseWhichUnknownFieldItReports",
-	"TestGoccyStrictDecodeIsBlindInsideAnUnmarshaler",
-	"TestGoccyStrictDecodeSurfacesOneErrorPerCall",
-}

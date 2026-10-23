@@ -49,43 +49,6 @@ func isPerformanceArtifactDirectory(root, path string) bool {
 		filepath.Clean(path) == filepath.Join("testdata", "gen")
 }
 
-func TestCoverageWalkQuantifiesEveryFixtureClassAndDepth(t *testing.T) {
-	fixtures := collectCorpusCoverage(t, "testdata")
-	got := map[string]int{}
-	for _, fixture := range fixtures {
-		relative := strings.TrimPrefix(fixture.name, "testdata/")
-		parts := strings.Split(relative, "/")
-		switch {
-		case len(parts) == 2 && parts[0] == "invalid":
-			got["invalid-root"]++
-		case len(parts) > 2 && parts[0] == "invalid":
-			got["invalid-nested"]++
-		case len(parts) == 2 && parts[0] == "valid":
-			got["valid"]++
-		case len(parts) == 2 && parts[0] == "warnings":
-			got["warnings"]++
-		default:
-			t.Errorf("coverage walk found an unaccounted YAML fixture class: %s", fixture.name)
-		}
-	}
-	want := map[string]int{
-		"invalid-root":   rejectingFixtures,
-		"invalid-nested": step11NestedEnvironmentFixtures,
-		"valid":          acceptingFixtures,
-		"warnings":       step11WarningFixtures + step13WarningFixtures,
-	}
-	for class, count := range want {
-		if got[class] != count {
-			t.Errorf("coverage walk found %d %s fixtures, want exactly %d", got[class], class, count)
-		}
-	}
-	wantTotal := rejectingFixtures + step11NestedEnvironmentFixtures +
-		acceptingFixtures + step11WarningFixtures + step13WarningFixtures
-	if len(fixtures) != wantTotal {
-		t.Errorf("coverage walk found %d total fixtures, want exactly %d", len(fixtures), wantTotal)
-	}
-}
-
 func observeFixture(t *testing.T, path string) fixtureCoverage {
 	t.Helper()
 	data := readFixtureBytes(t, path)

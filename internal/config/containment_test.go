@@ -95,14 +95,6 @@ func assertTheGridContains(t *testing.T, tail string, shape, spelling uint8) {
 		keySpellings[int(spelling)%len(keySpellings)])
 }
 
-// runTheContainmentSeedCorpus is what running the security requirement's named assertion means for
-// the reconciliation, which cannot call a Fuzz target with a *testing.T.
-func runTheContainmentSeedCorpus(t *testing.T) {
-	forEachContainmentSeed(func(tail string, shape, spelling uint8) {
-		assertTheGridContains(t, tail, shape, spelling)
-	})
-}
-
 // assertPlantedSecretsAreContained is the body the fuzz target and the committed-corpus test both
 // run, so neither subject can assert something the other does not.
 func assertPlantedSecretsAreContained(t *testing.T, tail string, layout secretLayout, key keySpelling) {
