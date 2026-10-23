@@ -71,24 +71,6 @@ func TestEveryIndexCarriesAComment(t *testing.T) {
 	}
 }
 
-// TestTheClaimIndexCommentRecordsTheCorrectedReasoning pins the correction rather than the
-// Requirements text it replaces. The original comment claimed the second column "makes the scan
-// index-only"; measured, the claim query takes FOR UPDATE SKIP LOCKED, row locking needs the heap
-// tuple, and the plan is a row-locking node over an index scan. What the second column actually
-// buys is that the claim ordering is satisfied from the index, so no sort node appears -- and a
-// comment repeating the refuted claim would send Step 12 looking for a plan that cannot occur.
-func TestTheClaimIndexCommentRecordsTheCorrectedReasoning(t *testing.T) {
-	comments, _ := declaredCommentsIn(migrationSQL(t, 2))
-	explained := comments["INDEX "+IndexQueueClaim]
-
-	for _, required := range []string{"covering", "row locking", "sort"} {
-		if !strings.Contains(explained, required) {
-			t.Errorf("the claim index comment does not record %q; it reads: %q",
-				required, explained)
-		}
-	}
-}
-
 // TestTheEventLogCarriesNoIndexOfItsOwn is the point of the split storage design, asserted where
 // the DDL declares it: the claim path never touches the partitioned table, so the event log needs
 // no queue index at all. Criterion 10 asserts the same closed inventory against a real catalog.

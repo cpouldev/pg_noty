@@ -19,13 +19,6 @@ import (
 // package quotes every configured name (skill Pattern 7) -- so this client-side check is the only
 // thing closing the class rather than a second line of defence.
 
-// The two production sources this step ships, named once so that the scans in bootstrapscan_test.go
-// and the reconciliations below read them rather than repeating the strings.
-const (
-	theBootstrap       = "bootstrap.go"
-	theBootstrapSchema = "bootstrapschema.go"
-)
-
 // theReservedPrefix is the prefix R4 and PostgreSQL both name, written here as the literal rather
 // than read from identifier.go: an expectation derived from the code under test is satisfied by
 // whatever that code happens to say.

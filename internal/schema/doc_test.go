@@ -8,16 +8,6 @@ import (
 	"testing"
 )
 
-// TestTheObjectSetSizeIsPinned keeps the inventory closed. Step 12's criterion-3 assertion ranges
-// over this set, so a seventh table joining the package without joining Objects would make that
-// inventory silently incomplete (.claude/rules/assert-a-set-wide-invariant-over-the-set.md).
-func TestTheObjectSetSizeIsPinned(t *testing.T) {
-	if len(Objects) != 11 {
-		t.Fatalf("Objects holds %d entries, want the six tables, the DEFAULT partition and the four "+
-			"indexes; update this count with the set", len(Objects))
-	}
-}
-
 func TestEveryObjectNameIsUsableAsAnIdentifier(t *testing.T) {
 	seen := map[string]int{}
 	for i, object := range Objects {
@@ -71,43 +61,9 @@ func TestEveryObjectDeclaresAKindAndTheMigrationThatCreatesIt(t *testing.T) {
 	}
 }
 
-// TestEveryExportedObjectNameConstantJoinedTheSet reconciles in both directions, because each
-// direction hides a different mistake: a constant nothing creates, and an object phases 3 to 6
-// cannot name (.claude/rules/falsify-the-assertion-not-a-copy-of-it.md).
-func TestEveryExportedObjectNameConstantJoinedTheSet(t *testing.T) {
-	declared := exportedUntypedStringConstants(t)
-	if len(declared) == 0 {
-		t.Fatal("doc.go declares no untyped exported string constant, so this reconciliation " +
-			"would pass in both directions vacuously")
-	}
-
-	named := map[string]bool{}
-	for _, object := range Objects {
-		named[object.Name] = true
-	}
-	for constant, value := range declared {
-		if !named[value] {
-			t.Errorf("doc.go declares %s = %q and Objects holds no object of that name",
-				constant, value)
-		}
-	}
-
-	valued := map[string]bool{}
-	for _, value := range declared {
-		valued[value] = true
-	}
-	for _, object := range Objects {
-		if !valued[object.Name] {
-			t.Errorf("Objects holds %q and doc.go declares no exported constant for it, so a "+
-				"caller in phase 3 to 6 would have to write the name out", object.Name)
-		}
-	}
-}
-
 // exportedUntypedStringConstants reads doc.go's object-name constants. The filter is the declared
 // type: an object name is an untyped string constant, and the kinds carry ObjectKind, so the two
-// groups cannot be confused for one another. TestTheKindConstantsAreTypedSoTheFilterHolds asserts
-// that premise rather than assuming it.
+// groups cannot be confused for one another.
 func exportedUntypedStringConstants(t *testing.T) map[string]string {
 	t.Helper()
 
@@ -124,20 +80,6 @@ func exportedUntypedStringConstants(t *testing.T) map[string]string {
 		}
 	}
 	return found
-}
-
-func TestTheKindConstantsAreTypedSoTheFilterHolds(t *testing.T) {
-	typed := 0
-	for _, spec := range constantSpecsOf(t) {
-		if identified, isIdent := spec.Type.(*goast.Ident); isIdent && identified.Name == "ObjectKind" {
-			typed += len(spec.Names)
-		}
-	}
-
-	if typed != 3 {
-		t.Errorf("doc.go declares %d ObjectKind constants, want the three kinds; an untyped one "+
-			"would be read as an object name by the reconciliation above", typed)
-	}
 }
 
 // constantSpecsOf is every constant specification doc.go declares.

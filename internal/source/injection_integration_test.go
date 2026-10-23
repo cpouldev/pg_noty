@@ -85,8 +85,7 @@ func refusalCodeOf(err error) string {
 // Route: resolved metadata. The target table reaches Generate as the catalog spells it and
 // passes through no configuration rule -- internal/reconcile reads it out of pg_class during OID
 // resolution and rename detection -- so this is a live class, asserted end to end against a real server rather than
-// a guarded one asserted at the boundary. theHostileCases records the same declaration in a form a
-// test can read.
+// a guarded one asserted at the boundary.
 func TestCatalogHostileTableIsQuotedAndInert(t *testing.T) {
 	skipIfShort(t)
 	pool := freshDatabase(t)
